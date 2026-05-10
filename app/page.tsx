@@ -85,21 +85,7 @@ export default function Page() {
             </a>
           </div>
 
-          {/* Stats */}
-          <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-12 pt-8 pb-8 border-t border-accent/30">
-            <div className="text-center">
-              <div className="font-serif text-4xl font-normal text-white mb-2">10,000+</div>
-              <p className="text-sm text-muted-foreground">Writers</p>
-            </div>
-            <div className="text-center">
-              <div className="font-serif text-4xl font-normal text-white mb-2">4.9</div>
-              <p className="text-sm text-muted-foreground">Rating</p>
-            </div>
-            <div className="text-center">
-              <div className="font-serif text-4xl font-normal text-white mb-2">2x</div>
-              <p className="text-sm text-muted-foreground">Faster</p>
-            </div>
-          </div>
+
         </div>
       </section>
 
