@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, Lightbulb, LayoutList, BarChart2, Check, Star, Menu, X, ArrowUpRight, Dot } from 'lucide-react'
+import { ChevronDown, Lightbulb, LayoutList, BarChart2, Check, Menu, X, ArrowUpRight, Dot } from 'lucide-react'
 
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
@@ -138,23 +138,23 @@ export default function Page() {
           <p className="text-center text-muted-foreground mb-12">No hidden fees. Cancel anytime.</p>
 
           {/* Billing Toggle */}
-          <div className="flex justify-center gap-2 mb-12 border border-border rounded-sm p-1 w-fit mx-auto">
+          <div className="flex justify-center mb-12 border border-border w-fit mx-auto">
             <button
               onClick={() => setBillingPeriod('monthly')}
               className={`px-6 py-2 font-medium transition-colors ${
                 billingPeriod === 'monthly'
                   ? 'bg-accent text-accent-foreground'
-                  : 'bg-transparent text-foreground'
+                  : 'bg-transparent text-foreground hover:border-accent'
               }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingPeriod('yearly')}
-              className={`px-6 py-2 font-medium transition-colors relative ${
+              className={`px-6 py-2 font-medium transition-colors border-l border-border ${
                 billingPeriod === 'yearly'
                   ? 'bg-accent text-accent-foreground'
-                  : 'bg-transparent text-foreground'
+                  : 'bg-transparent text-foreground hover:border-accent'
               }`}
             >
               Yearly
@@ -168,12 +168,14 @@ export default function Page() {
                 name: 'Free',
                 price: billingPeriod === 'monthly' ? 0 : 0,
                 monthlyEquivalent: 0,
+                description: 'Perfect for getting started',
                 features: ['Basic AI suggestions', '5 documents/month', 'Email support']
               },
               {
                 name: 'Pro',
                 price: billingPeriod === 'monthly' ? 9 : 86.40,
                 monthlyEquivalent: 7.20,
+                description: 'For serious writers and creators',
                 features: ['Advanced AI features', 'Unlimited documents', 'Priority support', 'Style templates'],
                 highlighted: true
               },
@@ -181,59 +183,75 @@ export default function Page() {
                 name: 'Enterprise',
                 price: billingPeriod === 'monthly' ? 49 : 588,
                 monthlyEquivalent: 49,
+                description: 'For teams and organizations',
                 features: ['Custom AI models', 'Team collaboration', '24/7 support', 'API access']
               }
             ].map((plan, idx) => (
               <div
                 key={idx}
-                className={`relative p-8 rounded border transition-all ${
+                className={`relative pt-0 overflow-hidden rounded border transition-all ${
                   plan.highlighted
                     ? 'bg-card border-accent border-2 transform md:scale-105'
                     : 'bg-card border-accent/30'
                 }`}
               >
+                {/* Top accent bar for Pro only */}
                 {plan.highlighted && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-accent text-accent-foreground px-3 py-1 rounded text-xs font-semibold">
-                    Most Popular
-                  </div>
+                  <div className="h-1 bg-accent w-full" />
                 )}
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="mb-6">
-                  {billingPeriod === 'monthly' ? (
-                    <>
-                      <span className="text-4xl font-bold">${plan.price}</span>
-                      <span className="text-muted-foreground ml-2">/mo</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-4xl font-bold">${plan.monthlyEquivalent}</span>
-                      <span className="text-muted-foreground ml-2">/mo</span>
-                      {plan.monthlyEquivalent > 0 && (
-                        <div className="text-sm text-muted-foreground mt-2">
-                          billed annually
-                        </div>
-                      )}
-                    </>
+                
+                <div className="p-8">
+                  {/* Plan name - uppercase, 11px, letter-spacing */}
+                  <h3 className="text-[11px] font-normal text-muted-foreground tracking-widest uppercase mb-4">
+                    {plan.name}
+                  </h3>
+
+                  {/* Price - large serif */}
+                  <div className="mb-2">
+                    <span 
+                      className="font-serif text-white" 
+                      style={{ fontSize: '48px', letterSpacing: '-0.5px' }}
+                    >
+                      ${billingPeriod === 'monthly' ? plan.price : plan.monthlyEquivalent}
+                    </span>
+                    <span className="text-[14px] text-muted-foreground ml-2">/mo</span>
+                  </div>
+
+                  {/* Billed annually note */}
+                  {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
+                    <p className="text-xs text-muted-foreground mb-4">billed annually</p>
                   )}
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                    {plan.description}
+                  </p>
+
+                  {/* Separator */}
+                  <div className="border-b border-border mb-6" />
+
+                  {/* CTA Button */}
+                  <a
+                    href="/signup"
+                    className={`w-full py-2 font-medium mb-6 transition-colors inline-block text-center ${
+                      plan.highlighted
+                        ? 'bg-accent text-accent-foreground hover:opacity-90'
+                        : 'bg-transparent border border-border text-foreground hover:border-accent'
+                    }`}
+                  >
+                    {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                  </a>
+
+                  {/* Features */}
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, fidx) => (
+                      <li key={fidx} className="flex items-start gap-3">
+                        <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                        <span className="text-[13px] text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <a
-                  href="/signup"
-                  className={`w-full py-2 rounded font-medium mb-8 transition-colors inline-block text-center ${
-                    plan.highlighted
-                      ? 'bg-accent text-accent-foreground hover:opacity-90'
-                      : 'bg-card border border-border text-foreground hover:bg-background'
-                  }`}
-                >
-                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
-                </a>
-                <ul className="space-y-3">
-                  {plan.features.map((feature, fidx) => (
-                    <li key={fidx} className="flex items-center gap-3 text-sm">
-                      <Check className="w-4 h-4 text-accent flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
               </div>
             ))}
           </div>
@@ -252,30 +270,49 @@ export default function Page() {
                 name: 'Sarah Johnson',
                 role: 'Content Creator',
                 text: 'WritePro transformed my writing process. I\'ve cut editing time in half.',
-                rating: 5
+                initials: 'SJ'
               },
               {
                 name: 'Mark Chen',
                 role: 'Business Consultant',
                 text: 'The tone adjustment feature is incredible. My client emails are now more professional.',
-                rating: 5
+                initials: 'MC'
               },
               {
                 name: 'Emma Wilson',
                 role: 'Technical Writer',
                 text: 'Finally, an AI that understands technical documentation. Highly recommend!',
-                rating: 5
+                initials: 'EW'
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="p-6 bg-card border border-accent/20 rounded">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                  ))}
+              <div key={idx} className="p-7 bg-card border-l-2 border-l-accent border border-accent/20 rounded">
+                {/* Quote text - italic, serif */}
+                <p className="font-serif italic text-[15px] text-[#e4e4f0] mb-6 leading-relaxed">
+                  &ldquo;{testimonial.text}&rdquo;
+                </p>
+
+                {/* Horizontal divider */}
+                <div className="border-b border-border mb-6" />
+
+                {/* Author section */}
+                <div className="flex items-center gap-3">
+                  {/* Initials avatar */}
+                  <div className="w-9 h-9 rounded-full bg-accent/15 flex items-center justify-center flex-shrink-0">
+                    <span className="text-[13px] font-semibold text-accent">
+                      {testimonial.initials}
+                    </span>
+                  </div>
+                  
+                  {/* Name and role */}
+                  <div>
+                    <p className="font-medium text-[13px] text-white">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-[12px] text-muted-foreground">
+                      {testimonial.role}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-muted-foreground mb-4 text-sm">{testimonial.text}</p>
-                <p className="font-semibold text-sm">{testimonial.name}</p>
-                <p className="text-muted-foreground text-xs">{testimonial.role}</p>
               </div>
             ))}
           </div>
