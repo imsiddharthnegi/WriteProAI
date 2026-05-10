@@ -18,12 +18,13 @@ export default function Page() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-sm hover:text-accent transition-colors">Features</a>
-              <a href="#" className="text-sm hover:text-accent transition-colors">Pricing</a>
-              <a href="#" className="text-sm hover:text-accent transition-colors">FAQ</a>
-              <button className="px-4 py-2 border border-border rounded font-medium hover:bg-background transition-colors">
+              <a href="/" className="text-sm hover:text-accent transition-colors">Home</a>
+              <a href="#features" className="text-sm hover:text-accent transition-colors">Features</a>
+              <a href="#pricing" className="text-sm hover:text-accent transition-colors">Pricing</a>
+              <a href="#faq" className="text-sm hover:text-accent transition-colors">FAQ</a>
+              <a href="/signup" className="px-4 py-2 border border-border rounded font-medium hover:bg-background transition-colors">
                 Get Started
-              </button>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -38,9 +39,10 @@ export default function Page() {
           {/* Mobile Menu */}
           {mobileMenuOpen && (
             <div className="md:hidden pb-4 flex flex-col gap-4">
-              <a href="#" className="text-sm hover:text-accent">Features</a>
-              <a href="#" className="text-sm hover:text-accent">Pricing</a>
-              <a href="#" className="text-sm hover:text-accent">FAQ</a>
+              <a href="/" className="text-sm hover:text-accent">Home</a>
+              <a href="#features" className="text-sm hover:text-accent">Features</a>
+              <a href="#pricing" className="text-sm hover:text-accent">Pricing</a>
+              <a href="#faq" className="text-sm hover:text-accent">FAQ</a>
             </div>
           )}
         </div>
@@ -60,12 +62,12 @@ export default function Page() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-start">
-            <button className="px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity">
+            <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity text-center">
               Start Free Trial
-            </button>
-            <button className="px-8 py-3 border border-border bg-card text-foreground rounded font-medium hover:bg-card/50 transition-colors">
+            </a>
+            <a href="/signup" className="inline-block px-8 py-3 border border-border bg-card text-foreground rounded font-medium hover:bg-card/50 transition-colors text-center">
               Watch Demo
-            </button>
+            </a>
           </div>
 
           {/* Floating Cards - Simplified */}
@@ -87,7 +89,7 @@ export default function Page() {
       </section>
 
       {/* Features Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
+      <section id="features" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-6xl">
           <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-8">WHAT YOU GET</div>
 
@@ -123,7 +125,7 @@ export default function Page() {
       </section>
 
       {/* Pricing Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
+      <section id="pricing" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">Simple Pricing</h2>
           <p className="text-center text-muted-foreground mb-12">Choose the plan that works for you</p>
@@ -207,15 +209,16 @@ export default function Page() {
                     </>
                   )}
                 </div>
-                <button
-                  className={`w-full py-2 rounded font-medium mb-8 transition-colors ${
+                <a
+                  href="/signup"
+                  className={`w-full py-2 rounded font-medium mb-8 transition-colors inline-block text-center ${
                     plan.highlighted
                       ? 'bg-accent text-accent-foreground hover:opacity-90'
                       : 'bg-card border border-border text-foreground hover:bg-background'
                   }`}
                 >
-                  Get Started
-                </button>
+                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                </a>
                 <ul className="space-y-3">
                   {plan.features.map((feature, fidx) => (
                     <li key={fidx} className="flex items-center gap-3 text-sm">
@@ -272,7 +275,7 @@ export default function Page() {
       </section>
 
       {/* FAQ Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
+      <section id="faq" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">Frequently Asked Questions</h2>
 
