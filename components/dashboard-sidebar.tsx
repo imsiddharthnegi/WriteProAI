@@ -39,14 +39,16 @@ export default function DashboardSidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 w-60 bg-[#0f0f17] border-r border-[#1e1e2e] h-screen flex flex-col hidden md:flex">
-      {/* Top Section */}
-      <div className="p-6">
-        <h1 className="text-white text-lg font-bold">WritePro</h1>
+    <aside className="fixed left-0 top-0 w-[220px] bg-[#0a0a0f] border-r border-[#1e1e2e] h-screen flex flex-col hidden md:flex">
+      {/* Top Section - Logo */}
+      <div className="p-4">
+        <h1 className="text-white text-lg font-serif">
+          WritePro<span className="italic text-[#6366f1]">AI</span>
+        </h1>
       </div>
 
       {/* Nav Links */}
-      <nav className="flex-1 px-6 space-y-2">
+      <nav className="flex-1 px-4 space-y-1">
         {navLinks.map((link) => {
           const Icon = link.icon
           const isActive = activeTab === link.id
@@ -55,32 +57,33 @@ export default function DashboardSidebar() {
               key={link.id}
               href={link.href}
               onClick={() => setActiveTab(link.id)}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded transition-all ${
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-[4px] transition-all text-[14px] relative ${
                 isActive
-                  ? 'bg-[#1e1e2e] text-white'
-                  : 'text-[#71717a] hover:bg-[#1e1e2e]'
+                  ? 'bg-[#1e1e2e] text-white border-l-2 border-l-[#6366f1]'
+                  : 'text-[#71717a] hover:bg-rgba(99,102,241,0.06) hover:text-white'
               }`}
             >
-              <Icon size={18} />
-              <span className="text-sm">{link.label}</span>
+              <Icon size={16} className={isActive ? 'text-[#6366f1]' : ''} />
+              <span>{link.label}</span>
             </Link>
           )
         })}
       </nav>
 
       {/* Bottom User Section */}
-      <div className="p-6 border-t border-[#1e1e2e]">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-[#6366f1] flex items-center justify-center text-white text-xs font-bold">
+      <div className="p-4 border-t border-[#1e1e2e]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#6366f1] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             JD
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white text-sm font-medium truncate">John Doe</p>
-            <p className="text-[#71717a] text-xs truncate">Free Plan</p>
+            <p className="text-white text-[13px] font-medium truncate">John Doe</p>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="bg-[#6366f1] text-white text-[10px] px-2 py-0.5 rounded-full font-medium">
+                Free
+              </span>
+            </div>
           </div>
-          <button className="text-[#71717a] hover:text-white transition-colors">
-            <LogOut size={18} />
-          </button>
         </div>
       </div>
     </aside>
