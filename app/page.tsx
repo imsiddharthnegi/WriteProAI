@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, Lightbulb, LayoutList, BarChart2, Check, Menu, X, ArrowUpRight, Dot } from 'lucide-react'
+import { Plus, Minus, Lightbulb, LayoutList, BarChart2, Check, Menu, X, ArrowUpRight, Dot } from 'lucide-react'
 
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
@@ -321,10 +321,24 @@ export default function Page() {
 
       {/* FAQ Section */}
       <section id="faq" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+        <div className="mx-auto max-w-[720px]">
+          {/* Label */}
+          <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-4 text-center">
+            GOT QUESTIONS
+          </div>
 
-          <div className="space-y-3">
+          {/* Heading */}
+          <h2 className="font-serif text-4xl sm:text-5xl text-white text-center mb-3 leading-tight">
+            Everything you need to know
+          </h2>
+
+          {/* Subtitle */}
+          <p className="text-center text-muted-foreground mb-12 text-sm" style={{ fontSize: '14px' }}>
+            Can&apos;t find an answer? Email us at hello@writepro.ai
+          </p>
+
+          {/* FAQ Items */}
+          <div className="space-y-0">
             {[
               {
                 q: 'What happens if I hit my word limit?',
@@ -332,32 +346,45 @@ export default function Page() {
               },
               {
                 q: 'Can I cancel anytime?',
-                a: 'Yes, you can cancel your subscription at any time with no questions asked. Your access continues until the end of your billing period.'
+                a: 'Yes. Cancel with one click from your account settings. No questions asked.'
               },
               {
                 q: 'Is my data safe?',
-                a: 'Yes, we use enterprise-grade encryption and never share your data with third parties. Your writing remains completely private.'
+                a: 'Absolutely. Your writing is private and encrypted. We never train on your data.'
               },
               {
                 q: 'Do you offer refunds?',
-                a: 'We offer a 30-day money-back guarantee on all plans. If you&apos;re not satisfied, we&apos;ll refund your payment.'
+                a: 'Yes, we offer a full refund within 7 days of purchase. No conditions.'
               }
             ].map((item, idx) => (
-              <div key={idx} className="border border-border rounded overflow-hidden">
+              <div
+                key={idx}
+                className="border-b border-[#1e1e2e] py-0"
+              >
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === idx ? null : idx)}
-                  className="w-full p-4 text-left flex items-center justify-between bg-card hover:bg-card/50 transition-colors"
+                  className="w-full py-4 text-left flex items-center justify-between bg-transparent hover:bg-transparent transition-colors"
                 >
-                  <span className="font-semibold text-sm">{item.q}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-accent transition-transform ${
-                      expandedFAQ === idx ? 'transform rotate-180' : ''
-                    }`}
-                  />
+                  <span 
+                    className="text-white font-normal"
+                    style={{ fontSize: '15px' }}
+                  >
+                    {item.q}
+                  </span>
+                  {expandedFAQ === idx ? (
+                    <Minus size={20} className="text-accent flex-shrink-0" />
+                  ) : (
+                    <Plus size={20} className="text-accent flex-shrink-0" />
+                  )}
                 </button>
                 {expandedFAQ === idx && (
-                  <div className="p-4 border-t border-border bg-background/50">
-                    <p className="text-sm text-muted-foreground">{item.a}</p>
+                  <div className="pb-4 pt-0">
+                    <p 
+                      className="text-[#a1a1b5]"
+                      style={{ fontSize: '14px', lineHeight: '1.7' }}
+                    >
+                      {item.a}
+                    </p>
                   </div>
                 )}
               </div>
@@ -367,24 +394,108 @@ export default function Page() {
       </section>
 
       {/* CTA Banner Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border border-b" style={{ backgroundColor: '#0f0f17' }}>
+      <section 
+        className="px-4 sm:px-6 lg:px-8 border-t border-b border-[#1e1e2e]"
+        style={{ backgroundColor: '#0f0f17', paddingTop: '80px', paddingBottom: '80px' }}
+      >
         <div className="mx-auto max-w-4xl flex flex-col items-center text-center">
-          <h2 className="font-serif text-4xl sm:text-5xl text-white mb-4 leading-tight">Ready to write better?</h2>
-          <p className="text-muted-foreground text-lg mb-8 max-w-[600px]">Join 10,000+ writers already using WritePro</p>
-          <a href="/signup" className="inline-block px-8 py-4 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity">
-            Start for Free
+          <h2 className="font-serif text-4xl sm:text-5xl text-white mb-4 leading-tight">
+            Start writing better today
+          </h2>
+          <p 
+            className="text-muted-foreground mb-8 max-w-[600px]"
+            style={{ fontSize: '16px' }}
+          >
+            Join 10,000+ writers already using WritePro. Free to start, no credit card required.
+          </p>
+          <a 
+            href="/signup" 
+            className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity"
+            style={{ fontSize: '14px', borderRadius: '4px' }}
+          >
+            Get Started Free
           </a>
+          <p 
+            className="text-muted-foreground mt-4"
+            style={{ fontSize: '12px' }}
+          >
+            No credit card required · Cancel anytime
+          </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-            <div className="font-serif text-lg font-normal mb-4 sm:mb-0">
-              <span className="text-foreground">WritePro</span>
+      <footer className="bg-background border-t border-[#1e1e2e]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            {/* Left side: Logo and tagline */}
+            <div>
+              <div className="font-serif text-lg font-normal mb-3">
+                <span className="text-foreground">WritePro</span>
+                <span className="italic text-accent ml-1">AI</span>
+              </div>
+              <p 
+                className="text-muted-foreground"
+                style={{ fontSize: '12px' }}
+              >
+                AI writing for the modern professional
+              </p>
             </div>
-            <p>© 2025 WritePro. All rights reserved.</p>
+
+            {/* Right side: Links */}
+            <div>
+              <div 
+                className="font-medium text-foreground mb-4"
+                style={{ fontSize: '13px' }}
+              >
+                Product
+              </div>
+              <ul className="space-y-3">
+                {['Features', 'Pricing', 'Dashboard'].map((link, idx) => (
+                  <li key={idx}>
+                    <a 
+                      href="#" 
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      style={{ fontSize: '13px' }}
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <div 
+                className="font-medium text-foreground mb-4"
+                style={{ fontSize: '13px' }}
+              >
+                Company
+              </div>
+              <ul className="space-y-3">
+                {['FAQ', 'Contact', 'Privacy'].map((link, idx) => (
+                  <li key={idx}>
+                    <a 
+                      href="#" 
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      style={{ fontSize: '13px' }}
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t border-[#1e1e2e] pt-8">
+            <p 
+              className="text-center text-muted-foreground"
+              style={{ fontSize: '12px' }}
+            >
+              © 2025 WritePro. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
