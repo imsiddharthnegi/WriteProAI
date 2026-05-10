@@ -52,8 +52,8 @@ export default function Page() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 py-20 sm:py-32 overflow-hidden">
-        <div className="mx-auto max-w-5xl">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-32 pb-20 overflow-hidden">
+        <div className="mx-auto max-w-4xl flex flex-col items-center text-center">
           {/* Badge */}
           <div className="flex items-center gap-2 mb-8">
             <div className="flex items-center gap-2 px-3 py-1 border border-accent/30 rounded-full text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-background/50">
@@ -63,40 +63,40 @@ export default function Page() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif text-white mb-6 leading-tight text-left" style={{ fontSize: "clamp(44px, 8vw, 72px)", letterSpacing: "-1.5px" }}>
+          <h1 className="font-serif text-white mb-6 leading-tight" style={{ fontSize: "clamp(48px, 10vw, 80px)", letterSpacing: "-1.5px" }}>
             Write without<br />
             <span className="italic text-accent">second-guessing</span><br />
             yourself.
           </h1>
 
           {/* Subheadline */}
-          <p className="text-[17px] text-[#a1a1b5] font-light mb-8 max-w-[520px] text-left leading-relaxed">
+          <p className="text-[17px] text-[#a1a1b5] font-light mb-12 max-w-[600px] leading-relaxed">
             WritePro empowers professionals and content creators to write better, faster. Enhance clarity, tone, and impact with intelligent AI suggestions.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-start">
-            <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity text-center">
+          <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-center">
+            <a href="/signup" className="inline-block px-8 py-4 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity text-center">
               Start Free Trial
             </a>
-            <a href="/dashboard" className="inline-flex items-center gap-2 px-8 py-3 border border-border bg-transparent text-foreground rounded-sm font-medium hover:bg-background/50 transition-colors text-center">
+            <a href="/dashboard" className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border bg-transparent text-foreground rounded-sm font-medium hover:bg-background/50 transition-colors">
               Watch Demo
               <ArrowUpRight size={18} />
             </a>
           </div>
 
           {/* Stats */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 pt-8 pb-4 border-t border-accent/20">
-            <div className="text-left">
-              <div className="font-serif text-3xl font-normal text-white mb-1">10,000+</div>
+          <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-12 pt-12 pb-4 border-t border-accent/30">
+            <div className="text-center">
+              <div className="font-serif text-4xl font-normal text-white mb-2">10,000+</div>
               <p className="text-sm text-muted-foreground">Writers</p>
             </div>
-            <div className="text-left">
-              <div className="font-serif text-3xl font-normal text-white mb-1">4.9</div>
+            <div className="text-center">
+              <div className="font-serif text-4xl font-normal text-white mb-2">4.9</div>
               <p className="text-sm text-muted-foreground">Rating</p>
             </div>
-            <div className="text-left">
-              <div className="font-serif text-3xl font-normal text-white mb-1">2x</div>
+            <div className="text-center">
+              <div className="font-serif text-4xl font-normal text-white mb-2">2x</div>
               <p className="text-sm text-muted-foreground">Faster</p>
             </div>
           </div>
@@ -104,11 +104,15 @@ export default function Page() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="px-4 sm:px-6 lg:px-8 py-12 border-t border-border">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-8">WHAT YOU GET</div>
+      <section id="features" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
+        <div className="mx-auto max-w-6xl flex flex-col items-center text-center">
+          <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-4">WHAT YOU GET</div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <h2 className="font-serif text-4xl sm:text-5xl text-white mb-4 leading-tight">Everything you need to write better</h2>
+          
+          <p className="text-muted-foreground text-lg mb-12 max-w-[600px]">Powerful tools built for serious writers</p>
+
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 icon: Lightbulb,
@@ -128,10 +132,12 @@ export default function Page() {
             ].map((feature, idx) => {
               const Icon = feature.icon
               return (
-                <div key={idx} className="p-6 bg-card border border-accent/30 rounded">
-                  <Icon className="w-8 h-8 text-accent mb-4" />
-                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <div key={idx} className="p-8 bg-card border border-accent/30 border-l-4 border-l-accent rounded hover:border-accent hover:border-l-accent transition-colors">
+                  <div className="w-12 h-12 rounded bg-accent/10 flex items-center justify-center mb-6">
+                    <Icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-3">{feature.title}</h3>
+                  <p className="text-[#a1a1b5] text-sm leading-relaxed">{feature.description}</p>
                 </div>
               )
             })}
