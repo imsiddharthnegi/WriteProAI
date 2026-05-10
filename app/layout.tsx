@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, DM_Serif_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const _dmSerif = DM_Serif_Display({ weight: ["400"], subsets: ["latin"], variable: "--font-dm-serif" });
 
 export const metadata: Metadata = {
   title: 'WritePro - AI Writing Enhancement Platform',
@@ -36,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased">{children}
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, Lightbulb, LayoutList, BarChart2, Check, Star, Menu, X } from 'lucide-react'
+import { ChevronDown, Lightbulb, LayoutList, BarChart2, Check, Star, Menu, X, ArrowUpRight, Dot } from 'lucide-react'
 
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
@@ -11,18 +11,21 @@ export default function Page() {
   return (
     <div className="bg-background text-foreground">
       {/* Navbar */}
-      <nav className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+      <nav className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <span className="font-bold text-lg">WritePro</span>
+            <div className="font-serif text-lg font-normal">
+              <span className="text-foreground">WritePro</span>
+              <span className="italic text-accent ml-1">AI</span>
+            </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="/" className="text-sm hover:text-accent transition-colors">Home</a>
-              <a href="#features" className="text-sm hover:text-accent transition-colors">Features</a>
-              <a href="#pricing" className="text-sm hover:text-accent transition-colors">Pricing</a>
-              <a href="#faq" className="text-sm hover:text-accent transition-colors">FAQ</a>
-              <a href="/signup" className="px-4 py-2 border border-border rounded font-medium hover:bg-background transition-colors">
+            <div className="hidden md:flex items-center gap-12">
+              <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
+              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
+              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+              <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
+              <a href="/signup" className="px-4 py-2 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity">
                 Get Started
               </a>
             </div>
@@ -51,38 +54,50 @@ export default function Page() {
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 py-20 sm:py-32 overflow-hidden">
         <div className="mx-auto max-w-5xl">
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-tight text-left">
+          {/* Badge */}
+          <div className="flex items-center gap-2 mb-8">
+            <div className="flex items-center gap-2 px-3 py-1 border border-accent/30 rounded-full text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-background/50">
+              <Dot className="w-1.5 h-1.5 fill-accent text-accent" />
+              AI-Powered Writing
+            </div>
+          </div>
+
+          {/* Headline */}
+          <h1 className="font-serif text-white mb-6 leading-tight text-left" style={{ fontSize: "clamp(44px, 8vw, 72px)", letterSpacing: "-1.5px" }}>
             Write without<br />
-            second-guessing<br />
-            <span className="text-indigo-500">yourself.</span>
+            <span className="italic text-accent">second-guessing</span><br />
+            yourself.
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl text-left">
+          {/* Subheadline */}
+          <p className="text-[17px] text-[#a1a1b5] font-light mb-8 max-w-[520px] text-left leading-relaxed">
             WritePro empowers professionals and content creators to write better, faster. Enhance clarity, tone, and impact with intelligent AI suggestions.
           </p>
 
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-start">
-            <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity text-center">
+            <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity text-center">
               Start Free Trial
             </a>
-            <a href="/dashboard" className="inline-block px-8 py-3 border border-border bg-card text-foreground rounded font-medium hover:bg-card/50 transition-colors text-center">
+            <a href="/dashboard" className="inline-flex items-center gap-2 px-8 py-3 border border-border bg-transparent text-foreground rounded-sm font-medium hover:bg-background/50 transition-colors text-center">
               Watch Demo
+              <ArrowUpRight size={18} />
             </a>
           </div>
 
-          {/* Floating Cards - Simplified */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
-            <div className="p-4 bg-card border border-accent/20 rounded text-left">
-              <div className="text-2xl mb-2">⚡</div>
-              <p className="text-sm text-muted-foreground">Real-time enhancement</p>
+          {/* Stats */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 pt-8 border-t border-accent/20">
+            <div className="text-left">
+              <div className="font-serif text-3xl font-normal text-white mb-1">10,000+</div>
+              <p className="text-sm text-muted-foreground">Writers</p>
             </div>
-            <div className="p-4 bg-card border border-accent/20 rounded text-left">
-              <div className="text-2xl mb-2">🎯</div>
-              <p className="text-sm text-muted-foreground">Tone & style control</p>
+            <div className="text-left">
+              <div className="font-serif text-3xl font-normal text-white mb-1">4.9</div>
+              <p className="text-sm text-muted-foreground">Rating</p>
             </div>
-            <div className="p-4 bg-card border border-accent/20 rounded text-left">
-              <div className="text-2xl mb-2">✨</div>
-              <p className="text-sm text-muted-foreground">Professional polish</p>
+            <div className="text-left">
+              <div className="font-serif text-3xl font-normal text-white mb-1">2x</div>
+              <p className="text-sm text-muted-foreground">Faster</p>
             </div>
           </div>
         </div>
