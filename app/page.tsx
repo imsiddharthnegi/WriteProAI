@@ -86,7 +86,7 @@ export default function Page() {
           </div>
 
           {/* Stats */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 pt-8 border-t border-accent/20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 pt-8 pb-4 border-t border-accent/20">
             <div className="text-left">
               <div className="font-serif text-3xl font-normal text-white mb-1">10,000+</div>
               <p className="text-sm text-muted-foreground">Writers</p>
@@ -104,7 +104,7 @@ export default function Page() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
+      <section id="features" className="px-4 sm:px-6 lg:px-8 py-12 border-t border-border">
         <div className="mx-auto max-w-6xl">
           <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-8">WHAT YOU GET</div>
 
@@ -340,8 +340,10 @@ export default function Page() {
       <footer className="border-t border-border bg-card/30">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-            <span className="font-bold text-foreground">WritePro</span>
-            <p>&copy; 2024 WritePro. All rights reserved.</p>
+            <div className="font-serif text-lg font-normal mb-4 sm:mb-0">
+              <span className="text-foreground">WritePro</span>
+            </div>
+            <p>© 2025 WritePro. All rights reserved.</p>
           </div>
         </div>
       </footer>
