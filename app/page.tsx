@@ -134,27 +134,27 @@ export default function Page() {
       {/* Pricing Section */}
       <section id="pricing" className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">Simple Pricing</h2>
-          <p className="text-center text-muted-foreground mb-12">Choose the plan that works for you</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">Honest Pricing</h2>
+          <p className="text-center text-muted-foreground mb-12">No hidden fees. Cancel anytime.</p>
 
           {/* Billing Toggle */}
-          <div className="flex justify-center gap-4 mb-12">
+          <div className="flex justify-center gap-2 mb-12 border border-border rounded-sm p-1 w-fit mx-auto">
             <button
               onClick={() => setBillingPeriod('monthly')}
-              className={`px-6 py-2 rounded font-medium transition-colors ${
+              className={`px-6 py-2 font-medium transition-colors ${
                 billingPeriod === 'monthly'
                   ? 'bg-accent text-accent-foreground'
-                  : 'bg-card border border-border text-foreground'
+                  : 'bg-transparent text-foreground'
               }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingPeriod('yearly')}
-              className={`px-6 py-2 rounded font-medium transition-colors relative ${
+              className={`px-6 py-2 font-medium transition-colors relative ${
                 billingPeriod === 'yearly'
                   ? 'bg-accent text-accent-foreground'
-                  : 'bg-card border border-border text-foreground'
+                  : 'bg-transparent text-foreground'
               }`}
             >
               Yearly
@@ -243,6 +243,7 @@ export default function Page() {
       {/* Testimonials Section */}
       <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-6xl">
+          <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-4 text-center">WHAT PEOPLE SAY</div>
           <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">Loved by Creators</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -325,6 +326,17 @@ export default function Page() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA Banner Section */}
+      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border border-b" style={{ backgroundColor: '#0f0f17' }}>
+        <div className="mx-auto max-w-4xl flex flex-col items-center text-center">
+          <h2 className="font-serif text-4xl sm:text-5xl text-white mb-4 leading-tight">Ready to write better?</h2>
+          <p className="text-muted-foreground text-lg mb-8 max-w-[600px]">Join 10,000+ writers already using WritePro</p>
+          <a href="/signup" className="inline-block px-8 py-4 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity">
+            Start for Free
+          </a>
         </div>
       </section>
 
