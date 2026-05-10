@@ -1,35 +1,180 @@
 # WriteProAI
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+> AI-powered writing assistant SaaS — write smarter, faster, better.
 
-## Built with v0
+**Live Demo:** https://writepro-ai.vercel.app/
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+---
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_hDTMeG4MwoPH19j3jgzNzXXxjeij)
+## Overview
+
+WriteProAI is a full-stack AI writing SaaS built with Next.js 14 App Router. It provides users with an intelligent writing editor, AI-powered suggestions, project management, and subscription-based billing — all in a clean, minimal dark UI.
+
+---
+
+## Features
+
+- 🖊️ **AI Writing Editor** — Smart suggestions panel powered by Claude/OpenAI
+- 📁 **Project Management** — Create, organize, and filter writing projects
+- 👤 **Auth System** — Secure signup/login with credentials (NextAuth.js + bcrypt)
+- 💳 **Subscription Billing** — Free and Pro plans via Stripe
+- 📊 **Dashboard** — Stats, recent projects, word count tracking
+- ⚙️ **Settings** — Profile, password, preferences, danger zone
+- 🔒 **Row Level Security** — All Supabase tables protected with RLS
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Styling | Tailwind CSS |
+| Icons | Lucide React |
+| Database | Supabase (PostgreSQL) |
+| ORM | Prisma |
+| Auth | NextAuth.js + bcryptjs |
+| Payments | Stripe *(coming soon)* |
+| AI | Claude API / OpenAI *(coming soon)* |
+| Hosting | Vercel |
+
+---
+
+## Pages
+
+| Route | Description |
+|---|---|
+| `/` | Landing page |
+| `/login` | Login page |
+| `/signup` | Signup with rotating quotes panel |
+| `/forgot-password` | Password reset with success state |
+| `/dashboard` | Stats cards + recent projects |
+| `/dashboard/write` | Editor + AI suggestions panel |
+| `/dashboard/projects` | Project grid with filters |
+| `/dashboard/billing` | Plan info + invoice history |
+| `/dashboard/settings` | Profile, password, preferences |
+
+---
+
+## Database Schema
+
+```
+users               — id, email, password_hash, name, timestamps
+subscriptions       — user_id, plan_type, status, stripe IDs, period dates
+writing_projects    — user_id, title, content, word_count, writing_mode
+user_usage          — user_id, month, words_used
+```
+
+All tables have **Row Level Security (RLS)** enabled on Supabase.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js v18+
+- pnpm or npm
+- Supabase account
+- Vercel account (for deployment)
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/imsiddharthnegi/WriteProAI.git
+cd WriteProAI
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the project root:
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Prisma
+DATABASE_URL="postgresql://postgres:PASSWORD@db.your-project.supabase.co:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres:PASSWORD@db.your-project.supabase.co:5432/postgres"
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_random_secret_key
+```
+
+### 4. Push Prisma schema to database
+
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+### 5. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-## Learn More
+## Project Structure
 
-To learn more, take a look at the following resources:
+```
+WriteProAI/
+├── app/                  # Next.js App Router pages & API routes
+├── components/           # Reusable UI components
+├── hooks/                # Custom React hooks
+├── lib/                  # Utility functions
+├── prisma/               # Prisma schema
+│   └── schema.prisma
+├── public/               # Static assets
+├── styles/               # Global CSS
+└── .env.local            # Environment variables (not committed)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+---
 
-<a href="https://v0.app/chat/api/kiro/clone/imsiddharthnegi/WriteProAI" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+## Roadmap
+
+- [x] Full frontend UI (all pages)
+- [x] GitHub repo + Vercel deployment
+- [x] Supabase database + RLS setup
+- [x] Prisma schema
+- [ ] NextAuth credentials provider
+- [ ] Signup/Login API routes
+- [ ] Route protection middleware
+- [ ] Claude API integration (AI suggestions)
+- [ ] Stripe subscription payments
+- [ ] End-to-end testing
+
+---
+
+## Design System
+
+| Token | Value |
+|---|---|
+| Background | `#0a0a0f` |
+| Card background | `#0f0f17` |
+| Border | `#1e1e2e` |
+| Primary accent | `#6366f1` (indigo) |
+| Muted text | `#71717a` |
+| Font | system-ui / Inter |
+| Border radius | 4px max |
+
+No gradients. No shadows. Sharp corners.
+
+---
+
+## License
+
+MIT © [Siddharth Negi](https://github.com/imsiddharthnegi)
