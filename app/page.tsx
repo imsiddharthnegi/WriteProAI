@@ -52,10 +52,10 @@ export default function Page() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-32 pb-20 overflow-hidden">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-[60px] pb-20 overflow-hidden">
         <div className="mx-auto max-w-4xl flex flex-col items-center text-center">
           {/* Badge */}
-          <div className="flex items-center gap-2 mb-8">
+          <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-2 px-3 py-1 border border-accent/30 rounded-full text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-background/50">
               <Dot className="w-1.5 h-1.5 fill-accent text-accent" />
               AI-Powered Writing
@@ -63,19 +63,19 @@ export default function Page() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif text-white mb-6 leading-tight" style={{ fontSize: "clamp(48px, 10vw, 80px)", letterSpacing: "-1.5px" }}>
+          <h1 className="font-serif text-white mb-4 leading-tight" style={{ fontSize: "clamp(48px, 10vw, 80px)", letterSpacing: "-1.5px" }}>
             Write without<br />
             <span className="italic text-accent">second-guessing</span><br />
             yourself.
           </h1>
 
           {/* Subheadline */}
-          <p className="text-[17px] text-[#a1a1b5] font-light mb-12 max-w-[600px] leading-relaxed">
+          <p className="text-[17px] text-[#a1a1b5] font-light mb-6 max-w-[600px] leading-relaxed">
             WritePro empowers professionals and content creators to write better, faster. Enhance clarity, tone, and impact with intelligent AI suggestions.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 justify-center">
             <a href="/signup" className="inline-block px-8 py-4 bg-accent text-accent-foreground rounded-sm font-medium hover:opacity-90 transition-opacity text-center">
               Start Free Trial
             </a>
@@ -86,7 +86,7 @@ export default function Page() {
           </div>
 
           {/* Stats */}
-          <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-12 pt-12 pb-4 border-t border-accent/30">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-12 pt-8 pb-8 border-t border-accent/30">
             <div className="text-center">
               <div className="font-serif text-4xl font-normal text-white mb-2">10,000+</div>
               <p className="text-sm text-muted-foreground">Writers</p>
