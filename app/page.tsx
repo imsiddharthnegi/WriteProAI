@@ -14,10 +14,7 @@ export default function Page() {
       <nav className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-accent rounded" />
-              <span className="font-bold text-lg">WritePro</span>
-            </div>
+            <span className="font-bold text-lg">WritePro</span>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
@@ -33,11 +30,6 @@ export default function Page() {
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-
-            {/* Desktop CTA */}
-            <button className="hidden md:flex items-center gap-2 px-6 py-2 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity">
-              Get Started
-            </button>
           </div>
 
           {/* Mobile Menu */}
@@ -46,9 +38,6 @@ export default function Page() {
               <a href="#" className="text-sm hover:text-accent">Features</a>
               <a href="#" className="text-sm hover:text-accent">Pricing</a>
               <a href="#" className="text-sm hover:text-accent">FAQ</a>
-              <button className="w-full px-4 py-2 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity">
-                Get Started
-              </button>
             </div>
           )}
         </div>
@@ -56,19 +45,18 @@ export default function Page() {
 
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 py-20 sm:py-32 overflow-hidden">
-        <div className="mx-auto max-w-5xl text-center">
-          {/* Accent line */}
-          <div className="h-0.5 w-12 bg-accent mx-auto mb-6" />
-
-          <h1 className="text-5xl sm:text-7xl font-bold mb-6 leading-tight">
-            Transform Your Writing with AI
+        <div className="mx-auto max-w-5xl">
+          <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-tight text-left">
+            Write without<br />
+            second-guessing<br />
+            <span className="text-indigo-500">yourself.</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl text-left">
             WritePro empowers professionals and content creators to write better, faster. Enhance clarity, tone, and impact with intelligent AI suggestions.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-start">
             <button className="px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity">
               Start Free Trial
             </button>
@@ -78,7 +66,7 @@ export default function Page() {
           </div>
 
           {/* Floating Cards - Simplified */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
             <div className="p-4 bg-card border border-accent/20 rounded text-left">
               <div className="text-2xl mb-2">⚡</div>
               <p className="text-sm text-muted-foreground">Real-time enhancement</p>
@@ -98,7 +86,7 @@ export default function Page() {
       {/* Features Section */}
       <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16">Powerful Features</h2>
+          <div className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-8">WHAT YOU GET</div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -158,11 +146,6 @@ export default function Page() {
               }`}
             >
               Yearly
-              {billingPeriod === 'yearly' && (
-                <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs bg-accent text-accent-foreground px-2 py-1 rounded whitespace-nowrap">
-                  Save 20%
-                </span>
-              )}
             </button>
           </div>
 
@@ -170,19 +153,22 @@ export default function Page() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                name: 'Starter',
-                price: billingPeriod === 'monthly' ? 19 : 152,
+                name: 'Free',
+                price: billingPeriod === 'monthly' ? 0 : 0,
+                monthlyEquivalent: 0,
                 features: ['Basic AI suggestions', '5 documents/month', 'Email support']
               },
               {
-                name: 'Professional',
-                price: billingPeriod === 'monthly' ? 49 : 392,
+                name: 'Pro',
+                price: billingPeriod === 'monthly' ? 9 : 86.40,
+                monthlyEquivalent: 7.20,
                 features: ['Advanced AI features', 'Unlimited documents', 'Priority support', 'Style templates'],
                 highlighted: true
               },
               {
                 name: 'Enterprise',
-                price: billingPeriod === 'monthly' ? 99 : 792,
+                price: billingPeriod === 'monthly' ? 49 : 588,
+                monthlyEquivalent: 49,
                 features: ['Custom AI models', 'Team collaboration', '24/7 support', 'API access']
               }
             ].map((plan, idx) => (
@@ -202,7 +188,14 @@ export default function Page() {
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="mb-6">
                   <span className="text-4xl font-bold">${plan.price}</span>
-                  <span className="text-muted-foreground ml-2">/{billingPeriod === 'monthly' ? 'mo' : 'yr'}</span>
+                  <span className="text-muted-foreground ml-2">
+                    {billingPeriod === 'monthly' ? '/mo' : '/yr'}
+                  </span>
+                  {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
+                    <div className="text-sm text-muted-foreground mt-2">
+                      ${plan.monthlyEquivalent}/mo billed annually
+                    </div>
+                  )}
                 </div>
                 <button
                   className={`w-full py-2 rounded font-medium mb-8 transition-colors ${
@@ -261,7 +254,7 @@ export default function Page() {
                 </div>
                 <p className="text-muted-foreground mb-4 text-sm">{testimonial.text}</p>
                 <p className="font-semibold text-sm">{testimonial.name}</p>
-                <p className="text-accent text-xs">{testimonial.role}</p>
+                <p className="text-muted-foreground text-xs">{testimonial.role}</p>
               </div>
             ))}
           </div>
@@ -276,20 +269,20 @@ export default function Page() {
           <div className="space-y-3">
             {[
               {
-                q: 'How does WritePro improve my writing?',
-                a: 'WritePro uses advanced AI to analyze your text and provide real-time suggestions for clarity, tone, and engagement. Our algorithms learn from millions of well-written documents.'
+                q: 'What happens if I hit my word limit?',
+                a: 'You can upgrade to a higher tier at any time to get more words per month. There are no penalties for hitting your limit.'
               },
               {
-                q: 'Can I use WritePro offline?',
-                a: 'WritePro works best with an internet connection, but we offer a limited offline mode for Pro and Enterprise users.'
+                q: 'Can I cancel anytime?',
+                a: 'Yes, you can cancel your subscription at any time with no questions asked. Your access continues until the end of your billing period.'
               },
               {
-                q: 'Is my data secure?',
+                q: 'Is my data safe?',
                 a: 'Yes, we use enterprise-grade encryption and never share your data with third parties. Your writing remains completely private.'
               },
               {
-                q: 'What formats does WritePro support?',
-                a: 'We support Word, Google Docs, PDF, and plain text. Integration with other tools is coming soon.'
+                q: 'Do you offer refunds?',
+                a: 'We offer a 30-day money-back guarantee on all plans. If you&apos;re not satisfied, we&apos;ll refund your payment.'
               }
             ].map((item, idx) => (
               <div key={idx} className="border border-border rounded overflow-hidden">
@@ -315,54 +308,11 @@ export default function Page() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 border-t border-border">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-6">Ready to write better?</h2>
-          <p className="text-lg text-muted-foreground mb-8">Join thousands of writers already using WritePro</p>
-          <button className="px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity">
-            Start Your Free Trial Today
-          </button>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-border bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 bg-accent rounded" />
-                <span className="font-bold">WritePro</span>
-              </div>
-              <p className="text-sm text-muted-foreground">Enhance your writing with AI</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">Product</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Security</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">Company</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-sm">Legal</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Terms</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
+            <span className="font-bold text-foreground">WritePro</span>
             <p>&copy; 2024 WritePro. All rights reserved.</p>
           </div>
         </div>
