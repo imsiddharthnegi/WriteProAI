@@ -21,6 +21,9 @@ export default function Page() {
               <a href="#" className="text-sm hover:text-accent transition-colors">Features</a>
               <a href="#" className="text-sm hover:text-accent transition-colors">Pricing</a>
               <a href="#" className="text-sm hover:text-accent transition-colors">FAQ</a>
+              <button className="px-4 py-2 border border-border rounded font-medium hover:bg-background transition-colors">
+                Get Started
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -92,18 +95,18 @@ export default function Page() {
             {[
               {
                 icon: Lightbulb,
-                title: 'Smart Suggestions',
-                description: 'AI-powered recommendations to improve clarity and engagement'
+                title: 'AI Suggestions',
+                description: 'Context-aware recommendations that improve clarity and tone as you write.'
               },
               {
                 icon: LayoutList,
-                title: 'Style Control',
-                description: 'Adjust tone from casual to professional with one click'
+                title: 'Writing Modes',
+                description: 'Switch between Blog, Email, Technical, and Creative modes instantly.'
               },
               {
                 icon: BarChart2,
-                title: 'Analytics',
-                description: 'Track readability score and writing improvements over time'
+                title: 'Usage Tracking',
+                description: 'Monitor word count, project activity, and monthly limits in real time.'
               }
             ].map((feature, idx) => {
               const Icon = feature.icon
@@ -187,14 +190,21 @@ export default function Page() {
                 )}
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold">${plan.price}</span>
-                  <span className="text-muted-foreground ml-2">
-                    {billingPeriod === 'monthly' ? '/mo' : '/yr'}
-                  </span>
-                  {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
-                    <div className="text-sm text-muted-foreground mt-2">
-                      ${plan.monthlyEquivalent}/mo billed annually
-                    </div>
+                  {billingPeriod === 'monthly' ? (
+                    <>
+                      <span className="text-4xl font-bold">${plan.price}</span>
+                      <span className="text-muted-foreground ml-2">/mo</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-4xl font-bold">${plan.monthlyEquivalent}</span>
+                      <span className="text-muted-foreground ml-2">/mo</span>
+                      {plan.monthlyEquivalent > 0 && (
+                        <div className="text-sm text-muted-foreground mt-2">
+                          billed annually
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
                 <button
