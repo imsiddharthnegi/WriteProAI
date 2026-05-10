@@ -1,41 +1,34 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { Download } from 'lucide-react'
+import { Zap } from 'lucide-react'
 
-const WRITING_MODES = [
-  'Blog Post',
-  'Product Description',
-  'Social Media',
-  'Email',
-  'Technical Article',
-  'Creative Writing'
-]
+const WRITING_MODES = ['Blog', 'Email', 'Technical', 'Creative']
 
 const MOCK_SUGGESTIONS = [
   {
     id: 1,
-    category: 'Grammar',
-    suggestion: 'Consider breaking this into shorter sentences for better readability.'
-  },
-  {
-    id: 2,
-    category: 'Clarity',
+    category: 'CLARITY',
     suggestion: 'Replace passive voice with active constructions to improve impact.'
   },
   {
-    id: 3,
-    category: 'Tone',
+    id: 2,
+    category: 'TONE',
     suggestion: 'The opening paragraph could be more engaging. Try leading with a question.'
+  },
+  {
+    id: 3,
+    category: 'CONCISENESS',
+    suggestion: 'Consider breaking this into shorter sentences for better readability.'
   }
 ]
 
 export default function WriterEditor() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [writingMode, setWritingMode] = useState('Blog Post')
+  const [writingMode, setWritingMode] = useState('Blog')
   const [wordCount, setWordCount] = useState(0)
-  const [saveStatus, setSaveStatus] = useState('All changes saved')
+  const [saveStatus, setSaveStatus] = useState('saved')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [loadingSuggestions, setLoadingSuggestions] = useState(false)
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -58,7 +51,7 @@ export default function WriterEditor() {
   // Handle content change with save status
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
-    setSaveStatus('Saving...')
+    setSaveStatus('saving')
 
     // Clear existing timeout
     if (saveTimeout) {
@@ -67,7 +60,7 @@ export default function WriterEditor() {
 
     // Set new timeout for save status
     const newTimeout = setTimeout(() => {
-      setSaveStatus('All changes saved')
+      setSaveStatus('saved')
     }, 1500)
 
     setSaveTimeout(newTimeout)
@@ -76,7 +69,7 @@ export default function WriterEditor() {
   // Handle title change with save status
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
-    setSaveStatus('Saving...')
+    setSaveStatus('saving')
 
     // Clear existing timeout
     if (saveTimeout) {
@@ -85,7 +78,7 @@ export default function WriterEditor() {
 
     // Set new timeout for save status
     const newTimeout = setTimeout(() => {
-      setSaveStatus('All changes saved')
+      setSaveStatus('saved')
     }, 1500)
 
     setSaveTimeout(newTimeout)
@@ -106,100 +99,98 @@ export default function WriterEditor() {
     setShowSuggestions(false)
   }
 
-  // Show warning banner when word count exceeds 80
-  const showWarningBanner = wordCount > 80
-
   // Show get suggestions button when word count exceeds 50
   const showGetSuggestionsButton = wordCount > 50
 
   return (
     <div className="flex h-screen bg-[#0a0a0f]">
-      {/* Left Column - Editor (65%) */}
-      <div className="flex-1 flex flex-col overflow-hidden md:w-2/3 w-full">
-        <div className="flex-1 overflow-auto p-5 md:p-10">
-          {/* Title Input */}
+      {/* Left Column - Editor */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Sticky Toolbar */}
+        <div className="sticky top-0 border-b border-[#1e1e2e] bg-[#0a0a0f] px-12 py-4 flex items-center justify-between z-10">
+          {/* Left: Title Input */}
           <input
             type="text"
             value={title}
             onChange={handleTitleChange}
-            placeholder="Untitled"
-            className="w-full text-white text-3xl font-bold bg-transparent border-0 outline-none border-b border-[#1e1e2e] pb-2 mb-6 placeholder-[#5a5a66] focus:outline-none focus:border-[#1e1e2e]"
+            placeholder="Untitled Document"
+            className="flex-1 bg-transparent text-white text-lg font-serif placeholder-[#5a5a66] border-0 outline-none"
           />
 
-          {/* Writing Mode Dropdown */}
-          <div className="mb-6">
-            <select
-              value={writingMode}
-              onChange={(e) => setWritingMode(e.target.value)}
-              className="w-full md:w-48 bg-[#0f0f17] border border-[#1e1e2e] text-white rounded px-3 py-2 text-sm focus:outline-none focus:border-[#1e1e2e]"
-            >
+          {/* Right: Writing Mode Selector & Save Button */}
+          <div className="flex items-center gap-6">
+            {/* Writing Mode Pills */}
+            <div className="flex gap-1 bg-transparent">
               {WRITING_MODES.map((mode) => (
-                <option key={mode} value={mode}>
+                <button
+                  key={mode}
+                  onClick={() => setWritingMode(mode)}
+                  className={`px-3 py-1 text-xs font-medium transition-colors ${
+                    writingMode === mode
+                      ? 'bg-[#6366f1] text-white rounded'
+                      : 'text-[#71717a] hover:text-white'
+                  }`}
+                >
                   {mode}
-                </option>
+                </button>
               ))}
-            </select>
-          </div>
+            </div>
 
+            {/* Save Button */}
+            <button
+              className="px-3 py-1 text-xs border border-[#1e1e2e] text-[#71717a] hover:border-[#6366f1] hover:text-white transition-colors rounded"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+
+        {/* Editor Area */}
+        <div className="flex-1 overflow-auto px-12 py-8">
           {/* Textarea */}
           <textarea
             value={content}
             onChange={handleContentChange}
             placeholder="Start writing here..."
-            className="w-full text-white text-base leading-[1.8] bg-transparent border-0 outline-none resize-none placeholder-[#5a5a66] focus:outline-none"
-            style={{ minHeight: '400px' }}
+            className="w-full text-[#e4e4f0] text-base leading-relaxed font-serif bg-transparent border-0 outline-none resize-none placeholder-[#5a5a66] focus:outline-none"
+            style={{ minHeight: '600px' }}
           />
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-[#1e1e2e] px-5 md:px-10 py-3 flex items-center justify-between bg-[#0a0a0f]">
-          <div className="text-[#71717a] text-sm">
-            {wordCount} words
-          </div>
-          <div className="text-[#71717a] text-sm">
-            {saveStatus}
-          </div>
-          <button className="px-4 py-2 border border-[#6366f1] text-[#6366f1] text-sm rounded hover:bg-[#6366f1]/10 transition-colors flex items-center gap-2">
-            <Download size={16} />
-            Export
-          </button>
+        {/* Bottom Word Count */}
+        <div className="px-12 py-4 text-xs text-[#71717a]">
+          {wordCount} words
         </div>
       </div>
 
-      {/* Right Column - AI Suggestions Panel (35%) */}
-      <div className="hidden md:flex flex-col w-1/3 bg-[#0f0f17] border-l border-[#1e1e2e] p-6 overflow-auto">
-        {/* Warning Banner */}
-        {showWarningBanner && (
-          <div className="mb-6 p-3 bg-[#451a03] border border-[#92400e] rounded text-[#f59e0b] text-sm">
-            Approaching your monthly limit. Upgrade for more.
-          </div>
-        )}
-
+      {/* Right Column - AI Suggestions Panel */}
+      <div className="hidden lg:flex flex-col w-72 bg-[#0f0f17] border-l border-[#1e1e2e] p-6 overflow-auto">
         {/* Header */}
-        <h2 className="text-white text-base font-bold mb-2">AI Suggestions</h2>
-        <p className="text-[#71717a] text-sm mb-6">
-          {wordCount === 0 ? 'Start writing to get suggestions' : 'Get AI-powered writing suggestions'}
-        </p>
+        <div className="flex items-center gap-2 mb-6">
+          <Zap size={14} className="text-[#6366f1]" />
+          <h2 className="text-xs uppercase text-[#71717a] font-medium tracking-wide">
+            AI Suggestions
+          </h2>
+        </div>
 
         {/* Get Suggestions Button */}
-        {showGetSuggestionsButton && !showSuggestions && (
+        {showGetSuggestionsButton && !showSuggestions && !loadingSuggestions && (
           <button
             onClick={handleGetSuggestions}
-            disabled={loadingSuggestions}
-            className="w-full px-4 py-2 border border-[#6366f1] text-[#6366f1] text-sm rounded hover:bg-[#6366f1]/10 transition-colors disabled:opacity-50 mb-6"
+            className="w-full px-4 py-2 border border-[#6366f1] text-[#6366f1] text-xs rounded mb-6 hover:bg-[#6366f1]/10 transition-colors"
           >
-            {loadingSuggestions ? 'Loading...' : 'Get Suggestions'}
+            Get Suggestions
           </button>
         )}
 
         {/* Skeleton Loading State */}
         {loadingSuggestions && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-[#0a0a0f] border border-[#1e1e2e] rounded p-4 animate-pulse">
-                <div className="h-4 bg-[#1e1e2e] rounded mb-2 w-20"></div>
-                <div className="h-3 bg-[#1e1e2e] rounded mb-2 w-full"></div>
-                <div className="h-3 bg-[#1e1e2e] rounded w-3/4"></div>
+              <div key={i} className="bg-[#0a0a0f] border border-[#1e1e2e] rounded-sm p-3 animate-pulse">
+                <div className="h-2 bg-[#1e1e2e] rounded mb-2 w-16"></div>
+                <div className="h-2 bg-[#1e1e2e] rounded mb-1 w-full"></div>
+                <div className="h-2 bg-[#1e1e2e] rounded w-4/5"></div>
               </div>
             ))}
           </div>
@@ -207,93 +198,31 @@ export default function WriterEditor() {
 
         {/* Suggestion Cards */}
         {showSuggestions && !loadingSuggestions && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {MOCK_SUGGESTIONS.map((suggestion) => (
               <div
                 key={suggestion.id}
-                className="bg-[#0a0a0f] border border-[#1e1e2e] rounded p-4"
+                className="bg-[#0a0a0f] border border-[#1e1e2e] rounded-sm p-4 hover:border-[#6366f1] transition-colors"
               >
-                <h3 className="text-white text-sm font-bold mb-2">{suggestion.category}</h3>
-                <p className="text-[#71717a] text-sm mb-4">{suggestion.suggestion}</p>
-                <div className="flex gap-2">
-                  <button className="text-[#6366f1] text-sm hover:underline transition-colors">
-                    Apply
-                  </button>
-                  <button
-                    onClick={handleDismissSuggestion}
-                    className="text-[#71717a] text-sm hover:underline transition-colors"
-                  >
-                    Dismiss
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Mobile Suggestions Below Editor */}
-      <div className="md:hidden w-full md:w-1/3 bg-[#0f0f17] border-t border-[#1e1e2e] p-5">
-        {/* Warning Banner */}
-        {showWarningBanner && (
-          <div className="mb-4 p-3 bg-[#451a03] border border-[#92400e] rounded text-[#f59e0b] text-sm">
-            Approaching your monthly limit. Upgrade for more.
-          </div>
-        )}
-
-        {/* Header */}
-        <h2 className="text-white text-base font-bold mb-2">AI Suggestions</h2>
-        <p className="text-[#71717a] text-sm mb-4">
-          {wordCount === 0 ? 'Start writing to get suggestions' : 'Get AI-powered writing suggestions'}
-        </p>
-
-        {/* Get Suggestions Button */}
-        {showGetSuggestionsButton && !showSuggestions && (
-          <button
-            onClick={handleGetSuggestions}
-            disabled={loadingSuggestions}
-            className="w-full px-4 py-2 border border-[#6366f1] text-[#6366f1] text-sm rounded hover:bg-[#6366f1]/10 transition-colors disabled:opacity-50 mb-4"
-          >
-            {loadingSuggestions ? 'Loading...' : 'Get Suggestions'}
-          </button>
-        )}
-
-        {/* Skeleton Loading State */}
-        {loadingSuggestions && (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-[#0a0a0f] border border-[#1e1e2e] rounded p-4 animate-pulse">
-                <div className="h-4 bg-[#1e1e2e] rounded mb-2 w-20"></div>
-                <div className="h-3 bg-[#1e1e2e] rounded mb-2 w-full"></div>
-                <div className="h-3 bg-[#1e1e2e] rounded w-3/4"></div>
+                <h3 className="text-[#6366f1] text-xs uppercase font-medium mb-2 tracking-wide">
+                  {suggestion.category}
+                </h3>
+                <p className="text-[#a1a1b5] text-xs leading-relaxed mb-3">
+                  {suggestion.suggestion}
+                </p>
+                <button className="w-full px-3 py-1 text-xs bg-[#6366f1] text-white rounded hover:opacity-90 transition-opacity">
+                  Apply
+                </button>
               </div>
             ))}
           </div>
         )}
 
-        {/* Suggestion Cards */}
-        {showSuggestions && !loadingSuggestions && (
-          <div className="space-y-4">
-            {MOCK_SUGGESTIONS.map((suggestion) => (
-              <div
-                key={suggestion.id}
-                className="bg-[#0a0a0f] border border-[#1e1e2e] rounded p-4"
-              >
-                <h3 className="text-white text-sm font-bold mb-2">{suggestion.category}</h3>
-                <p className="text-[#71717a] text-sm mb-4">{suggestion.suggestion}</p>
-                <div className="flex gap-2">
-                  <button className="text-[#6366f1] text-sm hover:underline transition-colors">
-                    Apply
-                  </button>
-                  <button
-                    onClick={handleDismissSuggestion}
-                    className="text-[#71717a] text-sm hover:underline transition-colors"
-                  >
-                    Dismiss
-                  </button>
-                </div>
-              </div>
-            ))}
+        {/* Empty State */}
+        {!showSuggestions && !loadingSuggestions && !showGetSuggestionsButton && (
+          <div className="text-center py-8">
+            <Zap size={20} className="text-[#6366f1] mx-auto mb-3 opacity-50" />
+            <p className="text-xs text-[#71717a]">Select text to get AI suggestions</p>
           </div>
         )}
       </div>

@@ -9,6 +9,20 @@ const QUOTES = [
   { text: 'Rewrite. Rewrite. Rewrite.', author: 'Harold Evans' },
 ]
 
+function getPasswordStrength(password: string) {
+  if (!password) return 'weak'
+  if (password.length < 8) return 'weak'
+  const hasUpperCase = /[A-Z]/.test(password)
+  const hasLowerCase = /[a-z]/.test(password)
+  const hasNumbers = /\d/.test(password)
+  const hasSpecialChar = /[!@#$%^&*]/.test(password)
+
+  const strength = [hasUpperCase, hasLowerCase, hasNumbers, hasSpecialChar].filter(Boolean).length
+  if (strength < 2) return 'weak'
+  if (strength < 3) return 'fair'
+  return 'strong'
+}
+
 export default function SignupPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
@@ -19,7 +33,7 @@ export default function SignupPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuoteIndex((prev) => (prev + 1) % QUOTES.length)
-    }, 4000)
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [])
@@ -30,45 +44,44 @@ export default function SignupPage() {
   }
 
   const currentQuote = QUOTES[currentQuoteIndex]
+  const passwordStrength = getPasswordStrength(password)
+
+  const strengthColor = {
+    weak: '#ef4444',
+    fair: '#eab308',
+    strong: '#22c55e',
+  }[passwordStrength]
+
+  const strengthLabel = {
+    weak: 'Weak',
+    fair: 'Fair',
+    strong: 'Strong',
+  }[passwordStrength]
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#0a0a0f' }}>
-      {/* Background noise texture */}
+    <div className="min-h-screen flex bg-[#0a0a0f]">
+      {/* Left Panel - Form */}
       <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/%3E%3C/filter%3E%3Crect width="100" height="100" fill="white" filter="url(%23noise)"/%3E%3C/svg%3E")',
-          backgroundSize: '100px 100px',
-        }}
-      />
-
-      <div className="flex w-full max-w-2xl gap-0 relative">
-        {/* Main Card */}
-        <div
-          className="flex-1 p-10 border rounded-l"
-          style={{
-            backgroundColor: '#0f0f17',
-            borderColor: '#1e1e2e',
-            borderWidth: '1px',
-            borderRight: 'none',
-          }}
-        >
-          {/* Logo */}
-          <Link href="/" className="block text-center mb-8">
-            <p className="text-xl font-bold text-white">WritePro</p>
+        className="flex-1 flex flex-col items-center justify-center px-6 py-12"
+        style={{ backgroundColor: '#0a0a0f' }}
+      >
+        <div className="w-full max-w-sm">
+          {/* Mobile Logo */}
+          <Link href="/" className="lg:hidden block text-center mb-8">
+            <p className="text-2xl font-serif font-bold text-white">WritePro</p>
           </Link>
 
           {/* Headline */}
-          <h1 className="text-white text-2xl font-bold text-center mb-2">Create your account</h1>
+          <h1 className="font-serif text-white text-3xl font-bold mb-2">Create your account</h1>
 
           {/* Subtext */}
-          <p className="text-center text-gray-400 text-sm mb-8">Start writing for free today</p>
+          <p className="text-[#71717a] text-sm mb-8">Start writing for free today</p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name Field */}
             <div>
-              <label htmlFor="fullName" className="block text-white text-sm font-medium mb-2">
+              <label htmlFor="fullName" className="block text-[#71717a] text-xs uppercase mb-3 tracking-wide">
                 Full Name
               </label>
               <input
@@ -77,12 +90,7 @@ export default function SignupPage() {
                 placeholder="John Smith"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-                style={{
-                  backgroundColor: '#0a0a0f',
-                  borderColor: '#1e1e2e',
-                  borderWidth: '1px',
-                }}
+                className="w-full px-4 py-3 text-white placeholder-[#5a5a66] transition-colors bg-[#0f0f17] border border-[#1e1e2e] rounded-sm"
                 onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
               />
@@ -90,7 +98,7 @@ export default function SignupPage() {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
+              <label htmlFor="email" className="block text-[#71717a] text-xs uppercase mb-3 tracking-wide">
                 Email
               </label>
               <input
@@ -99,12 +107,7 @@ export default function SignupPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-                style={{
-                  backgroundColor: '#0a0a0f',
-                  borderColor: '#1e1e2e',
-                  borderWidth: '1px',
-                }}
+                className="w-full px-4 py-3 text-white placeholder-[#5a5a66] transition-colors bg-[#0f0f17] border border-[#1e1e2e] rounded-sm"
                 onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
               />
@@ -112,7 +115,7 @@ export default function SignupPage() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
+              <label htmlFor="password" className="block text-[#71717a] text-xs uppercase mb-3 tracking-wide">
                 Password
               </label>
               <input
@@ -121,20 +124,33 @@ export default function SignupPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-                style={{
-                  backgroundColor: '#0a0a0f',
-                  borderColor: '#1e1e2e',
-                  borderWidth: '1px',
-                }}
+                className="w-full px-4 py-3 text-white placeholder-[#5a5a66] transition-colors bg-[#0f0f17] border border-[#1e1e2e] rounded-sm"
                 onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
               />
+
+              {/* Password Strength Indicator */}
+              {password && (
+                <div className="mt-2">
+                  <div className="w-full h-1 bg-[#1e1e2e] rounded-full overflow-hidden">
+                    <div
+                      className="h-full transition-all"
+                      style={{
+                        width: passwordStrength === 'weak' ? '33%' : passwordStrength === 'fair' ? '66%' : '100%',
+                        backgroundColor: strengthColor,
+                      }}
+                    />
+                  </div>
+                  <p className="text-xs mt-1" style={{ color: strengthColor }}>
+                    {strengthLabel}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Confirm Password Field */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-white text-sm font-medium mb-2">
+              <label htmlFor="confirmPassword" className="block text-[#71717a] text-xs uppercase mb-3 tracking-wide">
                 Confirm Password
               </label>
               <input
@@ -143,12 +159,7 @@ export default function SignupPage() {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-                style={{
-                  backgroundColor: '#0a0a0f',
-                  borderColor: '#1e1e2e',
-                  borderWidth: '1px',
-                }}
+                className="w-full px-4 py-3 text-white placeholder-[#5a5a66] transition-colors bg-[#0f0f17] border border-[#1e1e2e] rounded-sm"
                 onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
                 onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
               />
@@ -157,59 +168,67 @@ export default function SignupPage() {
             {/* Create Account Button */}
             <button
               type="submit"
-              className="w-full py-3 rounded font-bold text-white text-sm transition-opacity hover:opacity-90 mt-6"
-              style={{ backgroundColor: '#6366f1' }}
+              className="w-full py-3 bg-[#6366f1] text-white font-medium text-sm rounded-sm hover:opacity-90 transition-opacity"
             >
               Create Account
             </button>
           </form>
 
           {/* Terms Text */}
-          <p className="text-center text-gray-500 text-xs mt-4">
+          <p className="text-center text-[#5a5a66] text-xs mt-6">
             By signing up you agree to our{' '}
-            <Link href="#" className="transition-colors hover:opacity-80" style={{ color: '#6366f1' }}>
+            <Link href="#" className="text-[#6366f1] hover:text-white transition-colors">
               Terms
             </Link>
             {' '}and{' '}
-            <Link href="#" className="transition-colors hover:opacity-80" style={{ color: '#6366f1' }}>
+            <Link href="#" className="text-[#6366f1] hover:text-white transition-colors">
               Privacy Policy
             </Link>
           </p>
 
           {/* Sign In Link */}
-          <p className="text-center text-gray-400 text-sm mt-6">
+          <p className="text-center text-[#71717a] text-sm mt-6">
             Already have an account?{' '}
-            <Link href="/login" className="transition-colors hover:opacity-80" style={{ color: '#6366f1' }}>
+            <Link href="/login" className="text-[#6366f1] hover:text-white transition-colors">
               Sign in
             </Link>
           </p>
         </div>
+      </div>
 
-        {/* Right Panel - Desktop Only */}
-        <div
-          className="hidden md:flex flex-1 p-10 border rounded-r flex-col items-center justify-center"
-          style={{
-            backgroundColor: '#0f0f17',
-            borderColor: '#1e1e2e',
-            borderWidth: '1px',
-            borderLeft: 'none',
-          }}
-        >
-          {/* Decorative Quote Mark */}
-          <div
-            className="text-6xl font-bold mb-6 opacity-40"
-            style={{ color: '#6366f1' }}
-          >
-            "
-          </div>
+      {/* Right Panel - Rotating Quotes */}
+      <div
+        className="hidden lg:flex flex-col items-center justify-center w-1/2 border-l p-12"
+        style={{
+          backgroundColor: '#0f0f17',
+          borderColor: '#1e1e2e',
+        }}
+      >
+        {/* Decorative Quote Mark */}
+        <div className="text-6xl font-serif font-bold mb-8 opacity-30" style={{ color: '#6366f1' }}>
+          "
+        </div>
 
-          {/* Quote Text */}
-          <p className="text-white italic text-xl text-center mb-4 leading-relaxed">
-            {currentQuote.text}
-          </p>
+        {/* Quote Text */}
+        <p className="text-white font-serif italic text-xl text-center mb-6 leading-relaxed">
+          {currentQuote.text}
+        </p>
 
-          {/* Author */}
-          <p className="text-gray-400 text-sm text-center">— {currentQuote.author}</p>
+        {/* Author */}
+        <p className="text-[#71717a] text-sm text-center mb-8">— {currentQuote.author}</p>
+
+        {/* Dot Indicators */}
+        <div className="flex gap-2">
+          {QUOTES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentQuoteIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentQuoteIndex ? 'bg-[#6366f1] w-6' : 'bg-[#1e1e2e]'
+              }`}
+              aria-label={`Go to quote ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </div>
