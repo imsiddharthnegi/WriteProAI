@@ -2,6 +2,7 @@
 
 import { Download } from 'lucide-react'
 import DashboardSidebar from '@/components/dashboard-sidebar'
+import DemoBanner from '@/components/demo-banner'
 
 export default function BillingPage() {
   const handleCancelSubscription = () => {
@@ -25,11 +26,13 @@ export default function BillingPage() {
   ]
 
   return (
-    <div className="flex min-h-screen bg-[#0a0a0f] md:pl-60">
-      <DashboardSidebar />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
+    <div className="flex min-h-screen flex-col bg-[#0a0a0f]">
+      <DemoBanner />
+      <div className="flex flex-1 md:pl-60">
+        <DashboardSidebar />
+        
+        {/* Main Content Area */}
+        <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
         <div className="mb-8">
           <h1 className="text-white text-2xl md:text-[28px] font-bold">Billing & Subscription</h1>
           <p className="text-[#71717a] text-sm mt-2">Manage your plan and payment details</p>
@@ -103,6 +106,7 @@ export default function BillingPage() {
           </button>
         </div>
       </main>
+      </div>
     </div>
   )
 }

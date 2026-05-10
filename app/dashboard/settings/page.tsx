@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import DashboardSidebar from '@/components/dashboard-sidebar'
+import DemoBanner from '@/components/demo-banner'
 
 export default function SettingsPage() {
   const [autoSave, setAutoSave] = useState(true)
@@ -18,11 +19,13 @@ export default function SettingsPage() {
   const writingModes = ['Blog Post', 'Email', 'Social Media', 'Product Description', 'Ad Copy']
 
   return (
-    <div className="flex min-h-screen bg-[#0a0a0f] md:pl-60">
-      <DashboardSidebar />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
+    <div className="flex min-h-screen flex-col bg-[#0a0a0f]">
+      <DemoBanner />
+      <div className="flex flex-1 md:pl-60">
+        <DashboardSidebar />
+        
+        {/* Main Content Area */}
+        <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
         <div className="mb-8">
           <h1 className="text-white text-2xl md:text-[28px] font-bold">Settings</h1>
         </div>
@@ -162,6 +165,7 @@ export default function SettingsPage() {
           </button>
         </div>
       </main>
+      </div>
     </div>
   )
 }

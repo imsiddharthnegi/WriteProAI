@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Search, ChevronDown, Trash2, Edit2, FolderOpen } from 'lucide-react'
 import DashboardSidebar from '@/components/dashboard-sidebar'
+import DemoBanner from '@/components/demo-banner'
 
 interface Project {
   id: string
@@ -58,11 +59,13 @@ export default function ProjectsPage() {
   }, [searchTerm, sortBy])
 
   return (
-    <div className="flex min-h-screen bg-[#0a0a0f] md:pl-60">
-      <DashboardSidebar />
+    <div className="flex min-h-screen flex-col bg-[#0a0a0f]">
+      <DemoBanner />
+      <div className="flex flex-1 md:pl-60">
+        <DashboardSidebar />
 
-      {/* Main Content Area */}
-      <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
+        {/* Main Content Area */}
+        <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
         {/* Header */}
         <div className="flex items-end justify-between mb-8">
           <div>
@@ -184,6 +187,7 @@ export default function ProjectsPage() {
           </div>
         )}
       </main>
+      </div>
     </div>
   )
 }

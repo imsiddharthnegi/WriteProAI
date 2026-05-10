@@ -65,7 +65,7 @@ export default function Page() {
             <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground rounded font-medium hover:opacity-90 transition-opacity text-center">
               Start Free Trial
             </a>
-            <a href="/signup" className="inline-block px-8 py-3 border border-border bg-card text-foreground rounded font-medium hover:bg-card/50 transition-colors text-center">
+            <a href="/dashboard" className="inline-block px-8 py-3 border border-border bg-card text-foreground rounded font-medium hover:bg-card/50 transition-colors text-center">
               Watch Demo
             </a>
           </div>
