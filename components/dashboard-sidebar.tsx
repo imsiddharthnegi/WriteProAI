@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { LayoutDashboard, FolderOpen, PenLine, Settings, LogOut } from 'lucide-react'
-import { useMediaQuery } from '@/hooks/use-mobile'
+import { useMobile } from '@/hooks/use-mobile'
 
 export default function DashboardSidebar() {
   const [activeTab, setActiveTab] = useState('dashboard')
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isMobile = useMobile()
 
   const navLinks = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
