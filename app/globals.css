@@ -626,3 +626,239 @@ body::before {
     transition: none !important;
   }
 }
+
+/* Custom cursor */
+body {
+  cursor: none;
+  @media (pointer: coarse) {
+    cursor: auto;
+  }
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #c8f03d;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: opacity 200ms ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #c8f03d;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  transition: width 300ms ease, height 300ms ease, border-width 300ms ease;
+}
+
+.cursor-hover .cursor-dot {
+  opacity: 0;
+}
+
+.cursor-hover .cursor-ring {
+  width: 48px;
+  height: 48px;
+  border-width: 1px;
+}
+
+.cursor-text .cursor-ring {
+  display: none;
+}
+
+/* Page load sequence */
+@keyframes nav-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badge-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes headline-clip-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+
+@keyframes subtext-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes buttons-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes stat-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-page-load-nav] {
+  animation: nav-fade-in 600ms ease-out 0ms forwards;
+}
+
+[data-page-load-badge] {
+  animation: badge-slide-down 600ms ease-out 150ms forwards;
+}
+
+[data-page-load-word] {
+  animation: headline-clip-in 600ms ease-out forwards;
+  animation-delay: calc(300ms + var(--word-index, 0) * 80ms);
+}
+
+[data-page-load-subtext] {
+  animation: subtext-fade-in 600ms ease-out 500ms forwards;
+}
+
+[data-page-load-buttons] {
+  animation: buttons-scale-in 600ms ease-out 650ms forwards;
+}
+
+[data-page-load-stats] {
+  animation: stat-slide-up 600ms ease-out 900ms forwards;
+}
+
+/* Editor auto-play animations */
+@keyframes pulse-bright {
+  0%, 100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(200, 240, 61, 0.2);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes chip-slide {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes clarity-draw {
+  from {
+    stroke-dashoffset: 113;
+  }
+  to {
+    stroke-dashoffset: 25;
+  }
+}
+
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(200, 240, 61, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(200, 240, 61, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(200, 240, 61, 0);
+  }
+}
+
+.animate-pulse-bright {
+  animation: pulse-bright 500ms ease-in-out;
+}
+
+.animate-chip-slide {
+  animation: chip-slide 500ms ease-out forwards;
+}
+
+.animate-clarity-draw {
+  animation: clarity-draw 900ms ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 1000ms ease-out forwards;
+}
+
+/* Section divider draw */
+@keyframes divider-draw {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+[data-section-divider] {
+  transition: width 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-divider-draw {
+  width: 100% !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-page-load-nav],
+  [data-page-load-badge],
+  [data-page-load-word],
+  [data-page-load-subtext],
+  [data-page-load-buttons],
+  [data-page-load-stats],
+  .animate-pulse-bright,
+  .animate-chip-slide,
+  .animate-clarity-draw,
+  .animate-glow-pulse,
+  .animate-divider-draw {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  .cursor-ring,
+  .cursor-dot {
+    display: none;
+  }
+}

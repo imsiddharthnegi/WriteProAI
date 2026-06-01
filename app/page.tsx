@@ -10,11 +10,15 @@ export default function Page() {
   const revealRefs = useRef<(HTMLElement | null)[]>([])
   const [typewriterWord, setTypewriterWord] = useState('precision')
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
+  const [cursorRingPos, setCursorRingPos] = useState({ x: 0, y: 0 })
+  const [cursorState, setCursorState] = useState<'default' | 'hover' | 'text'>('default')
   const [isTouchDevice, setIsTouchDevice] = useState(false)
   const [editorText, setEditorText] = useState('')
   const [navIndicatorPos, setNavIndicatorPos] = useState(0)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [pageLoaded, setPageLoaded] = useState(false)
   const cursorRef = useRef<HTMLDivElement>(null)
+  const cursorRingRef = useRef<HTMLDivElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
   const featureCardsRef = useRef<HTMLDivElement>(null)
   const clearingScoreRef = useRef<SVGCircleElement>(null)
@@ -22,39 +26,190 @@ export default function Page() {
   const navRef = useRef<HTMLElement>(null)
   const navIndicatorRef = useRef<HTMLDivElement>(null)
   const footerLogoRef = useRef<HTMLDivElement>(null)
+  const parallaxRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Detect touch device
-    setIsTouchDevice(() => {
-      return (
-        typeof window !== 'undefined' &&
-        (navigator.maxTouchPoints > 0 || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0)
-      )
-    })
+    // Check prefers-reduced-motion
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setPrefersReducedMotion(prefersReduced)
 
-    // Custom cursor effect
-    if (!isTouchDevice && cursorRef.current) {
-      const handleMouseMove = (e: MouseEvent) => {
-        const x = e.clientX
-        const y = e.clientY
-        setCursorPos({ x, y })
+    // Detect touch device
+    setIsTouchDevice(
+      typeof window !== 'undefined' &&
+        (navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0)
+    )
+
+    // Trigger page load animation
+    setPageLoaded(true)
+  }, [])
+
+  // Custom cursor with ring and lerp animation
+  useEffect(() => {
+    if (isTouchDevice || prefersReducedMotion) return
+
+    let mouseX = 0,
+      mouseY = 0
+    let ringX = 0,
+      ringY = 0
+    let animationFrame: number
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX
+      mouseY = e.clientY
+
+      const animate = () => {
+        // Lerp ring position with lag
+        ringX += (mouseX - ringX) * 0.12
+        ringY += (mouseY - ringY) * 0.12
 
         if (cursorRef.current) {
-          const dx = x - cursorRef.current.offsetWidth / 2
-          const dy = y - cursorRef.current.offsetHeight / 2
+          cursorRef.current.style.left = `${mouseX}px`
+          cursorRef.current.style.top = `${mouseY}px`
+        }
 
-          requestAnimationFrame(() => {
-            if (cursorRef.current) {
-              cursorRef.current.style.transform = `translate(${dx}px, ${dy}px)`
-            }
+        if (cursorRingRef.current) {
+          cursorRingRef.current.style.left = `${ringX}px`
+          cursorRingRef.current.style.top = `${ringY}px`
+        }
+
+        animationFrame = requestAnimationFrame(animate)
+      }
+
+      animate()
+    }
+
+    const handleMouseEnter = (e: Event) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('a') || target.closest('button')) {
+        setCursorState('hover')
+      } else if (target.closest('[data-editor]')) {
+        setCursorState('text')
+      }
+    }
+
+    const handleMouseLeave = () => {
+      setCursorState('default')
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseenter', handleMouseEnter, true)
+    document.addEventListener('mouseleave', handleMouseLeave, true)
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseenter', handleMouseEnter, true)
+      document.removeEventListener('mouseleave', handleMouseLeave, true)
+      cancelAnimationFrame(animationFrame)
+    }
+  }, [isTouchDevice, prefersReducedMotion])
+
+  // Hero parallax effect
+  useEffect(() => {
+    if (prefersReducedMotion || !parallaxRef.current) return
+
+    let animationFrame: number
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const globs = parallaxRef.current?.querySelectorAll('[data-parallax-glow]')
+      const badge = document.querySelector('[data-parallax-badge]')
+      const headline = document.querySelector('[data-parallax-headline]')
+
+      const animate = () => {
+        // Glow blobs move at 15% of scroll (slower = depth)
+        if (globs) {
+          globs.forEach((glob) => {
+            ;(glob as HTMLElement).style.transform = `translateY(${scrollY * 0.15}px)`
           })
+        }
+
+        // Badge and headline move opposite at 5%
+        if (badge) {
+          ;(badge as HTMLElement).style.transform = `translateY(${scrollY * -0.05}px)`
+        }
+        if (headline) {
+          ;(headline as HTMLElement).style.transform = `translateY(${scrollY * -0.05}px)`
         }
       }
 
-      window.addEventListener('mousemove', handleMouseMove)
-      return () => window.removeEventListener('mousemove', handleMouseMove)
+      animationFrame = requestAnimationFrame(animate)
     }
-  }, [isTouchDevice])
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      cancelAnimationFrame(animationFrame)
+    }
+  }, [prefersReducedMotion])
+
+  // Mock editor auto-play sequence
+  useEffect(() => {
+    if (prefersReducedMotion || !editorRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // 400ms: pulse highlighted word
+          setTimeout(() => {
+            const highlighted = editorRef.current?.querySelector('[data-highlighted-word]')
+            if (highlighted) {
+              ;(highlighted as HTMLElement).classList.add('animate-pulse-bright')
+            }
+          }, 400)
+
+          // 800ms: slide in suggestion chip
+          setTimeout(() => {
+            const chip = editorRef.current?.querySelector('[data-suggestion-chip]')
+            if (chip) {
+              ;(chip as HTMLElement).classList.add('animate-chip-slide')
+            }
+          }, 800)
+
+          // 1200ms: animate clarity ring
+          setTimeout(() => {
+            const ring = editorRef.current?.querySelector('[data-clarity-ring]')
+            if (ring) {
+              ;(ring as HTMLElement).classList.add('animate-clarity-draw')
+            }
+          }, 1200)
+
+          // 1800ms: glow pulse tone button
+          setTimeout(() => {
+            const button = editorRef.current?.querySelector('[data-tone-button]')
+            if (button) {
+              ;(button as HTMLElement).classList.add('animate-glow-pulse')
+            }
+          }, 1800)
+
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(editorRef.current)
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
+
+  // Section divider draw animation
+  useEffect(() => {
+    if (prefersReducedMotion) return
+
+    const dividers = document.querySelectorAll('[data-section-divider]')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ;(entry.target as HTMLElement).classList.add('animate-divider-draw')
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
+
+    dividers.forEach((divider) => observer.observe(divider))
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
 
   // Magnetic button effect
   useEffect(() => {
@@ -559,14 +714,15 @@ export default function Page() {
   }
 
   return (
-    <div className="bg-background text-foreground overflow-hidden">
-      {/* Custom Cursor */}
-      {!isTouchDevice && (
-        <div
-          ref={cursorRef}
-          className="fixed w-6 h-6 border-2 border-accent rounded-full pointer-events-none z-[9999] transition-transform duration-100"
-          style={{ mixBlendMode: 'multiply' }}
-        />
+    <div className={`bg-background text-foreground overflow-hidden ${cursorState === 'hover' ? 'cursor-hover' : cursorState === 'text' ? 'cursor-text' : ''}`}>
+      {/* Custom Cursor - Dot */}
+      {!isTouchDevice && !prefersReducedMotion && (
+        <div ref={cursorRef} className="cursor-dot" />
+      )}
+
+      {/* Custom Cursor - Ring */}
+      {!isTouchDevice && !prefersReducedMotion && (
+        <div ref={cursorRingRef} className="cursor-ring" />
       )}
 
       {/* Scroll Progress Bar */}
@@ -625,30 +781,48 @@ export default function Page() {
       </nav>
 
       {/* Hero Section */}
-      <section data-nav-section="features" className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-24 overflow-hidden radial-glow">
+      <section data-nav-section="features" className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-24 overflow-hidden radial-glow" ref={parallaxRef}>
         <div className="mx-auto max-w-4xl flex flex-col items-center text-center relative z-10">
           {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/5 rounded-full">
+          <div data-parallax-badge data-page-load-badge className="mb-8 inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/5 rounded-full">
             <Dot className="w-2 h-2 fill-accent text-accent pulse-dot" />
             <span className="text-xs font-semibold text-accent uppercase tracking-widest">AI-Powered Writing</span>
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl leading-tight tracking-tight mb-6">
-            Write without<br />
-            <span className="italic text-accent font-light">
-              {typewriterWord}
-              <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
-            </span>
-            <br />
-            yourself.
+          <h1 data-parallax-headline className="font-serif text-5xl sm:text-6xl lg:text-7xl leading-tight tracking-tight mb-6">
+            {!prefersReducedMotion ? (
+              <>
+                <span data-page-load-word style={{ '--word-index': 0 } as any}>Write</span>{' '}
+                <span data-page-load-word style={{ '--word-index': 1 } as any}>without</span>
+                <br />
+                <span className="italic text-accent font-light">
+                  <span data-page-load-word style={{ '--word-index': 2 } as any}>
+                    {typewriterWord}
+                    <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
+                  </span>
+                </span>
+                <br />
+                <span data-page-load-word style={{ '--word-index': 3 } as any}>yourself.</span>
+              </>
+            ) : (
+              <>
+                Write without<br />
+                <span className="italic text-accent font-light">
+                  {typewriterWord}
+                  <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
+                </span>
+                <br />
+                yourself.
+              </>
+            )}
           </h1>
 
           {/* Divider */}
           <div className="w-12 h-px bg-accent/30 my-8"></div>
 
           {/* Trust Row - 4 Stats */}
-          <div data-trust-row className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 w-full max-w-2xl my-12">
+          <div data-trust-row data-page-load-stats className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 w-full max-w-2xl my-12">
             <div className="flex flex-col items-center">
               <div className="text-xl sm:text-2xl font-semibold text-accent mb-1"><span data-stat-value>0</span>K+</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Users</div>
@@ -668,12 +842,12 @@ export default function Page() {
           </div>
 
           {/* Subheadline */}
-          <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-[600px] leading-relaxed">
+          <p data-page-load-subtext className="text-base sm:text-lg text-muted-foreground mb-8 max-w-[600px] leading-relaxed">
             WritePro empowers professionals and content creators to write better, faster. Enhance clarity, tone, and impact with intelligent AI suggestions.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div data-page-load-buttons className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/signup" data-magnetic className="px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity text-center">
               <span data-magnetic-text>Start Free Trial</span>
             </a>
@@ -741,7 +915,7 @@ export default function Page() {
           </div>
 
           {/* Mock Editor UI */}
-          <div ref={editorRef} className="bg-card border border-border rounded overflow-hidden shadow-2xl">
+          <div ref={editorRef} data-editor className="bg-card border border-border rounded overflow-hidden shadow-2xl">
             {/* Mac Window Header */}
             <div className="bg-muted px-4 py-3 flex items-center gap-2 border-b border-border">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -757,7 +931,7 @@ export default function Page() {
                 <div className="text-xs font-semibold text-accent uppercase tracking-wider mb-4">Tone</div>
                 <div className="space-y-2">
                   {['Professional', 'Casual', 'Academic', 'Friendly'].map((tone) => (
-                    <div key={tone} className="px-3 py-2 text-xs rounded cursor-pointer hover:bg-accent/10 transition-colors" style={{ backgroundColor: tone === 'Professional' ? 'rgba(200, 240, 61, 0.1)' : 'transparent' }}>
+                    <div key={tone} data-tone-button={tone === 'Professional' ? 'active' : undefined} className="px-3 py-2 text-xs rounded cursor-pointer hover:bg-accent/10 transition-colors" style={{ backgroundColor: tone === 'Professional' ? 'rgba(200, 240, 61, 0.1)' : 'transparent' }}>
                       {tone}
                     </div>
                   ))}
@@ -769,10 +943,7 @@ export default function Page() {
                 <div className="space-y-4">
                   <div className="text-sm text-muted-foreground">Your document</div>
                   <div ref={editorTextRef} className="text-lg leading-relaxed min-h-[3rem]">
-                    <span className="text-foreground">{editorText}</span>
-                    {editorText.length > 0 && editorText.length < 77 && (
-                      <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
-                    )}
+                    <span className="text-foreground">The project is moving forward with <span data-highlighted-word className="transition-colors">tremendous</span> momentum and excellent execution.</span>
                   </div>
 
                   {/* AI Suggestion Chip */}
