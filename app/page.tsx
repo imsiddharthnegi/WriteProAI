@@ -11,10 +11,17 @@ export default function Page() {
   const [typewriterWord, setTypewriterWord] = useState('precision')
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [editorText, setEditorText] = useState('')
+  const [navIndicatorPos, setNavIndicatorPos] = useState(0)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const cursorRef = useRef<HTMLDivElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
   const featureCardsRef = useRef<HTMLDivElement>(null)
   const clearingScoreRef = useRef<SVGCircleElement>(null)
+  const editorTextRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+  const navIndicatorRef = useRef<HTMLDivElement>(null)
+  const footerLogoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Detect touch device
@@ -81,7 +88,160 @@ export default function Page() {
     return () => clearInterval(typewriterInterval)
   }, [])
 
-  // Editor demo animation on scroll into view
+  useEffect(() => {
+    // Check for prefers-reduced-motion
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setPrefersReducedMotion(prefersReduced)
+  }, [])
+
+  // Editor typing simulation
+  useEffect(() => {
+    const fullText = 'The project is moving forward with tremendous momentum and excellent execution.'
+    
+    if (!editorRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          let charIndex = 0
+          const typeInterval = setInterval(() => {
+            if (charIndex <= fullText.length) {
+              setEditorText(fullText.substring(0, charIndex))
+              charIndex++
+            } else {
+              clearInterval(typeInterval)
+            }
+          }, 30)
+
+          observer.unobserve(entry.target)
+          return () => clearInterval(typeInterval)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(editorRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  // Magnetic button effect
+  useEffect(() => {
+    if (prefersReducedMotion || isTouchDevice) return
+
+    const buttons = document.querySelectorAll('[data-magnetic-button]')
+    
+    buttons.forEach((button) => {
+      const handleMouseMove = (e: Event) => {
+        const mouseEvent = e as MouseEvent
+        const rect = (button as HTMLElement).getBoundingClientRect()
+        const centerX = rect.left + rect.width / 2
+        const centerY = rect.top + rect.height / 2
+        const distance = Math.hypot(mouseEvent.clientX - centerX, mouseEvent.clientY - centerY)
+
+        if (distance < 60) {
+          const angle = Math.atan2(mouseEvent.clientY - centerY, mouseEvent.clientX - centerX)
+          const moveX = Math.cos(angle) * (60 - distance) * 0.3
+          const moveY = Math.sin(angle) * (60 - distance) * 0.3
+          ;(button as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
+        }
+      }
+
+      const handleMouseLeave = () => {
+        ;(button as HTMLElement).style.transform = 'translate(0, 0)'
+      }
+
+      document.addEventListener('mousemove', handleMouseMove)
+      button.addEventListener('mouseleave', handleMouseLeave)
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove)
+        button.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    })
+  }, [prefersReducedMotion, isTouchDevice])
+
+  // Section divider animation
+  useEffect(() => {
+    if (prefersReducedMotion) return
+
+    const dividers = document.querySelectorAll('[data-section-divider]')
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).classList.add('animate-divider-draw')
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
+
+    dividers.forEach((divider) => observer.observe(divider))
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
+
+  // Active nav indicator
+  useEffect(() => {
+    if (prefersReducedMotion) return
+
+    const sections = document.querySelectorAll('[data-nav-section]')
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('data-nav-section')
+            const navLink = document.querySelector(`[data-nav-link="${sectionId}"]`)
+            
+            if (navLink && navIndicatorRef.current) {
+              const rect = navLink.getBoundingClientRect()
+              const parentRect = navRef.current?.getBoundingClientRect()
+              
+              if (parentRect) {
+                navIndicatorRef.current.style.left = `${rect.left - parentRect.left}px`
+                navIndicatorRef.current.style.width = `${rect.width}px`
+              }
+            }
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
+
+  // Footer logo scatter animation
+  useEffect(() => {
+    if (prefersReducedMotion || !footerLogoRef.current) return
+
+    const handleMouseEnter = () => {
+      const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
+      letters?.forEach((letter, i) => {
+        ;(letter as HTMLElement).style.animation = `scatter 0.6s ease-out forwards`
+        ;(letter as HTMLElement).style.animationDelay = `${i * 0.05}s`
+      })
+    }
+
+    const handleMouseLeave = () => {
+      const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
+      letters?.forEach((letter) => {
+        ;(letter as HTMLElement).style.animation = 'none'
+      })
+    }
+
+    if (footerLogoRef.current) {
+      footerLogoRef.current.addEventListener('mouseenter', handleMouseEnter)
+      footerLogoRef.current.addEventListener('mouseleave', handleMouseLeave)
+
+      return () => {
+        footerLogoRef.current?.removeEventListener('mouseenter', handleMouseEnter)
+        footerLogoRef.current?.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
+  }, [prefersReducedMotion, isTouchDevice])
   useEffect(() => {
     if (!editorRef.current) return
 
@@ -289,7 +449,13 @@ export default function Page() {
       />
 
       {/* Sticky Nav */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+      <nav ref={navRef} className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md relative">
+        {/* Nav Indicator */}
+        <div
+          ref={navIndicatorRef}
+          className="absolute bottom-0 h-0.5 bg-accent transition-all duration-300"
+          style={{ left: '0px', width: '0px' }}
+        ></div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="font-serif text-xl font-normal tracking-tight">
@@ -299,10 +465,10 @@ export default function Page() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-10">
-              <a href="/" className="text-sm text-muted-foreground hover:text-accent transition-colors">Features</a>
-              <a href="#pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
-              <a href="#faq" className="text-sm text-muted-foreground hover:text-accent transition-colors">FAQ</a>
-              <a href="/signup" className="px-5 py-2 bg-accent text-accent-foreground text-sm font-medium hover:opacity-80 transition-opacity">
+              <a href="/" data-nav-link="features" className="text-sm text-muted-foreground hover:text-accent transition-colors">Features</a>
+              <a href="#pricing" data-nav-link="pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
+              <a href="#faq" data-nav-link="faq" className="text-sm text-muted-foreground hover:text-accent transition-colors">FAQ</a>
+              <a href="/signup" data-magnetic-button className="px-5 py-2 bg-accent text-accent-foreground text-sm font-medium hover:opacity-80 transition-opacity">
                 Start Free
               </a>
             </div>
@@ -331,7 +497,7 @@ export default function Page() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-24 overflow-hidden radial-glow">
+      <section data-nav-section="features" className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-24 overflow-hidden radial-glow">
         <div className="mx-auto max-w-4xl flex flex-col items-center text-center relative z-10">
           {/* Badge */}
           <div className="mb-8 inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/5 rounded-full">
@@ -484,12 +650,11 @@ export default function Page() {
               <div className="flex-1 p-8">
                 <div className="space-y-4">
                   <div className="text-sm text-muted-foreground">Your document</div>
-                  <div className="text-lg leading-relaxed">
-                    <span className="text-foreground">The project is moving forward with </span>
-                    <span data-highlighted-word className="bg-accent/20 text-accent px-2 py-1 rounded text-sm font-medium">← Suggest: good progress</span>
-                  </div>
-                  <div className="text-lg leading-relaxed text-foreground">
-                    incredible momentum this quarter.
+                  <div ref={editorTextRef} className="text-lg leading-relaxed min-h-[3rem]">
+                    <span className="text-foreground">{editorText}</span>
+                    {editorText.length > 0 && editorText.length < 77 && (
+                      <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
+                    )}
                   </div>
 
                   {/* AI Suggestion Chip */}
@@ -534,7 +699,7 @@ export default function Page() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
+      <section id="pricing" data-nav-section="pricing" ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl leading-tight mb-4">Simple pricing</h2>
@@ -639,7 +804,8 @@ export default function Page() {
       </section>
 
       {/* Testimonials Section */}
-      <section ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
+      <div data-section-divider className="h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+      <section data-nav-section="testimonials" ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-serif text-4xl sm:text-5xl leading-tight text-center mb-16">Loved by creators</h2>
 
@@ -664,15 +830,35 @@ export default function Page() {
                 rating: 5
               }
             ].map((testimonial, idx) => (
-              <div key={idx} className="p-8 bg-card">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <div key={i} className="w-4 h-4 bg-accent rounded-full"></div>
-                  ))}
+              <div
+                key={idx}
+                data-testimonial-card
+                className="p-8 relative overflow-hidden group transition-all duration-300"
+                style={{
+                  background: 'rgba(26, 26, 26, 0.45)',
+                  backdropFilter: prefersReducedMotion ? 'none' : 'blur(12px)',
+                  WebkitBackdropFilter: prefersReducedMotion ? 'none' : 'blur(12px)',
+                  borderColor: 'rgba(255, 255, 255, 0.15)',
+                  borderWidth: '1px'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200, 240, 61, 0.5)'
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.15)'
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div className="relative z-10">
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <div key={i} className="w-4 h-4 bg-accent rounded-full"></div>
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{testimonial.text}</p>
+                  <p className="font-semibold text-sm text-foreground">{testimonial.name}</p>
+                  <p className="text-muted-foreground text-xs">{testimonial.role}</p>
                 </div>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{testimonial.text}</p>
-                <p className="font-semibold text-sm text-foreground">{testimonial.name}</p>
-                <p className="text-muted-foreground text-xs">{testimonial.role}</p>
               </div>
             ))}
           </div>
@@ -680,7 +866,8 @@ export default function Page() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
+      <div data-section-divider className="h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+      <section id="faq" data-nav-section="faq" ref={addRef} className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border">
         <div className="mx-auto max-w-3xl">
           <h2 className="font-serif text-4xl sm:text-5xl leading-tight text-center mb-16">Frequently asked questions</h2>
 
@@ -727,11 +914,12 @@ export default function Page() {
       </section>
 
       {/* CTA Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border radial-glow">
+      <div data-section-divider className="h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+      <section data-nav-section="cta" className="px-4 sm:px-6 lg:px-8 py-24 border-b border-border radial-glow">
         <div className="mx-auto max-w-3xl text-center relative z-10">
           <h2 className="font-serif text-4xl sm:text-5xl leading-tight mb-6">Ready to write better?</h2>
           <p className="text-muted-foreground text-base mb-8 max-w-[500px] mx-auto">Join thousands of professionals who are already improving their writing with WritePro.</p>
-          <a href="/signup" className="inline-block px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity">
+          <a href="/signup" data-magnetic-button className="inline-block px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity" style={{ transitionDuration: '300ms' }}>
             Start Your Free Trial
           </a>
         </div>
@@ -741,8 +929,17 @@ export default function Page() {
       <footer className="px-4 sm:px-6 lg:px-8 py-12 border-t border-border bg-card/30">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8">
-            <div className="font-serif text-lg font-normal">
-              <span className="text-foreground">WritePro</span>
+            <div ref={footerLogoRef} className="font-serif text-lg font-normal cursor-pointer">
+              {['W', 'r', 'i', 't', 'e', 'P', 'r', 'o'].map((letter, i) => (
+                <span
+                  key={i}
+                  data-letter
+                  className="inline-block transition-transform duration-300"
+                  style={{ '--scatter-x': `${(Math.random() - 0.5) * 80}px`, '--scatter-y': `${(Math.random() - 0.5) * 80}px` } as React.CSSProperties}
+                >
+                  {letter}
+                </span>
+              ))}
               <span className="italic text-accent ml-1 font-light">AI</span>
             </div>
             <p className="text-xs sm:text-sm text-muted-foreground">© 2025 WritePro. All rights reserved.</p>
