@@ -21,7 +21,10 @@ export default function Page() {
             {/* Headline */}
             <h1 className="text-7xl md:text-8xl font-light leading-none tracking-tight">
               Write with<br />
-              <span className="text-teal-400">intention.</span>
+              <span className="text-white relative inline-block">
+                intention.
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-400"></span>
+              </span>
             </h1>
 
             {/* Subtext */}
@@ -90,20 +93,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Trust Row */}
-      <section className="border-t border-slate-800 py-12 px-6 md:px-0">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-8">Trusted by professionals at</p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center text-slate-400">
-            <div className="text-sm font-medium">Stripe</div>
-            <div className="text-sm font-medium">Vercel</div>
-            <div className="text-sm font-medium">Linear</div>
-            <div className="text-sm font-medium">Figma</div>
-            <div className="text-sm font-medium">Notion</div>
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
       <section className="bg-white text-slate-950 py-24 px-6 md:px-0">
         <div className="max-w-7xl mx-auto">
@@ -116,13 +105,13 @@ export default function Page() {
           </div>
 
           {/* Features Grid */}
-          <div className="space-y-0">
+          <div className="space-y-12">
             {/* Feature 1: AI Suggestions - Text on Left, UI on Right */}
-            <div className="border-b border-slate-200 py-16">
+            <div className="border-b border-slate-200 py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-2xl font-medium">AI Suggestions</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                  <h3 className="text-[22px] font-semibold">AI Suggestions</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
                   </p>
                 </div>
@@ -145,7 +134,7 @@ export default function Page() {
             </div>
 
             {/* Feature 2: Writing Modes - UI on Left, Text on Right */}
-            <div className="border-b border-slate-200 py-16">
+            <div className="border-b border-slate-200 py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="hidden md:flex flex-col justify-start pt-4 order-last">
                   <div className="space-y-4">
@@ -161,8 +150,8 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="flex flex-col justify-start space-y-4 order-first md:order-none">
-                  <h3 className="text-2xl font-medium">Writing Modes</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                  <h3 className="text-[22px] font-semibold">Writing Modes</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
                   </p>
                 </div>
@@ -170,11 +159,11 @@ export default function Page() {
             </div>
 
             {/* Feature 3: Tone Adjustment - Text on Left, UI on Right */}
-            <div className="border-b border-slate-200 py-16">
+            <div className="border-b border-slate-200 py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-2xl font-medium">Tone Adjustment</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                  <h3 className="text-[22px] font-semibold">Tone Adjustment</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
                   </p>
                 </div>
@@ -192,7 +181,7 @@ export default function Page() {
             </div>
 
             {/* Feature 4: Usage Dashboard - UI on Left, Text on Right */}
-            <div className="py-16">
+            <div className="py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="hidden md:flex flex-col justify-start pt-4 order-last">
                   <div className="space-y-4">
@@ -212,8 +201,8 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="flex flex-col justify-start space-y-4 order-first md:order-none">
-                  <h3 className="text-2xl font-medium">Usage Dashboard</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                  <h3 className="text-[22px] font-semibold">Usage Dashboard</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed max-w-md">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
                   </p>
                 </div>
@@ -224,7 +213,7 @@ export default function Page() {
       </section>
 
       {/* Pricing Section */}
-      <section className="bg-slate-950 py-24 px-6 md:px-0">
+      <section className="bg-slate-950 pt-32 pb-24 px-6 md:px-0">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="mb-16 max-w-3xl">
@@ -268,7 +257,7 @@ export default function Page() {
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free Tier */}
-            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
+            <div className="flex flex-col bg-[#13131a] border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
@@ -307,7 +296,7 @@ export default function Page() {
             </div>
 
             {/* Pro Tier - Highlighted */}
-            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-4 border-l-teal-400 p-8 min-h-[520px] relative hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200">
+            <div className="flex flex-col bg-[#0f0f1a] border border-slate-800 border-l-4 border-l-teal-400 p-8 min-h-[520px] relative hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200" style={{ boxShadow: '0 0 40px rgba(45, 212, 191, 0.06)' }}>
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
@@ -352,7 +341,7 @@ export default function Page() {
             </div>
 
             {/* Enterprise Tier */}
-            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
+            <div className="flex flex-col bg-[#13131a] border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
