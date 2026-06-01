@@ -2,10 +2,14 @@
 
 import React from 'react'
 import { Menu, X } from 'lucide-react'
+import { useAuth } from '@clerk/nextjs'
+import { UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
+  const { isSignedIn } = useAuth()
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -58,15 +62,25 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="#"
-              className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer"
-            >
-              Log in
-            </a>
-            <button className="text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 transition-all duration-150 cursor-pointer" style={{ borderRadius: '6px' }}>
-              Get Started
-            </button>
+            {isSignedIn ? (
+              <UserButton />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 transition-all duration-150 cursor-pointer"
+                  style={{ borderRadius: '6px' }}
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -95,15 +109,27 @@ export default function Navbar() {
               </a>
             ))}
             <div className="border-t border-[#1f1f23] px-6 py-3 space-y-3">
-              <a
-                href="#"
-                className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center pointer-events-auto cursor-pointer"
-              >
-                Log in
-              </a>
-              <button className="w-full text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 min-h-[48px] transition-all duration-150 pointer-events-auto cursor-pointer" style={{ borderRadius: '6px' }}>
-                Get Started
-              </button>
+              {isSignedIn ? (
+                <div className="py-2">
+                  <UserButton />
+                </div>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center pointer-events-auto cursor-pointer"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="w-full text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 min-h-[48px] transition-all duration-150 pointer-events-auto cursor-pointer flex items-center justify-center"
+                    style={{ borderRadius: '6px' }}
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

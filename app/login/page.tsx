@@ -1,124 +1,110 @@
 'use client'
 
-import Link from 'next/link'
-import { useState } from 'react'
+import { SignIn } from '@clerk/nextjs'
+import { useState, useEffect } from 'react'
+
+const VALUE_PROPS = [
+  'Write without second-guessing yourself.',
+  'Your voice. Sharper.',
+  'From draft to done. Faster.',
+]
+
+const SOCIAL_PROOF = [
+  '12,400+ Writers',
+  'No credit card required',
+  'Cancel anytime',
+]
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [currentPropIndex, setCurrentPropIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Form submission logic will be added later with NextAuth
-  }
+  // Rotate value props every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true)
+      setTimeout(() => {
+        setCurrentPropIndex((prev) => (prev + 1) % VALUE_PROPS.length)
+        setIsTransitioning(false)
+      }, 300)
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#0a0a0f' }}>
-      {/* Background noise texture */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/%3E%3C/filter%3E%3Crect width="100" height="100" fill="white" filter="url(%23noise)"/%3E%3C/svg%3E")',
-          backgroundSize: '100px 100px',
-        }}
-      />
+    <div className="min-h-screen flex">
+      {/* Left Column - Dark */}
+      <div className="hidden lg:flex w-1/2 bg-[#0c0c0e] flex-col justify-between p-12">
+        {/* Logo and Value Prop */}
+        <div>
+          <h1 className="text-lg font-semibold text-white mb-16">
+            Write<span className="text-teal-400">Pro</span>
+          </h1>
 
-      <div
-        className="relative w-full max-w-sm p-10 border rounded"
-        style={{
-          backgroundColor: '#0f0f17',
-          borderColor: '#1e1e2e',
-          borderWidth: '1px',
-        }}
-      >
-        {/* Logo */}
-        <Link href="/" className="block text-center mb-8">
-          <p className="text-xl font-bold text-white">WritePro</p>
-        </Link>
-
-        {/* Headline */}
-        <h1 className="text-white text-2xl font-bold text-center mb-2">Welcome back</h1>
-
-        {/* Subtext */}
-        <p className="text-center text-gray-400 text-sm mb-8">Sign in to your account</p>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block text-white text-sm font-medium mb-2">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-              style={{
-                backgroundColor: '#0a0a0f',
-                borderColor: '#1e1e2e',
-                borderWidth: '1px',
-              }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
-              onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
-            />
+          {/* Rotating Value Prop */}
+          <div className="min-h-24">
+            <h2
+              className={`text-3xl font-light leading-tight text-white transition-all duration-300 ${
+                isTransitioning ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {VALUE_PROPS[currentPropIndex]}
+            </h2>
           </div>
+        </div>
 
-          {/* Password Field */}
-          <div>
-            <label htmlFor="password" className="block text-white text-sm font-medium mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-3 rounded text-white placeholder-gray-500 transition-colors"
-              style={{
-                backgroundColor: '#0a0a0f',
-                borderColor: '#1e1e2e',
-                borderWidth: '1px',
-              }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#6366f1')}
-              onBlur={(e) => (e.currentTarget.style.borderColor = '#1e1e2e')}
-            />
-          </div>
-
-          {/* Forgot Password Link */}
-          <div className="text-right">
-            <Link href="/forgot-password" className="text-sm" style={{ color: '#6366f1' }}>
-              Forgot password?
-            </Link>
-          </div>
-
-          {/* Sign In Button */}
-          <button
-            type="submit"
-            className="w-full py-3 rounded font-bold text-white text-sm transition-opacity hover:opacity-90"
-            style={{ backgroundColor: '#6366f1' }}
-          >
-            Sign In
-          </button>
-        </form>
-
-        {/* Divider */}
-        <div className="flex items-center gap-3 my-6">
-          <div className="flex-1 h-px" style={{ backgroundColor: '#1e1e2e' }} />
-          <span className="text-gray-400 text-xs">or</span>
-          <div className="flex-1 h-px" style={{ backgroundColor: '#1e1e2e' }} />
+        {/* Social Proof */}
+        <div className="space-y-4">
+          {SOCIAL_PROOF.map((proof, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-teal-400"></div>
+              <p className="text-slate-400 text-sm">{proof}</p>
+            </div>
+          ))}
         </div>
 
         {/* Sign Up Link */}
-        <p className="text-center text-gray-400 text-sm">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="transition-colors hover:opacity-80" style={{ color: '#6366f1' }}>
+        <div className="flex items-center gap-2 text-slate-400 text-sm">
+          <span>Don&apos;t have an account?</span>
+          <a href="/signup" className="text-teal-400 hover:text-teal-300 transition-colors">
             Sign up
-          </Link>
-        </p>
+          </a>
+        </div>
+      </div>
+
+      {/* Right Column - White with Clerk Form */}
+      <div className="w-full lg:w-1/2 bg-white flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          <SignIn
+            appearance={{
+              variables: {
+                colorPrimary: '#2dd4bf',
+                colorBackground: '#ffffff',
+                colorText: '#0c0c0e',
+                colorInputBackground: '#ffffff',
+                colorInputText: '#0c0c0e',
+                borderRadius: '6px',
+                fontFamily: 'inherit',
+              },
+              elements: {
+                formButtonPrimary:
+                  'bg-teal-400 text-slate-950 font-medium hover:brightness-110 transition-all duration-150 cursor-pointer',
+                card: 'shadow-none border border-slate-200 bg-white',
+                formFieldInput:
+                  'border border-slate-200 rounded-md focus:border-teal-400 focus:outline-none transition-colors',
+                formFieldLabel: 'text-slate-950 text-sm font-medium',
+                dividerLine: 'bg-slate-200',
+                dividerText: 'text-slate-400',
+                socialButtonsBlockButton:
+                  'border border-slate-200 rounded-md text-slate-950 hover:bg-slate-50 transition-colors',
+                headerTitle: 'text-2xl font-semibold text-slate-950',
+                headerSubtitle: 'text-slate-600 text-sm',
+              },
+            }}
+            redirectUrl="/dashboard"
+          />
+        </div>
       </div>
     </div>
   )

@@ -3,6 +3,8 @@
 import { ArrowUpRight } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useAuth } from '@clerk/nextjs'
+import Link from 'next/link'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import FAQ from '@/components/faq'
@@ -12,6 +14,7 @@ import { variants, containerVariants, containerVariantsSmall, easing } from '@/l
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const { isSignedIn } = useAuth()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -93,10 +96,13 @@ export default function Page() {
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.35 }}
             >
-              <button className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer">
+              <Link
+                href={isSignedIn ? '/dashboard' : '/signup'}
+                className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer"
+              >
                 <span>Start writing free</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
-              </button>
+              </Link>
               <button className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
                 See how it works →
               </button>
@@ -381,9 +387,12 @@ export default function Page() {
                   <span>Web editor only</span>
                 </div>
               </div>
-              <button className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 hover:bg-slate-800/50 transition-all cursor-pointer duration-150">
+              <Link
+                href={isSignedIn ? '/dashboard' : '/signup'}
+                className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 hover:bg-slate-800/50 transition-all cursor-pointer duration-150 block text-center"
+              >
                 Get started
-              </button>
+              </Link>
             </motion.div>
 
             {/* Pro Tier - Highlighted */}
@@ -431,9 +440,12 @@ export default function Page() {
                   <span>Priority email support</span>
                 </div>
               </div>
-              <button className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:brightness-110 transition-all cursor-pointer duration-150 font-medium">
+              <Link
+                href={isSignedIn ? '/dashboard' : '/signup'}
+                className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:brightness-110 transition-all cursor-pointer duration-150 font-medium block text-center"
+              >
                 Start free trial
-              </button>
+              </Link>
             </motion.div>
 
             {/* Enterprise Tier */}
