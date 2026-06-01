@@ -2,23 +2,16 @@
 
 import { ArrowUpRight } from 'lucide-react'
 import React from 'react'
+import Navbar from '@/components/navbar'
 
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
   return (
     <div className="bg-slate-950 min-h-screen text-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full backdrop-blur-md z-50">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="text-lg font-medium tracking-tight">WritePro</div>
-          <button className="px-4 py-2 text-sm font-medium bg-white text-slate-950 hover:bg-slate-100 transition-colors">
-            Get started
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-48 pb-24 px-6 md:px-0">
+      <section className="relative pt-32 pb-24 px-6 md:px-0">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)]">
           
           {/* Left Column: Copy */}
