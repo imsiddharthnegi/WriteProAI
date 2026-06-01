@@ -56,37 +56,104 @@ export default function Page() {
     }
   }, [isTouchDevice])
 
-  // Typewriter effect for hero word
+  // Magnetic button effect
   useEffect(() => {
-    const words = ['precision', 'confidence', 'clarity', 'speed']
-    let wordIndex = 0
-    let charIndex = 0
-    let isDeleting = false
+    if (isTouchDevice) return
 
-    const typewriterInterval = setInterval(() => {
-      const currentWord = words[wordIndex]
+    const buttons = document.querySelectorAll('[data-magnetic]')
+    
+    buttons.forEach((button) => {
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = (button as HTMLElement).getBoundingClientRect()
+        const centerX = rect.left + rect.width / 2
+        const centerY = rect.top + rect.height / 2
+        const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY)
 
-      if (!isDeleting) {
-        if (charIndex < currentWord.length) {
-          setTypewriterWord(currentWord.substring(0, charIndex + 1))
-          charIndex++
-        } else {
-          isDeleting = true
-          setTimeout(() => {}, 1000)
-        }
-      } else {
-        if (charIndex > 0) {
-          setTypewriterWord(currentWord.substring(0, charIndex - 1))
-          charIndex--
-        } else {
-          isDeleting = false
-          wordIndex = (wordIndex + 1) % words.length
+        if (distance < 80) {
+          const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX)
+          const moveX = Math.cos(angle) * (80 - distance) * 0.3
+          const moveY = Math.sin(angle) * (80 - distance) * 0.3
+          ;(button as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
+
+          const textElement = (button as HTMLElement).querySelector('[data-magnetic-text]')
+          if (textElement) {
+            const textMoveX = Math.cos(angle) * (80 - distance) * 0.15
+            const textMoveY = Math.sin(angle) * (80 - distance) * 0.15
+            ;(textElement as HTMLElement).style.transform = `translate(${textMoveX}px, ${textMoveY}px)`
+          }
         }
       }
-    }, isDeleting ? 50 : 100)
 
-    return () => clearInterval(typewriterInterval)
+      const handleMouseLeave = () => {
+        ;(button as HTMLElement).style.transform = 'translate(0, 0)'
+        const textElement = (button as HTMLElement).querySelector('[data-magnetic-text]')
+        if (textElement) {
+          ;(textElement as HTMLElement).style.transform = 'translate(0, 0)'
+        }
+      }
+
+      (button as HTMLElement).addEventListener('mousemove', handleMouseMove)
+      ;(button as HTMLElement).addEventListener('mouseleave', handleMouseLeave)
+
+      return () => {
+        ;(button as HTMLElement).removeEventListener('mousemove', handleMouseMove)
+        ;(button as HTMLElement).removeEventListener('mouseleave', handleMouseLeave)
+      }
+    })
+  }, [isTouchDevice])
+
+  // Feature card spotlight effect
+  useEffect(() => {
+    const cards = document.querySelectorAll('[data-spotlight]')
+
+    cards.forEach((card) => {
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = (card as HTMLElement).getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+        ;(card as HTMLElement).style.setProperty('--spotlight-x', `${x}px`)
+        ;(card as HTMLElement).style.setProperty('--spotlight-y', `${y}px`)
+      }
+
+      ;(card as HTMLElement).addEventListener('mousemove', handleMouseMove)
+
+      return () => {
+        ;(card as HTMLElement).removeEventListener('mousemove', handleMouseMove)
+      }
+    })
   }, [])
+
+  // Button ripple effect
+  useEffect(() => {
+    if (isTouchDevice) return
+
+    const buttons = document.querySelectorAll('[data-ripple]')
+
+    buttons.forEach((button) => {
+      const handleClick = (e: MouseEvent) => {
+        const rect = (button as HTMLElement).getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        const ripple = document.createElement('span')
+        ripple.className = 'ripple'
+        ripple.style.left = `${x}px`
+        ripple.style.top = `${y}px`
+        ;(button as HTMLElement).appendChild(ripple)
+
+        setTimeout(() => {
+          ripple.remove()
+        }, 500)
+      }
+
+      ;(button as HTMLElement).addEventListener('click', handleClick)
+
+      return () => {
+        ;(button as HTMLElement).removeEventListener('click', handleClick)
+      }
+    })
+  }, [isTouchDevice])
+
 
   useEffect(() => {
     // Check for prefers-reduced-motion
@@ -607,10 +674,10 @@ export default function Page() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/signup" className="px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity text-center">
-              Start Free Trial
+            <a href="/signup" data-magnetic className="px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity text-center">
+              <span data-magnetic-text>Start Free Trial</span>
             </a>
-            <a href="/dashboard" className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-accent/20 bg-transparent text-foreground font-medium hover:bg-accent/5 transition-colors">
+            <a href="/dashboard" data-ripple className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-accent/20 bg-transparent text-foreground font-medium hover:bg-accent/5 transition-colors">
               Watch Demo
               <ArrowUpRight size={18} />
             </a>
@@ -654,17 +721,7 @@ export default function Page() {
                 description: 'Monitor word count, project activity, and monthly limits in real time.'
               }
             ].map((feature, idx) => (
-              <div key={idx} data-spotlight-card className="relative p-8 bg-card hover:bg-card/80 transition-colors overflow-hidden">
-                <div
-                  data-spotlight
-                  className="absolute w-40 h-40 pointer-events-none opacity-0 transition-opacity duration-300"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(200, 240, 61, 0.15) 0%, transparent 70%)',
-                    left: 'var(--spotlight-x, -100px)',
-                    top: 'var(--spotlight-y, -100px)',
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                />
+              <div key={idx} data-spotlight className="relative p-8 bg-card hover:bg-card/80 transition-colors overflow-hidden">
                 <div className="relative z-10">
                   <h3 className="text-lg font-semibold text-foreground mb-3">{feature.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
@@ -829,11 +886,8 @@ export default function Page() {
                 )}
                 <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
                 <div className="mb-6 overflow-hidden h-16 flex items-center">
-                  <div
-                    key={`${billingPeriod}-${idx}`}
-                    className="animate-price-flip"
-                  >
-                    <span className="text-4xl font-bold text-foreground">${plan.monthlyEquivalent}</span>
+                  <div key={`${billingPeriod}-${idx}`} className="w-full">
+                    <span data-price-new className="inline-block text-4xl font-bold text-foreground">${plan.monthlyEquivalent}</span>
                     <span className="text-muted-foreground text-sm ml-2">/mo</span>
                     {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
                       <div className="text-xs text-muted-foreground mt-2">billed ${plan.price}/year</div>
@@ -842,7 +896,8 @@ export default function Page() {
                 </div>
                 <a
                   href="/signup"
-                  className={`w-full py-2 font-medium mb-8 transition-colors inline-block text-center text-sm ${
+                  data-ripple
+                  className={`w-full py-2 font-medium mb-8 transition-colors inline-block text-center text-sm relative ${
                     plan.highlighted
                       ? 'bg-accent text-accent-foreground hover:opacity-80'
                       : 'bg-card border border-border text-foreground hover:bg-muted'
@@ -893,7 +948,7 @@ export default function Page() {
             ].map((testimonial, idx) => (
               <div
                 key={idx}
-                data-testimonial-card
+                data-testimonial
                 className="p-8 relative overflow-hidden group transition-all duration-300"
                 style={{
                   background: 'rgba(26, 26, 26, 0.45)',
@@ -953,6 +1008,7 @@ export default function Page() {
             ].map((item, idx) => (
               <div key={idx} className="border border-border">
                 <button
+                  data-faq-question
                   onClick={() => setExpandedFAQ(expandedFAQ === idx ? null : idx)}
                   className="w-full p-4 text-left flex items-center justify-between bg-card hover:bg-card/80 transition-colors"
                 >
@@ -964,7 +1020,7 @@ export default function Page() {
                   />
                 </button>
                 {expandedFAQ === idx && (
-                  <div className="p-4 border-t border-border bg-background/50">
+                  <div data-faq-answer data-open='true' className="p-4 border-t border-border bg-background/50">
                     <p className="text-sm text-muted-foreground leading-relaxed">{item.a}</p>
                   </div>
                 )}
@@ -980,8 +1036,8 @@ export default function Page() {
         <div className="mx-auto max-w-3xl text-center relative z-10">
           <h2 className="font-serif text-4xl sm:text-5xl leading-tight mb-6">Ready to write better?</h2>
           <p className="text-muted-foreground text-base mb-8 max-w-[500px] mx-auto">Join thousands of professionals who are already improving their writing with WritePro.</p>
-          <a href="/signup" data-magnetic-button className="inline-block px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity" style={{ transitionDuration: '300ms' }}>
-            Start Your Free Trial
+          <a href="/signup" data-magnetic className="inline-block px-8 py-3 bg-accent text-accent-foreground font-medium hover:opacity-80 transition-opacity" style={{ transitionDuration: '300ms' }}>
+            <span data-magnetic-text>Start Your Free Trial</span>
           </a>
         </div>
       </section>

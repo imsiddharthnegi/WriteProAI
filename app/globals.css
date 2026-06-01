@@ -482,3 +482,147 @@ body::before {
     transition: none;
   }
 }
+
+/* Magnetic button transitions */
+[data-magnetic] {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-magnetic-text] {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Feature card spotlight */
+[data-spotlight] {
+  --spotlight-x: 0px;
+  --spotlight-y: 0px;
+  position: relative;
+}
+
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(200px circle at var(--spotlight-x) var(--spotlight-y), rgba(200,240,61,0.06), transparent);
+  border-radius: inherit;
+}
+
+/* Pricing toggle flip animation */
+@keyframes price-slide-up {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+}
+
+@keyframes price-slide-in {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+[data-price-old] {
+  animation: price-slide-up 180ms ease-out forwards;
+}
+
+[data-price-new] {
+  animation: price-slide-in 180ms ease-out forwards;
+  animation-delay: 80ms;
+}
+
+/* FAQ answer fade-in */
+[data-faq-answer] {
+  overflow: hidden;
+}
+
+[data-faq-answer][data-open='true'] {
+  animation: faq-fade-in 200ms ease-out 50ms forwards;
+}
+
+@keyframes faq-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[data-faq-question] {
+  transition: color 300ms ease-out;
+}
+
+/* Testimonial card shimmer */
+[data-testimonial]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(200,240,61,0.12), transparent);
+  pointer-events: none;
+}
+
+[data-testimonial]:hover::after {
+  animation: shimmer-sweep 600ms ease-in-out;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    left: -200%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+/* Button ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(200, 240, 61, 0.15);
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  pointer-events: none;
+  animation: ripple-animation 500ms ease-out forwards;
+}
+
+@keyframes ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-magnetic],
+  [data-magnetic-text],
+  [data-price-old],
+  [data-price-new],
+  [data-faq-question],
+  [data-testimonial]::after,
+  .ripple {
+    animation: none !important;
+    transition: none !important;
+  }
+}
