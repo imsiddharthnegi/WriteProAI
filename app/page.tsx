@@ -1,8 +1,10 @@
 'use client'
 
 import { ArrowUpRight } from 'lucide-react'
+import React from 'react'
 
 export default function Page() {
+  const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
   return (
     <div className="bg-slate-950 min-h-screen text-white">
       {/* Navigation */}
@@ -221,6 +223,182 @@ export default function Page() {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="bg-slate-950 py-24 px-6 md:px-0">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-16 max-w-3xl">
+            <div className="text-xs font-medium text-teal-400 uppercase tracking-widest mb-3">Pricing</div>
+            <h2 className="text-5xl md:text-6xl font-light leading-tight tracking-tight">
+              Simple, transparent pricing.
+            </h2>
+          </div>
+
+          {/* Billing Toggle */}
+          <div className="flex items-center gap-4 mb-16">
+            <div className="flex gap-1 p-1 bg-slate-900 rounded-full">
+              <button
+                onClick={() => setBillingPeriod('monthly')}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                  billingPeriod === 'monthly'
+                    ? 'bg-slate-800 text-white'
+                    : 'text-slate-400 hover:text-slate-300'
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setBillingPeriod('yearly')}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                  billingPeriod === 'yearly'
+                    ? 'bg-slate-800 text-white'
+                    : 'text-slate-400 hover:text-slate-300'
+                }`}
+              >
+                Yearly
+              </button>
+            </div>
+            {billingPeriod === 'yearly' && (
+              <span className="text-xs font-medium text-teal-400 bg-teal-950 px-3 py-1.5 rounded-full">
+                Save 20%
+              </span>
+            )}
+          </div>
+
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free Tier */}
+            <div className="flex flex-col bg-slate-900/50 border border-slate-800 p-8 min-h-[520px]">
+              <div className="mb-8">
+                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
+                <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-light">$0</span>
+                  <span className="text-slate-400 text-sm">/month</span>
+                </div>
+              </div>
+
+              <p className="text-slate-400 text-sm mb-8 flex-grow">
+                Get started with the essentials. Perfect for individual writers exploring WritePro.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>500 AI suggestions/month</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>3 writing modes</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Basic tone adjustment</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Web editor only</span>
+                </div>
+              </div>
+
+              <button className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 transition-colors">
+                Get started
+              </button>
+            </div>
+
+            {/* Pro Tier - Highlighted */}
+            <div className="flex flex-col bg-slate-900/50 border-l-4 border-l-teal-400 border border-l-4 border-slate-800 p-8 min-h-[520px] relative">
+              <div className="mb-8">
+                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
+                <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-light">
+                    ${billingPeriod === 'yearly' ? '86.40' : '9'}
+                  </span>
+                  <span className="text-slate-400 text-sm">/month</span>
+                </div>
+              </div>
+
+              <p className="text-slate-400 text-sm mb-8 flex-grow">
+                Everything in Free, plus advanced AI features and priority support.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Unlimited AI suggestions</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>All writing modes</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Advanced tone adjustment</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Desktop & mobile apps</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Priority email support</span>
+                </div>
+              </div>
+
+              <button className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:bg-slate-100 transition-colors font-medium">
+                Start free trial
+              </button>
+            </div>
+
+            {/* Enterprise Tier */}
+            <div className="flex flex-col bg-slate-900/50 border border-slate-800 p-8 min-h-[520px]">
+              <div className="mb-8">
+                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
+                <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-light">
+                    ${billingPeriod === 'yearly' ? '470' : '49'}
+                  </span>
+                  <span className="text-slate-400 text-sm">/month</span>
+                </div>
+              </div>
+
+              <p className="text-slate-400 text-sm mb-8 flex-grow">
+                For teams that need advanced security, analytics, and dedicated support.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Everything in Pro</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Team collaboration</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Advanced analytics</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Custom integrations</span>
+                </div>
+                <div className="flex gap-3 text-sm text-slate-300">
+                  <span className="text-slate-500">–</span>
+                  <span>Dedicated account manager</span>
+                </div>
+              </div>
+
+              <a href="#" className="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium inline-flex items-center gap-1">
+                Talk to us <span>→</span>
+              </a>
             </div>
           </div>
         </div>
