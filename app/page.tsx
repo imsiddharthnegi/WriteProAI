@@ -106,6 +106,125 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* Features Section */}
+      <section className="bg-white text-slate-950 py-24 px-6 md:px-0">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-20">
+            <div className="text-xs font-medium text-teal-600 uppercase tracking-widest mb-4">How it works</div>
+            <h2 className="text-5xl md:text-6xl font-light leading-tight tracking-tight max-w-2xl">
+              Powerful writing tools built for professionals.
+            </h2>
+          </div>
+
+          {/* Features Grid */}
+          <div className="space-y-0">
+            {/* Feature 1: AI Suggestions - Text on Left, UI on Right */}
+            <div className="border-b border-slate-200 py-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="flex flex-col justify-start space-y-4">
+                  <h3 className="text-2xl font-medium">AI Suggestions</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                    Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
+                  </p>
+                </div>
+                <div className="hidden md:flex flex-col justify-start pt-4">
+                  <div className="space-y-3 font-mono text-sm leading-relaxed">
+                    <p className="text-slate-700">The results were <span className="inline-block px-2 py-1 bg-slate-100 text-slate-900 rounded text-xs font-medium border border-slate-300">amazing</span></p>
+                    <div className="space-y-2 pl-4 border-l-2 border-slate-300">
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-teal-600">✓</span>
+                        <span>impressive · groundbreaking · remarkable</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <span className="text-teal-600">✓</span>
+                        <span>transformative · exceptional</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 2: Writing Modes - UI on Left, Text on Right */}
+            <div className="border-b border-slate-200 py-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="hidden md:flex flex-col justify-start pt-4 order-last">
+                  <div className="space-y-4">
+                    <div className="flex gap-2">
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-teal-600 text-teal-600">Blog</button>
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600">Email</button>
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600">Technical</button>
+                    </div>
+                    <div className="pt-2 text-slate-700 font-mono text-sm">
+                      <p>Automatically adapt your tone</p>
+                      <p>and style to match the format.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-start space-y-4 order-first md:order-none">
+                  <h3 className="text-2xl font-medium">Writing Modes</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                    Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 3: Tone Adjustment - Text on Left, UI on Right */}
+            <div className="border-b border-slate-200 py-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="flex flex-col justify-start space-y-4">
+                  <h3 className="text-2xl font-medium">Tone Adjustment</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                    Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
+                  </p>
+                </div>
+                <div className="hidden md:flex flex-col justify-start pt-4 space-y-4">
+                  <div className="space-y-2">
+                    <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Formal</div>
+                    <p className="text-slate-700 font-mono text-sm">We look forward to collaborating on this initiative.</p>
+                  </div>
+                  <div className="space-y-2 pt-4">
+                    <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Casual</div>
+                    <p className="text-slate-700 font-mono text-sm"><span className="bg-teal-100 text-teal-900 px-1">Let&apos;s team up</span> on this project!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 4: Usage Dashboard - UI on Left, Text on Right */}
+            <div className="py-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="hidden md:flex flex-col justify-start pt-4 order-last">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-600">Monthly usage</span>
+                        <span className="font-mono text-slate-900">47 / 100</span>
+                      </div>
+                      <div className="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                        <div className="w-[47%] h-full bg-teal-600"></div>
+                      </div>
+                    </div>
+                    <div className="pt-2 space-y-1 text-xs text-slate-500">
+                      <p>Resets in 18 days</p>
+                      <p className="text-teal-600 font-medium">Upgrade for unlimited</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-start space-y-4 order-first md:order-none">
+                  <h3 className="text-2xl font-medium">Usage Dashboard</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed max-w-md">
+                    Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
