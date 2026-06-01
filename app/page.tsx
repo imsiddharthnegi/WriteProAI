@@ -8,9 +8,234 @@ export default function Page() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const revealRefs = useRef<(HTMLElement | null)[]>([])
+  const [typewriterWord, setTypewriterWord] = useState('precision')
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const featureCardsRef = useRef<HTMLDivElement>(null)
+  const clearingScoreRef = useRef<SVGCircleElement>(null)
 
   useEffect(() => {
-    // Scroll reveal animation
+    // Detect touch device
+    setIsTouchDevice(() => {
+      return (
+        typeof window !== 'undefined' &&
+        (navigator.maxTouchPoints > 0 || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0)
+      )
+    })
+
+    // Custom cursor effect
+    if (!isTouchDevice && cursorRef.current) {
+      const handleMouseMove = (e: MouseEvent) => {
+        const x = e.clientX
+        const y = e.clientY
+        setCursorPos({ x, y })
+
+        if (cursorRef.current) {
+          const dx = x - cursorRef.current.offsetWidth / 2
+          const dy = y - cursorRef.current.offsetHeight / 2
+
+          requestAnimationFrame(() => {
+            if (cursorRef.current) {
+              cursorRef.current.style.transform = `translate(${dx}px, ${dy}px)`
+            }
+          })
+        }
+      }
+
+      window.addEventListener('mousemove', handleMouseMove)
+      return () => window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [isTouchDevice])
+
+  // Typewriter effect for hero word
+  useEffect(() => {
+    const words = ['precision', 'confidence', 'clarity', 'speed']
+    let wordIndex = 0
+    let charIndex = 0
+    let isDeleting = false
+
+    const typewriterInterval = setInterval(() => {
+      const currentWord = words[wordIndex]
+
+      if (!isDeleting) {
+        if (charIndex < currentWord.length) {
+          setTypewriterWord(currentWord.substring(0, charIndex + 1))
+          charIndex++
+        } else {
+          isDeleting = true
+          setTimeout(() => {}, 1000)
+        }
+      } else {
+        if (charIndex > 0) {
+          setTypewriterWord(currentWord.substring(0, charIndex - 1))
+          charIndex--
+        } else {
+          isDeleting = false
+          wordIndex = (wordIndex + 1) % words.length
+        }
+      }
+    }, isDeleting ? 50 : 100)
+
+    return () => clearInterval(typewriterInterval)
+  }, [])
+
+  // Editor demo animation on scroll into view
+  useEffect(() => {
+    if (!editorRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Trigger animations
+          const suggestionChip = editorRef.current?.querySelector('[data-suggestion-chip]')
+          const clarityRing = editorRef.current?.querySelector('[data-clarity-ring]')
+          const highlightedWord = editorRef.current?.querySelector('[data-highlighted-word]')
+
+          if (suggestionChip) {
+            setTimeout(() => {
+              suggestionChip.classList.add('animate-fade-in')
+            }, 800)
+          }
+
+          if (clarityRing) {
+            setTimeout(() => {
+              clarityRing.classList.add('animate-clarity-score')
+            }, 1200)
+          }
+
+          if (highlightedWord) {
+            setTimeout(() => {
+              highlightedWord.classList.add('animate-pulse')
+            }, 1400)
+          }
+
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(editorRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  // Feature cards spotlight effect
+  useEffect(() => {
+    if (!featureCardsRef.current) return
+
+    const cards = featureCardsRef.current.querySelectorAll('[data-spotlight-card]')
+
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', (e: Event) => {
+        const mouseEvent = e as MouseEvent
+        const rect = (card as HTMLElement).getBoundingClientRect()
+        const x = mouseEvent.clientX - rect.left
+        const y = mouseEvent.clientY - rect.top
+
+        const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
+        if (spotlight) {
+          spotlight.style.setProperty('--spotlight-x', `${x}px`)
+          spotlight.style.setProperty('--spotlight-y', `${y}px`)
+          spotlight.style.opacity = '1'
+        }
+      })
+
+      card.addEventListener('mouseleave', () => {
+        const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
+        if (spotlight) {
+          spotlight.style.opacity = '0'
+        }
+      })
+    })
+  }, [])
+
+  // Stat counter animation
+  useEffect(() => {
+    const stats = [
+      { target: 50000, label: 'Users', symbol: '+' },
+      { target: 4.9, label: 'Rating', symbol: '★' },
+      { target: 100, label: 'Speed (ms)', symbol: '<' },
+      { target: 99.9, label: 'Uptime %', symbol: '' }
+    ]
+
+    const statElements = document.querySelectorAll('[data-stat-value]')
+    let hasAnimated = false
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            hasAnimated = true
+            let animationFrame: number
+
+            const animate = (currentValue: number[], targetValues: number[]) => {
+              const increment = targetValues.map((t) => t / 50)
+              const startTime = Date.now()
+              const duration = 2000
+
+              const updateStats = () => {
+                const elapsed = Date.now() - startTime
+                const progress = Math.min(elapsed / duration, 1)
+
+                const newValues = targetValues.map((target, i) => {
+                  return currentValue[i] + (target - currentValue[i]) * progress
+                })
+
+                statElements.forEach((stat, i) => {
+                  const element = stat as HTMLElement
+                  const value = newValues[i]
+                  const formatted =
+                    i === 0 ? `${Math.round(value).toLocaleString()}` : value.toFixed(1)
+                  element.textContent = formatted
+                })
+
+                if (progress < 1) {
+                  animationFrame = requestAnimationFrame(updateStats)
+                }
+              }
+
+              animationFrame = requestAnimationFrame(updateStats)
+            }
+
+            const targetValues = [50, 4.9, 100, 99.9]
+            animate([0, 0, 0, 0], targetValues)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    const trustRow = document.querySelector('[data-trust-row]')
+    if (trustRow) {
+      observer.observe(trustRow)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  // Scroll progress bar
+  useEffect(() => {
+    const progressBar = document.querySelector('[data-scroll-progress]') as HTMLElement
+
+    const handleScroll = () => {
+      if (!progressBar) return
+
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const scrollTop = window.scrollY
+      const scrollPercent = (scrollTop / scrollHeight) * 100
+
+      progressBar.style.width = `${scrollPercent}%`
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Scroll reveal animation
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry, index) => {
@@ -35,6 +260,10 @@ export default function Page() {
     return () => observer.disconnect()
   }, [])
 
+  const handlePricingToggle = (period: 'monthly' | 'yearly') => {
+    setBillingPeriod(period)
+  }
+
   const addRef = (el: HTMLElement | null) => {
     if (el && !revealRefs.current.includes(el)) {
       revealRefs.current.push(el)
@@ -43,6 +272,22 @@ export default function Page() {
 
   return (
     <div className="bg-background text-foreground overflow-hidden">
+      {/* Custom Cursor */}
+      {!isTouchDevice && (
+        <div
+          ref={cursorRef}
+          className="fixed w-6 h-6 border-2 border-accent rounded-full pointer-events-none z-[9999] transition-transform duration-100"
+          style={{ mixBlendMode: 'multiply' }}
+        />
+      )}
+
+      {/* Scroll Progress Bar */}
+      <div
+        data-scroll-progress
+        className="fixed top-0 left-0 h-[2px] bg-accent z-[9998] transition-all"
+        style={{ width: '0%' }}
+      />
+
       {/* Sticky Nav */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -97,7 +342,11 @@ export default function Page() {
           {/* Headline */}
           <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl leading-tight tracking-tight mb-6">
             Write without<br />
-            <span className="italic text-accent font-light">second-guessing</span><br />
+            <span className="italic text-accent font-light">
+              {typewriterWord}
+              <span className="inline-block w-0.5 h-[1.2em] bg-accent ml-1 animate-pulse"></span>
+            </span>
+            <br />
             yourself.
           </h1>
 
@@ -105,21 +354,21 @@ export default function Page() {
           <div className="w-12 h-px bg-accent/30 my-8"></div>
 
           {/* Trust Row - 4 Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 w-full max-w-2xl my-12">
+          <div data-trust-row className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 w-full max-w-2xl my-12">
             <div className="flex flex-col items-center">
-              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1">50K+</div>
+              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1"><span data-stat-value>0</span>K+</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Users</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1">4.9★</div>
+              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1"><span data-stat-value>0</span>★</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Rating</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1">{`<`}100ms</div>
+              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1">{`<`}<span data-stat-value>0</span>ms</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Speed</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1">99.9%</div>
+              <div className="text-xl sm:text-2xl font-semibold text-accent mb-1"><span data-stat-value>0</span>%</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Uptime</div>
             </div>
           </div>
@@ -163,7 +412,7 @@ export default function Page() {
           </div>
 
           {/* Grid with gap border trick */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px] bg-border p-[2px]">
+          <div ref={featureCardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-[2px] bg-border p-[2px]">
             {[
               {
                 title: 'AI Suggestions',
@@ -178,9 +427,21 @@ export default function Page() {
                 description: 'Monitor word count, project activity, and monthly limits in real time.'
               }
             ].map((feature, idx) => (
-              <div key={idx} className="p-8 bg-card hover:bg-card/80 transition-colors">
-                <h3 className="text-lg font-semibold text-foreground mb-3">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+              <div key={idx} data-spotlight-card className="relative p-8 bg-card hover:bg-card/80 transition-colors overflow-hidden">
+                <div
+                  data-spotlight
+                  className="absolute w-40 h-40 pointer-events-none opacity-0 transition-opacity duration-300"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(200, 240, 61, 0.15) 0%, transparent 70%)',
+                    left: 'var(--spotlight-x, -100px)',
+                    top: 'var(--spotlight-y, -100px)',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                />
+                <div className="relative z-10">
+                  <h3 className="text-lg font-semibold text-foreground mb-3">{feature.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -196,7 +457,7 @@ export default function Page() {
           </div>
 
           {/* Mock Editor UI */}
-          <div className="bg-card border border-border rounded overflow-hidden shadow-2xl">
+          <div ref={editorRef} className="bg-card border border-border rounded overflow-hidden shadow-2xl">
             {/* Mac Window Header */}
             <div className="bg-muted px-4 py-3 flex items-center gap-2 border-b border-border">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -225,14 +486,14 @@ export default function Page() {
                   <div className="text-sm text-muted-foreground">Your document</div>
                   <div className="text-lg leading-relaxed">
                     <span className="text-foreground">The project is moving forward with </span>
-                    <span className="bg-accent/20 text-accent px-2 py-1 rounded text-sm font-medium">← Suggest: good progress</span>
+                    <span data-highlighted-word className="bg-accent/20 text-accent px-2 py-1 rounded text-sm font-medium">← Suggest: good progress</span>
                   </div>
                   <div className="text-lg leading-relaxed text-foreground">
                     incredible momentum this quarter.
                   </div>
 
                   {/* AI Suggestion Chip */}
-                  <div className="mt-6 p-3 bg-accent/10 border border-accent/30 rounded inline-block">
+                  <div data-suggestion-chip className="mt-6 p-3 bg-accent/10 border border-accent/30 rounded inline-block opacity-0">
                     <div className="text-xs text-accent font-semibold mb-1">AI Suggestion</div>
                     <div className="text-sm text-foreground">Consider: {`"tremendous momentum"`}</div>
                   </div>
@@ -242,7 +503,19 @@ export default function Page() {
                     <div className="relative w-16 h-16">
                       <svg className="w-full h-full" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="45" fill="none" stroke="#252525" strokeWidth="2" />
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="#c8f03d" strokeWidth="2" strokeDasharray={`${282 * 0.85} 282`} strokeLinecap="round" />
+                        <circle
+                          ref={clearingScoreRef}
+                          data-clarity-ring
+                          cx="50"
+                          cy="50"
+                          r="45"
+                          fill="none"
+                          stroke="#c8f03d"
+                          strokeWidth="2"
+                          strokeDasharray="282 282"
+                          strokeLinecap="round"
+                          style={{ strokeDashoffset: 282 }}
+                        />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-sm font-semibold text-accent">85%</span>
@@ -271,7 +544,7 @@ export default function Page() {
           {/* Billing Toggle */}
           <div className="flex justify-center gap-4 mb-12">
             <button
-              onClick={() => setBillingPeriod('monthly')}
+              onClick={() => handlePricingToggle('monthly')}
               className={`px-6 py-2 font-medium transition-colors text-sm ${
                 billingPeriod === 'monthly'
                   ? 'bg-accent text-accent-foreground'
@@ -281,7 +554,7 @@ export default function Page() {
               Monthly
             </button>
             <button
-              onClick={() => setBillingPeriod('yearly')}
+              onClick={() => handlePricingToggle('yearly')}
               className={`px-6 py-2 font-medium transition-colors text-sm ${
                 billingPeriod === 'yearly'
                   ? 'bg-accent text-accent-foreground'
@@ -329,12 +602,17 @@ export default function Page() {
                   </div>
                 )}
                 <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-foreground">${plan.monthlyEquivalent}</span>
-                  <span className="text-muted-foreground text-sm ml-2">/mo</span>
-                  {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
-                    <div className="text-xs text-muted-foreground mt-2">billed ${plan.price}/year</div>
-                  )}
+                <div className="mb-6 overflow-hidden h-16 flex items-center">
+                  <div
+                    key={`${billingPeriod}-${idx}`}
+                    className="animate-price-flip"
+                  >
+                    <span className="text-4xl font-bold text-foreground">${plan.monthlyEquivalent}</span>
+                    <span className="text-muted-foreground text-sm ml-2">/mo</span>
+                    {billingPeriod === 'yearly' && plan.monthlyEquivalent > 0 && (
+                      <div className="text-xs text-muted-foreground mt-2">billed ${plan.price}/year</div>
+                    )}
+                  </div>
                 </div>
                 <a
                   href="/signup"
