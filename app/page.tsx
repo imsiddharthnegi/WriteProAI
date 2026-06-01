@@ -129,35 +129,48 @@ export default function Page() {
     if (prefersReducedMotion || isTouchDevice) return
 
     const buttons = document.querySelectorAll('[data-magnetic-button]')
+    const handlers: Array<{ button: Element; handleMouseMove: (e: Event) => void; handleMouseLeave: () => void }> = []
     
     buttons.forEach((button) => {
       const handleMouseMove = (e: Event) => {
-        const mouseEvent = e as MouseEvent
-        const rect = (button as HTMLElement).getBoundingClientRect()
-        const centerX = rect.left + rect.width / 2
-        const centerY = rect.top + rect.height / 2
-        const distance = Math.hypot(mouseEvent.clientX - centerX, mouseEvent.clientY - centerY)
+        try {
+          const mouseEvent = e as MouseEvent
+          const rect = (button as HTMLElement).getBoundingClientRect()
+          const centerX = rect.left + rect.width / 2
+          const centerY = rect.top + rect.height / 2
+          const distance = Math.hypot(mouseEvent.clientX - centerX, mouseEvent.clientY - centerY)
 
-        if (distance < 60) {
-          const angle = Math.atan2(mouseEvent.clientY - centerY, mouseEvent.clientX - centerX)
-          const moveX = Math.cos(angle) * (60 - distance) * 0.3
-          const moveY = Math.sin(angle) * (60 - distance) * 0.3
-          ;(button as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
+          if (distance < 60) {
+            const angle = Math.atan2(mouseEvent.clientY - centerY, mouseEvent.clientX - centerX)
+            const moveX = Math.cos(angle) * (60 - distance) * 0.3
+            const moveY = Math.sin(angle) * (60 - distance) * 0.3
+            ;(button as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`
+          }
+        } catch (err) {
+          console.error('[v0] Magnetic button error:', err)
         }
       }
 
       const handleMouseLeave = () => {
-        ;(button as HTMLElement).style.transform = 'translate(0, 0)'
+        try {
+          ;(button as HTMLElement).style.transform = 'translate(0, 0)'
+        } catch (err) {
+          console.error('[v0] Magnetic button leave error:', err)
+        }
       }
 
       document.addEventListener('mousemove', handleMouseMove)
       button.addEventListener('mouseleave', handleMouseLeave)
+      
+      handlers.push({ button, handleMouseMove, handleMouseLeave })
+    })
 
-      return () => {
+    return () => {
+      handlers.forEach(({ button, handleMouseMove, handleMouseLeave }) => {
         document.removeEventListener('mousemove', handleMouseMove)
         button.removeEventListener('mouseleave', handleMouseLeave)
-      }
-    })
+      })
+    }
   }, [prefersReducedMotion, isTouchDevice])
 
   // Section divider animation
@@ -183,7 +196,7 @@ export default function Page() {
 
   // Active nav indicator
   useEffect(() => {
-    if (prefersReducedMotion) return
+    if (prefersReducedMotion || !navRef.current || !navIndicatorRef.current) return
 
     const sections = document.querySelectorAll('[data-nav-section]')
     
@@ -191,17 +204,21 @@ export default function Page() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const sectionId = entry.target.getAttribute('data-nav-section')
-            const navLink = document.querySelector(`[data-nav-link="${sectionId}"]`)
-            
-            if (navLink && navIndicatorRef.current) {
-              const rect = navLink.getBoundingClientRect()
-              const parentRect = navRef.current?.getBoundingClientRect()
+            try {
+              const sectionId = entry.target.getAttribute('data-nav-section')
+              const navLink = document.querySelector(`[data-nav-link="${sectionId}"]`)
               
-              if (parentRect) {
-                navIndicatorRef.current.style.left = `${rect.left - parentRect.left}px`
-                navIndicatorRef.current.style.width = `${rect.width}px`
+              if (navLink && navIndicatorRef.current && navRef.current) {
+                const rect = navLink.getBoundingClientRect()
+                const parentRect = navRef.current.getBoundingClientRect()
+                
+                if (parentRect) {
+                  navIndicatorRef.current.style.left = `${rect.left - parentRect.left}px`
+                  navIndicatorRef.current.style.width = `${rect.width}px`
+                }
               }
+            } catch (err) {
+              console.error('[v0] Nav indicator error:', err)
             }
           }
         })
@@ -215,21 +232,29 @@ export default function Page() {
 
   // Footer logo scatter animation
   useEffect(() => {
-    if (prefersReducedMotion || !footerLogoRef.current) return
+    if (prefersReducedMotion || isTouchDevice || !footerLogoRef.current) return
 
     const handleMouseEnter = () => {
-      const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
-      letters?.forEach((letter, i) => {
-        ;(letter as HTMLElement).style.animation = `scatter 0.6s ease-out forwards`
-        ;(letter as HTMLElement).style.animationDelay = `${i * 0.05}s`
-      })
+      try {
+        const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
+        letters?.forEach((letter, i) => {
+          ;(letter as HTMLElement).style.animation = `scatter 0.6s ease-out forwards`
+          ;(letter as HTMLElement).style.animationDelay = `${i * 0.05}s`
+        })
+      } catch (err) {
+        console.error('[v0] Footer scatter enter error:', err)
+      }
     }
 
     const handleMouseLeave = () => {
-      const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
-      letters?.forEach((letter) => {
-        ;(letter as HTMLElement).style.animation = 'none'
-      })
+      try {
+        const letters = footerLogoRef.current?.querySelectorAll('[data-letter]')
+        letters?.forEach((letter) => {
+          ;(letter as HTMLElement).style.animation = 'none'
+        })
+      } catch (err) {
+        console.error('[v0] Footer scatter leave error:', err)
+      }
     }
 
     if (footerLogoRef.current) {
@@ -286,112 +311,148 @@ export default function Page() {
     if (!featureCardsRef.current) return
 
     const cards = featureCardsRef.current.querySelectorAll('[data-spotlight-card]')
+    const handlers: Array<{ card: Element; handleMouseMove: (e: Event) => void; handleMouseLeave: () => void }> = []
 
     cards.forEach((card) => {
-      card.addEventListener('mousemove', (e: Event) => {
-        const mouseEvent = e as MouseEvent
-        const rect = (card as HTMLElement).getBoundingClientRect()
-        const x = mouseEvent.clientX - rect.left
-        const y = mouseEvent.clientY - rect.top
+      const handleMouseMove = (e: Event) => {
+        try {
+          const mouseEvent = e as MouseEvent
+          const rect = (card as HTMLElement).getBoundingClientRect()
+          const x = mouseEvent.clientX - rect.left
+          const y = mouseEvent.clientY - rect.top
 
-        const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
-        if (spotlight) {
-          spotlight.style.setProperty('--spotlight-x', `${x}px`)
-          spotlight.style.setProperty('--spotlight-y', `${y}px`)
-          spotlight.style.opacity = '1'
+          const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
+          if (spotlight) {
+            spotlight.style.setProperty('--spotlight-x', `${x}px`)
+            spotlight.style.setProperty('--spotlight-y', `${y}px`)
+            spotlight.style.opacity = '1'
+          }
+        } catch (err) {
+          console.error('[v0] Spotlight move error:', err)
         }
-      })
+      }
 
-      card.addEventListener('mouseleave', () => {
-        const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
-        if (spotlight) {
-          spotlight.style.opacity = '0'
+      const handleMouseLeave = () => {
+        try {
+          const spotlight = (card as HTMLElement).querySelector('[data-spotlight]') as HTMLElement
+          if (spotlight) {
+            spotlight.style.opacity = '0'
+          }
+        } catch (err) {
+          console.error('[v0] Spotlight leave error:', err)
         }
-      })
+      }
+
+      card.addEventListener('mousemove', handleMouseMove)
+      card.addEventListener('mouseleave', handleMouseLeave)
+      handlers.push({ card, handleMouseMove, handleMouseLeave })
     })
+
+    return () => {
+      handlers.forEach(({ card, handleMouseMove, handleMouseLeave }) => {
+        card.removeEventListener('mousemove', handleMouseMove)
+        card.removeEventListener('mouseleave', handleMouseLeave)
+      })
+    }
   }, [])
 
   // Stat counter animation
   useEffect(() => {
-    const stats = [
-      { target: 50000, label: 'Users', symbol: '+' },
-      { target: 4.9, label: 'Rating', symbol: '★' },
-      { target: 100, label: 'Speed (ms)', symbol: '<' },
-      { target: 99.9, label: 'Uptime %', symbol: '' }
-    ]
+    try {
+      const statElements = document.querySelectorAll('[data-stat-value]')
+      if (statElements.length === 0) return
 
-    const statElements = document.querySelectorAll('[data-stat-value]')
-    let hasAnimated = false
+      let hasAnimated = false
+      let animationFrame: number
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            hasAnimated = true
-            let animationFrame: number
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasAnimated) {
+              try {
+                hasAnimated = true
+                const startTime = Date.now()
+                const duration = 2000
+                const targetValues = [50, 4.9, 100, 99.9]
+                const currentValue = [0, 0, 0, 0]
 
-            const animate = (currentValue: number[], targetValues: number[]) => {
-              const increment = targetValues.map((t) => t / 50)
-              const startTime = Date.now()
-              const duration = 2000
+                const updateStats = () => {
+                  try {
+                    const elapsed = Date.now() - startTime
+                    const progress = Math.min(elapsed / duration, 1)
 
-              const updateStats = () => {
-                const elapsed = Date.now() - startTime
-                const progress = Math.min(elapsed / duration, 1)
+                    const newValues = targetValues.map((target, i) => {
+                      return currentValue[i] + (target - currentValue[i]) * progress
+                    })
 
-                const newValues = targetValues.map((target, i) => {
-                  return currentValue[i] + (target - currentValue[i]) * progress
-                })
+                    statElements.forEach((stat, i) => {
+                      const element = stat as HTMLElement
+                      if (element) {
+                        const value = newValues[i]
+                        const formatted = i === 0 ? `${Math.round(value).toLocaleString()}` : value.toFixed(1)
+                        element.textContent = formatted
+                      }
+                    })
 
-                statElements.forEach((stat, i) => {
-                  const element = stat as HTMLElement
-                  const value = newValues[i]
-                  const formatted =
-                    i === 0 ? `${Math.round(value).toLocaleString()}` : value.toFixed(1)
-                  element.textContent = formatted
-                })
-
-                if (progress < 1) {
-                  animationFrame = requestAnimationFrame(updateStats)
+                    if (progress < 1) {
+                      animationFrame = requestAnimationFrame(updateStats)
+                    }
+                  } catch (err) {
+                    console.error('[v0] Stat update error:', err)
+                  }
                 }
+
+                animationFrame = requestAnimationFrame(updateStats)
+                observer.unobserve(entry.target)
+              } catch (err) {
+                console.error('[v0] Stat animation error:', err)
               }
-
-              animationFrame = requestAnimationFrame(updateStats)
             }
+          })
+        },
+        { threshold: 0.1 }
+      )
 
-            const targetValues = [50, 4.9, 100, 99.9]
-            animate([0, 0, 0, 0], targetValues)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
+      const trustRow = document.querySelector('[data-trust-row]')
+      if (trustRow) {
+        observer.observe(trustRow)
+      }
 
-    const trustRow = document.querySelector('[data-trust-row]')
-    if (trustRow) {
-      observer.observe(trustRow)
+      return () => {
+        observer.disconnect()
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame)
+        }
+      }
+    } catch (err) {
+      console.error('[v0] Stat counter setup error:', err)
     }
-
-    return () => observer.disconnect()
   }, [])
 
   // Scroll progress bar
   useEffect(() => {
-    const progressBar = document.querySelector('[data-scroll-progress]') as HTMLElement
+    try {
+      const progressBar = document.querySelector('[data-scroll-progress]') as HTMLElement
 
-    const handleScroll = () => {
-      if (!progressBar) return
+      const handleScroll = () => {
+        try {
+          if (!progressBar) return
 
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollTop = window.scrollY
-      const scrollPercent = (scrollTop / scrollHeight) * 100
+          const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+          const scrollTop = window.scrollY
+          const scrollPercent = (scrollTop / scrollHeight) * 100
 
-      progressBar.style.width = `${scrollPercent}%`
+          progressBar.style.width = `${scrollPercent}%`
+        } catch (err) {
+          console.error('[v0] Scroll progress error:', err)
+        }
+      }
+
+      window.addEventListener('scroll', handleScroll)
+      return () => window.removeEventListener('scroll', handleScroll)
+    } catch (err) {
+      console.error('[v0] Scroll progress setup error:', err)
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Scroll reveal animation
