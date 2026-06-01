@@ -53,10 +53,10 @@ export default function EditorPage() {
             <button
               key={mode}
               onClick={() => setActiveMode(mode)}
-              className={`w-full text-left px-3 py-2 text-sm transition-colors relative border-l-2 ${
+              className={`w-full text-left px-3 py-2 text-sm transition-all duration-150 relative border-l-2 cursor-pointer ${
                 activeMode === mode
                   ? 'border-l-teal-400 text-slate-950 font-semibold'
-                  : 'border-l-transparent text-slate-500 hover:text-slate-700'
+                  : 'border-l-transparent text-slate-500 hover:text-white hover:border-l-teal-400/40 hover:bg-slate-50/50'
               }`}
             >
               {mode}
@@ -69,16 +69,16 @@ export default function EditorPage() {
       <main className="flex-1 flex flex-col bg-white border-r border-slate-200 max-w-[680px]">
         {/* Toolbar */}
         <div className="border-b border-slate-200 p-4 flex items-center gap-2 bg-white">
-          <button className="p-2 hover:bg-slate-100 rounded transition-colors" title="Bold">
+          <button className="p-2 hover:bg-slate-100 rounded transition-all duration-150 cursor-pointer" title="Bold">
             <Bold size={18} className="text-slate-600" />
           </button>
-          <button className="p-2 hover:bg-slate-100 rounded transition-colors" title="Italic">
+          <button className="p-2 hover:bg-slate-100 rounded transition-all duration-150 cursor-pointer" title="Italic">
             <Italic size={18} className="text-slate-600" />
           </button>
-          <button className="p-2 hover:bg-slate-100 rounded transition-colors" title="Heading 2">
+          <button className="p-2 hover:bg-slate-100 rounded transition-all duration-150 cursor-pointer" title="Heading 2">
             <Heading2 size={18} className="text-slate-600" />
           </button>
-          <button className="p-2 hover:bg-slate-100 rounded transition-colors" title="Bullet List">
+          <button className="p-2 hover:bg-slate-100 rounded transition-all duration-150 cursor-pointer" title="Bullet List">
             <List size={18} className="text-slate-600" />
           </button>
         </div>

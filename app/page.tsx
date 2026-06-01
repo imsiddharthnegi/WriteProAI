@@ -31,11 +31,11 @@ export default function Page() {
 
             {/* Buttons */}
             <div className="flex gap-4 pt-4">
-              <button className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:bg-slate-100 transition-colors">
+              <button className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer">
                 <span>Start writing free</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
               </button>
-              <button className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors">
+              <button className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
                 See how it works →
               </button>
             </div>
@@ -150,9 +150,9 @@ export default function Page() {
                 <div className="hidden md:flex flex-col justify-start pt-4 order-last">
                   <div className="space-y-4">
                     <div className="flex gap-2">
-                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-teal-600 text-teal-600">Blog</button>
-                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600">Email</button>
-                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600">Technical</button>
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-teal-600 text-teal-600 cursor-pointer transition-colors duration-150">Blog</button>
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600 cursor-pointer transition-colors duration-150">Email</button>
+                      <button className="px-3 py-2 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600 cursor-pointer transition-colors duration-150">Technical</button>
                     </div>
                     <div className="pt-2 text-slate-700 font-mono text-sm">
                       <p>Automatically adapt your tone</p>
@@ -239,7 +239,7 @@ export default function Page() {
             <div className="flex gap-1 p-1 bg-slate-900 rounded-full">
               <button
                 onClick={() => setBillingPeriod('monthly')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
                   billingPeriod === 'monthly'
                     ? 'bg-slate-800 text-white'
                     : 'text-slate-400 hover:text-slate-300'
@@ -249,7 +249,7 @@ export default function Page() {
               </button>
               <button
                 onClick={() => setBillingPeriod('yearly')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
                   billingPeriod === 'yearly'
                     ? 'bg-slate-800 text-white'
                     : 'text-slate-400 hover:text-slate-300'
@@ -268,7 +268,7 @@ export default function Page() {
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free Tier */}
-            <div className="flex flex-col bg-slate-900/50 border border-slate-800 p-8 min-h-[520px]">
+            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
@@ -301,13 +301,13 @@ export default function Page() {
                 </div>
               </div>
 
-              <button className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 transition-colors">
+              <button className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 hover:bg-slate-800/50 transition-all cursor-pointer duration-150">
                 Get started
               </button>
             </div>
 
             {/* Pro Tier - Highlighted */}
-            <div className="flex flex-col bg-slate-900/50 border-l-4 border-l-teal-400 border border-l-4 border-slate-800 p-8 min-h-[520px] relative">
+            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-4 border-l-teal-400 p-8 min-h-[520px] relative hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200">
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
@@ -346,13 +346,13 @@ export default function Page() {
                 </div>
               </div>
 
-              <button className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:bg-slate-100 transition-colors font-medium">
+              <button className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:brightness-110 transition-all cursor-pointer duration-150 font-medium">
                 Start free trial
               </button>
             </div>
 
             {/* Enterprise Tier */}
-            <div className="flex flex-col bg-slate-900/50 border border-slate-800 p-8 min-h-[520px]">
+            <div className="flex flex-col bg-slate-900/50 border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200">
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
@@ -391,8 +391,8 @@ export default function Page() {
                 </div>
               </div>
 
-              <a href="#" className="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium inline-flex items-center gap-1">
-                Talk to us <span>→</span>
+              <a href="#" className="text-teal-400 hover:text-teal-300 transition-colors text-sm font-medium inline-flex items-center gap-1 cursor-pointer group">
+                Talk to us <span className="group-hover:translate-x-0.5 transition-transform duration-150">→</span>
               </a>
             </div>
           </div>

@@ -65,7 +65,7 @@ export default function DashboardPage() {
               <button
                 key={item.id}
                 onClick={() => setActiveNav(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded transition-colors relative ${
+                className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded transition-colors relative cursor-pointer ${
                   isActive
                     ? 'text-white bg-slate-900'
                     : 'text-slate-400 hover:text-slate-300 hover:bg-slate-900/50'
@@ -142,7 +142,7 @@ export default function DashboardPage() {
           {/* Projects Table Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-slate-950">Projects</h2>
-            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium border border-slate-300 text-slate-950 hover:bg-slate-50 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium border border-slate-300 text-slate-950 hover:bg-slate-50 transition-colors cursor-pointer duration-150">
               <Plus size={16} />
               New Project
             </button>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
                 {projects.map((project, idx) => (
                   <tr
                     key={project.id}
-                    className={`border-b border-slate-200 hover:bg-[#f4f4f5] transition-colors ${
+                    className={`border-b border-slate-200 hover:bg-[#f4f4f5] transition-colors cursor-pointer ${
                       idx === projects.length - 1 ? 'border-b-0' : ''
                     }`}
                   >
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="text-slate-400 hover:text-slate-600 transition-colors">
+                      <button className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer duration-150">
                         <MoreHorizontal size={16} />
                       </button>
                     </td>

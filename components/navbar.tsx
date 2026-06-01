@@ -47,7 +47,7 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm text-slate-400 font-normal tracking-wide hover:text-white transition-colors relative group"
+                className="text-sm text-slate-400 font-normal tracking-wide hover:text-white transition-colors relative group cursor-pointer"
                 style={{ letterSpacing: '0.02em' }}
               >
                 {link.label}
@@ -60,11 +60,11 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             <a
               href="#"
-              className="text-sm text-slate-400 hover:text-white transition-colors"
+              className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
               Log in
             </a>
-            <button className="text-sm font-medium text-white bg-teal-400 hover:bg-teal-500 px-4 py-2 transition-colors" style={{ borderRadius: '6px' }}>
+            <button className="text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 transition-all duration-150 cursor-pointer" style={{ borderRadius: '6px' }}>
               Get Started
             </button>
           </div>
@@ -73,7 +73,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-white p-2 hover:bg-slate-900 rounded transition-colors"
+              className="text-white p-2 hover:bg-slate-900 rounded transition-colors cursor-pointer"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -89,7 +89,7 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="px-6 py-3 text-sm text-slate-400 hover:text-white hover:bg-slate-900 transition-colors min-h-[48px] flex items-center pointer-events-auto"
+                className="px-6 py-3 text-sm text-slate-400 hover:text-white hover:bg-slate-900 transition-colors min-h-[48px] flex items-center pointer-events-auto cursor-pointer"
               >
                 {link.label}
               </a>
@@ -97,11 +97,11 @@ export default function Navbar() {
             <div className="border-t border-[#1f1f23] px-6 py-3 space-y-3">
               <a
                 href="#"
-                className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center pointer-events-auto"
+                className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center pointer-events-auto cursor-pointer"
               >
                 Log in
               </a>
-              <button className="w-full text-sm font-medium text-white bg-teal-400 hover:bg-teal-500 px-4 py-2 min-h-[48px] transition-colors pointer-events-auto" style={{ borderRadius: '6px' }}>
+              <button className="w-full text-sm font-medium text-white bg-teal-400 hover:brightness-110 px-4 py-2 min-h-[48px] transition-all duration-150 pointer-events-auto cursor-pointer" style={{ borderRadius: '6px' }}>
                 Get Started
               </button>
             </div>

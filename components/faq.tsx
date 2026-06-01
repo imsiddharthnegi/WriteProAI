@@ -68,9 +68,9 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                  className="w-full py-6 flex items-center justify-between hover:bg-slate-50/50 transition-colors"
+                  className="w-full py-6 flex items-center justify-between hover:bg-slate-50/50 transition-colors cursor-pointer"
                 >
-                  <h3 className="text-left text-base font-medium text-slate-950 max-w-md">
+                  <h3 className="text-left text-base font-medium text-slate-950 hover:text-teal-600 transition-colors duration-150 max-w-md">
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 ml-4">

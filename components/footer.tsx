@@ -21,7 +21,7 @@ export default function Footer() {
               href="https://github.com/imsiddharthnegi"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-500 hover:text-teal-400 transition-colors inline-block"
+              className="text-slate-500 hover:text-teal-400 hover:scale-110 transition-all duration-150 inline-block cursor-pointer"
               aria-label="GitHub"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -39,7 +39,7 @@ export default function Footer() {
                 href="https://siddharthnegi.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-teal-400 transition-colors"
+                className="text-slate-400 hover:text-teal-400 hover:underline transition-all duration-150 cursor-pointer"
               >
                 Siddharth Negi
               </a>
@@ -63,7 +63,7 @@ export default function Footer() {
               href="https://github.com/imsiddharthnegi"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-500 hover:text-teal-400 transition-colors inline-block"
+              className="text-slate-500 hover:text-teal-400 hover:scale-110 transition-all duration-150 inline-block cursor-pointer"
               aria-label="GitHub"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -81,7 +81,7 @@ export default function Footer() {
                 href="https://siddharthnegi.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-teal-400 transition-colors"
+                className="text-slate-400 hover:text-teal-400 hover:underline transition-all duration-150 cursor-pointer"
               >
                 Siddharth Negi
               </a>
