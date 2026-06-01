@@ -4,6 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 import React from 'react'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import FAQ from '@/components/faq'
 
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
@@ -484,6 +485,9 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Footer */}
       <Footer />
