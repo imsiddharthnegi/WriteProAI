@@ -1,11 +1,26 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, Suspense } from 'next/navigation'
 import DashboardSidebar from '@/components/dashboard-sidebar'
 import DemoBanner from '@/components/demo-banner'
 import WriterEditor from '@/components/writer-editor'
 
+// Disable static generation for this page (requires auth)
+export const dynamic = 'force-dynamic'
+
 export default function WriteIdPage() {
+  // Guard: Show unavailable message if Clerk isn't configured
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY === 'your_publishable_key_here') {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#0a0a0f] text-white">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Editor Unavailable</h2>
+          <p className="text-slate-400">Please configure Clerk authentication to use the editor.</p>
+        </div>
+      </div>
+    )
+  }
+
   const params = useParams()
   const projectId = params.id as string
 

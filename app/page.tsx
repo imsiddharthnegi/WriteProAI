@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowUpRight } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@clerk/nextjs'
 import Link from 'next/link'

@@ -1,8 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
+
+// Disable static generation for this page (requires auth)
+export const dynamic = 'force-dynamic'
 
 export default function OnboardingPage() {
   const { userId, isLoaded } = useAuth()

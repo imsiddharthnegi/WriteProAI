@@ -94,7 +94,7 @@ export default function WriterEditor({ projectId }: WriterEditorProps) {
 
   // Load project data on mount
   useEffect(() => {
-    if (!userId || !projectId) return
+    if (!userId || !projectId || !supabase) return
 
     async function loadProject() {
       try {
@@ -112,7 +112,7 @@ export default function WriterEditor({ projectId }: WriterEditorProps) {
           setWordCount(calculateWordCount(data.content || ''))
         }
       } catch (error) {
-        console.error('Error loading project:', error)
+        console.error('[WritePro] Error loading project:', error)
       } finally {
         setLoading(false)
       }
@@ -147,7 +147,7 @@ export default function WriterEditor({ projectId }: WriterEditorProps) {
   // Debounced save to Supabase
   const saveToSupabase = useCallback(
     async (newTitle: string, newContent: string, newMode: string) => {
-      if (!userId || !projectId) return
+      if (!userId || !projectId || !supabase) return
 
       try {
         const newWordCount = calculateWordCount(newContent)
@@ -165,11 +165,11 @@ export default function WriterEditor({ projectId }: WriterEditorProps) {
 
         setSaveStatus('All changes saved ✓')
       } catch (error) {
-        console.error('Error saving project:', error)
+        console.error('[WritePro] Error saving project:', error)
         setSaveStatus('Save failed — retrying')
       }
     },
-    [userId, projectId, calculateWordCount]
+    [userId, projectId, calculateWordCount, supabase]
   )
 
   // Handle content change with debounced save

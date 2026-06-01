@@ -1,11 +1,14 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { Plus, MoreHorizontal, Home, FileText, BarChart3, Users, Settings, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatDistanceToNow } from 'date-fns'
+
+// Disable static generation for this page (requires auth)
+export const dynamic = 'force-dynamic'
 
 interface User {
   id: string
@@ -34,6 +37,24 @@ export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Guard: Show loading screen if Clerk isn't configured
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY === 'your_publishable_key_here') {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#0c0c0e] text-white">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Dashboard Unavailable</h2>
+          <p className="text-slate-400">Please configure Clerk authentication to access the dashboard.</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Guard: Redirect to login if not authenticated
+  if (isLoaded && !userId) {
+    router.push('/login')
+    return null
+  }
+
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'projects', label: 'Projects', icon: FileText },
@@ -44,6 +65,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!isLoaded || !userId) return
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
 
     async function fetchData() {
       try {
@@ -60,17 +85,17 @@ export default function DashboardPage() {
         setUserData(user)
         setProjects(projectList || [])
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('[WritePro] Error fetching data:', error)
       } finally {
         setLoading(false)
       }
     }
 
     fetchData()
-  }, [userId, isLoaded])
+  }, [userId, isLoaded, supabase])
 
   const handleNewProject = async () => {
-    if (!userId) return
+    if (!userId || !supabase) return
 
     try {
       const { data, error } = await supabase
@@ -95,12 +120,13 @@ export default function DashboardPage() {
 
   const handleDeleteProject = async (projectId: string) => {
     if (!window.confirm('Delete this project? This cannot be undone.')) return
+    if (!supabase) return
 
     try {
       await supabase.from('projects').delete().eq('id', projectId).eq('user_id', userId)
       setProjects(projects.filter(p => p.id !== projectId))
     } catch (error) {
-      console.error('Error deleting project:', error)
+      console.error('[WritePro] Error deleting project:', error)
     }
   }
 

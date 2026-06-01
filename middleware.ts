@@ -6,6 +6,13 @@ const isPublicRoute = createRouteMatcher([
   '/features',
   '/signup(.*)',
   '/login(.*)',
+  '/onboarding(.*)',
+  '/api/suggestions',
+  '/api/user/sync',
+  '/_next(.*)',
+  '/favicon.ico',
+  '/icon(.*)',
+  '/apple-icon(.*)',
 ])
 
 export default clerkMiddleware((auth, request) => {
