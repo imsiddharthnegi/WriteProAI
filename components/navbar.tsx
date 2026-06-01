@@ -27,7 +27,7 @@ export default function Navbar() {
     <>
       {/* Main Navbar */}
       <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-200 ease-in-out ${
+        className={`fixed top-0 w-full z-50 transition-all duration-200 ease-in-out pointer-events-auto ${
           isScrolled
             ? 'bg-[#0c0c0e] backdrop-blur-md border-b border-[#1f1f23]'
             : 'bg-transparent'
@@ -83,13 +83,13 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed top-16 left-0 right-0 bg-[#0c0c0e] border-b border-[#1f1f23] z-40 md:hidden">
+        <div className="fixed top-16 left-0 right-0 bg-[#0c0c0e] border-b border-[#1f1f23] z-40 md:hidden pointer-events-auto">
           <div className="flex flex-col">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="px-6 py-3 text-sm text-slate-400 hover:text-white hover:bg-slate-900 transition-colors min-h-[48px] flex items-center"
+                className="px-6 py-3 text-sm text-slate-400 hover:text-white hover:bg-slate-900 transition-colors min-h-[48px] flex items-center pointer-events-auto"
               >
                 {link.label}
               </a>
@@ -97,11 +97,11 @@ export default function Navbar() {
             <div className="border-t border-[#1f1f23] px-6 py-3 space-y-3">
               <a
                 href="#"
-                className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center"
+                className="block text-sm text-slate-400 hover:text-white transition-colors min-h-[48px] flex items-center pointer-events-auto"
               >
                 Log in
               </a>
-              <button className="w-full text-sm font-medium text-white bg-teal-400 hover:bg-teal-500 px-4 py-2 min-h-[48px] transition-colors" style={{ borderRadius: '6px' }}>
+              <button className="w-full text-sm font-medium text-white bg-teal-400 hover:bg-teal-500 px-4 py-2 min-h-[48px] transition-colors pointer-events-auto" style={{ borderRadius: '6px' }}>
                 Get Started
               </button>
             </div>

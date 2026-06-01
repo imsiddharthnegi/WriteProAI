@@ -144,7 +144,7 @@ body::before {
   height: 2px;
   width: 0%;
   background: #c8f03d;
-  z-index: 9999;
+  z-index: 40;
   transition: width 100ms ease-out;
 }
 
@@ -455,7 +455,7 @@ body::before {
   height: 2px;
   width: 0%;
   background: #c8f03d;
-  z-index: 9999;
+  z-index: 40;
   transition: width 100ms ease-out;
 }
 
@@ -642,7 +642,7 @@ body {
   background: #c8f03d;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 1;
   transform: translate(-50%, -50%);
   transition: opacity 200ms ease;
 }
@@ -654,7 +654,7 @@ body {
   border: 2px solid #c8f03d;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9997;
+  z-index: 1;
   transform: translate(-50%, -50%);
   transition: width 300ms ease, height 300ms ease, border-width 300ms ease;
 }
