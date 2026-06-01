@@ -1,43 +1,38 @@
 'use client'
 
-import React from 'react'
-import { Plus, MoreHorizontal, Home, FileText, BarChart3, Users, Settings } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import { Plus, MoreHorizontal, Home, FileText, BarChart3, Users, Settings, Trash2 } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { formatDistanceToNow } from 'date-fns'
 
-const projects = [
-  {
-    id: 1,
-    name: 'Q4 Marketing Campaign',
-    words: '12,450',
-    lastEdited: '2 hours ago',
-    mode: 'Blog',
-  },
-  {
-    id: 2,
-    name: 'Product Launch Email',
-    words: '3,200',
-    lastEdited: '1 day ago',
-    mode: 'Email',
-  },
-  {
-    id: 3,
-    name: 'Technical Documentation',
-    words: '28,900',
-    lastEdited: '3 days ago',
-    mode: 'Technical',
-  },
-  {
-    id: 4,
-    name: 'Social Media Copy',
-    words: '1,850',
-    lastEdited: '5 days ago',
-    mode: 'Blog',
-  },
-]
+interface User {
+  id: string
+  email: string
+  full_name: string
+  plan: string
+  words_used: number
+  words_limit: number
+}
+
+interface Project {
+  id: string
+  name: string
+  word_count: number
+  last_edited: string
+  mode: string
+  user_id: string
+}
 
 export default function DashboardPage() {
-  const [activeNav, setActiveNav] = React.useState('dashboard')
-  const usedWords = 45400
-  const totalWords = 100000
+  const { userId, isLoaded } = useAuth()
+  const router = useRouter()
+  const supabase = createClient()
+  const [activeNav, setActiveNav] = useState('dashboard')
+  const [userData, setUserData] = useState<User | null>(null)
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -46,6 +41,76 @@ export default function DashboardPage() {
     { id: 'team', label: 'Team', icon: Users },
     { id: 'settings', label: 'Settings', icon: Settings },
   ]
+
+  useEffect(() => {
+    if (!isLoaded || !userId) return
+
+    async function fetchData() {
+      try {
+        const [{ data: user }, { data: projectList }] = await Promise.all([
+          supabase.from('users').select('*').eq('id', userId).single(),
+          supabase
+            .from('projects')
+            .select('*')
+            .eq('user_id', userId)
+            .order('last_edited', { ascending: false })
+            .limit(10),
+        ])
+
+        setUserData(user)
+        setProjects(projectList || [])
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [userId, isLoaded])
+
+  const handleNewProject = async () => {
+    if (!userId) return
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .insert({
+          user_id: userId,
+          name: 'Untitled',
+          content: '',
+          word_count: 0,
+          mode: 'blog',
+        })
+        .select()
+        .single()
+
+      if (!error && data) {
+        router.push(`/dashboard/write/${data.id}`)
+      }
+    } catch (error) {
+      console.error('Error creating project:', error)
+    }
+  }
+
+  const handleDeleteProject = async (projectId: string) => {
+    if (!window.confirm('Delete this project? This cannot be undone.')) return
+
+    try {
+      await supabase.from('projects').delete().eq('id', projectId).eq('user_id', userId)
+      setProjects(projects.filter(p => p.id !== projectId))
+    } catch (error) {
+      console.error('Error deleting project:', error)
+    }
+  }
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>
+  }
+
+  const firstName = userData?.full_name?.split(' ')[0] || 'User'
+  const usedWords = userData?.words_used || 0
+  const totalWords = userData?.words_limit || 10000
 
   return (
     <div className="flex h-screen bg-white">
@@ -84,12 +149,12 @@ export default function DashboardPage() {
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-teal-600" />
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold text-white truncate">John Doe</div>
-              <div className="text-xs text-slate-500">john@example.com</div>
+              <div className="text-xs font-semibold text-white truncate">{userData?.full_name || 'User'}</div>
+              <div className="text-xs text-slate-500">{userData?.email}</div>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-2 py-1 bg-slate-900 rounded text-xs font-medium text-teal-400">
-            Pro Plan
+          <div className="flex items-center gap-2 px-2 py-1 bg-slate-900 rounded text-xs font-medium text-teal-400 capitalize">
+            {userData?.plan || 'free'} Plan
           </div>
           <button className="w-full text-xs font-medium text-teal-400 hover:text-teal-300 py-2 border border-teal-400/20 rounded hover:border-teal-400/40 transition-colors">
             Upgrade
@@ -103,30 +168,30 @@ export default function DashboardPage() {
           {/* Greeting */}
           <div className="mb-12">
             <h1 className="font-serif text-5xl font-light text-slate-950 mb-2">
-              Good morning, John
+              Good morning, {firstName}
             </h1>
-            <p className="text-sm text-slate-500">Tuesday, November 21, 2024</p>
+            <p className="text-sm text-slate-500">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
           </div>
 
           {/* Stats Row */}
           <div className="grid grid-cols-3 gap-8 mb-16">
             {/* Suggestions Used */}
             <div className="border-b-2 border-b-teal-400 pb-4">
-              <div className="text-3xl font-light text-slate-950 mb-1">1,247</div>
+              <div className="text-3xl font-light text-slate-950 mb-1">—</div>
               <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Suggestions Used</div>
             </div>
 
             {/* Words Improved */}
             <div className="border-b-2 border-b-teal-400 pb-4">
-              <div className="text-3xl font-light text-slate-950 mb-1">45,892</div>
+              <div className="text-3xl font-light text-slate-950 mb-1">—</div>
               <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Words Improved</div>
             </div>
 
             {/* Words Used (with inline progress bar) */}
             <div className="border-b-2 border-b-teal-400 pb-4">
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-3xl font-light text-slate-950">45.4K</span>
-                <span className="text-xs text-slate-500">/100K</span>
+                <span className="text-3xl font-light text-slate-950">{(usedWords / 1000).toFixed(1)}K</span>
+                <span className="text-xs text-slate-500">/{(totalWords / 1000).toFixed(0)}K</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex-1 h-1 bg-slate-200 rounded-full overflow-hidden">
@@ -142,50 +207,68 @@ export default function DashboardPage() {
           {/* Projects Table Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-slate-950">Projects</h2>
-            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium border border-slate-300 text-slate-950 hover:bg-slate-50 transition-colors cursor-pointer duration-150">
+            <button
+              onClick={handleNewProject}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium border border-slate-300 text-slate-950 hover:bg-slate-50 transition-colors cursor-pointer duration-150"
+            >
               <Plus size={16} />
               New Project
             </button>
           </div>
 
           {/* Projects Table */}
-          <div className="border border-slate-200">
-            <table className="w-full">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Words</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Last Edited</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Mode</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {projects.map((project, idx) => (
-                  <tr
-                    key={project.id}
-                    className={`border-b border-slate-200 hover:bg-[#f4f4f5] transition-colors cursor-pointer ${
-                      idx === projects.length - 1 ? 'border-b-0' : ''
-                    }`}
-                  >
-                    <td className="px-6 py-4 text-sm text-slate-950 font-medium">{project.name}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{project.words}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600">{project.lastEdited}</td>
-                    <td className="px-6 py-4">
-                      <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1">
-                        {project.mode}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <button className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer duration-150">
-                        <MoreHorizontal size={16} />
-                      </button>
-                    </td>
+          {projects.length > 0 ? (
+            <div className="border border-slate-200">
+              <table className="w-full">
+                <thead className="bg-slate-50 border-b border-slate-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Words</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Last Edited</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Mode</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-950 uppercase tracking-widest">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {projects.map((project, idx) => (
+                    <tr
+                      key={project.id}
+                      className={`border-b border-slate-200 hover:bg-[#f4f4f5] transition-colors cursor-pointer ${
+                        idx === projects.length - 1 ? 'border-b-0' : ''
+                      }`}
+                      onClick={() => router.push(`/dashboard/write/${project.id}`)}
+                    >
+                      <td className="px-6 py-4 text-sm text-slate-950 font-medium">{project.name}</td>
+                      <td className="px-6 py-4 text-sm text-slate-600">{project.word_count.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm text-slate-600">
+                        {formatDistanceToNow(new Date(project.last_edited), { addSuffix: true })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 capitalize">
+                          {project.mode}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteProject(project.id)
+                          }}
+                          className="text-slate-400 hover:text-red-500 transition-colors cursor-pointer duration-150"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="border border-slate-200 p-12 text-center">
+              <p className="text-slate-500 text-sm">No projects yet. Create one to get started!</p>
+            </div>
+          )}
         </div>
       </main>
     </div>

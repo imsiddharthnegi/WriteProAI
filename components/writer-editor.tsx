@@ -1,16 +1,11 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import { useAuth } from '@clerk/nextjs'
 import { Download } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
-const WRITING_MODES = [
-  'Blog Post',
-  'Product Description',
-  'Social Media',
-  'Email',
-  'Technical Article',
-  'Creative Writing'
-]
+const WRITING_MODES = ['blog', 'email', 'technical', 'creative', 'social']
 
 const MOCK_SUGGESTIONS = [
   {
@@ -30,15 +25,23 @@ const MOCK_SUGGESTIONS = [
   }
 ]
 
-export default function WriterEditor() {
+interface WriterEditorProps {
+  projectId: string
+}
+
+export default function WriterEditor({ projectId }: WriterEditorProps) {
+  const { userId } = useAuth()
+  const supabase = createClient()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [writingMode, setWritingMode] = useState('Blog Post')
+  const [writingMode, setWritingMode] = useState('blog')
   const [wordCount, setWordCount] = useState(0)
-  const [saveStatus, setSaveStatus] = useState('All changes saved')
+  const [saveStatus, setSaveStatus] = useState('All changes saved ✓')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [loadingSuggestions, setLoadingSuggestions] = useState(false)
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [loading, setLoading] = useState(true)
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null)
 
   // Calculate word count
   const calculateWordCount = useCallback((text: string) => {
@@ -49,52 +52,107 @@ export default function WriterEditor() {
     return words.length
   }, [])
 
+  // Load project data on mount
+  useEffect(() => {
+    if (!userId || !projectId) return
+
+    async function loadProject() {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('id', projectId)
+          .eq('user_id', userId)
+          .single()
+
+        if (!error && data) {
+          setTitle(data.name)
+          setContent(data.content || '')
+          setWritingMode(data.mode || 'blog')
+          setWordCount(calculateWordCount(data.content || ''))
+        }
+      } catch (error) {
+        console.error('Error loading project:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProject()
+  }, [userId, projectId])
+
   // Update word count when content changes
   useEffect(() => {
     const count = calculateWordCount(content)
     setWordCount(count)
   }, [content, calculateWordCount])
 
-  // Handle content change with save status
+  // Debounced save to Supabase
+  const saveToSupabase = useCallback(
+    async (newTitle: string, newContent: string, newMode: string) => {
+      if (!userId || !projectId) return
+
+      try {
+        const newWordCount = calculateWordCount(newContent)
+        await supabase
+          .from('projects')
+          .update({
+            name: newTitle,
+            content: newContent,
+            word_count: newWordCount,
+            mode: newMode,
+            last_edited: new Date().toISOString(),
+          })
+          .eq('id', projectId)
+          .eq('user_id', userId)
+
+        setSaveStatus('All changes saved ✓')
+      } catch (error) {
+        console.error('Error saving project:', error)
+        setSaveStatus('Save failed — retrying')
+      }
+    },
+    [userId, projectId, calculateWordCount]
+  )
+
+  // Handle content change with debounced save
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
     setSaveStatus('Saving...')
 
-    // Clear existing timeout
-    if (saveTimeout) {
-      clearTimeout(saveTimeout)
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current)
     }
 
-    // Set new timeout for save status
-    const newTimeout = setTimeout(() => {
-      setSaveStatus('All changes saved')
-    }, 1500)
-
-    setSaveTimeout(newTimeout)
+    debounceTimer.current = setTimeout(() => {
+      saveToSupabase(title, e.target.value, writingMode)
+    }, 1000)
   }
 
-  // Handle title change with save status
+  // Handle title change with save
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
     setSaveStatus('Saving...')
 
-    // Clear existing timeout
-    if (saveTimeout) {
-      clearTimeout(saveTimeout)
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current)
     }
 
-    // Set new timeout for save status
-    const newTimeout = setTimeout(() => {
-      setSaveStatus('All changes saved')
-    }, 1500)
+    debounceTimer.current = setTimeout(() => {
+      saveToSupabase(e.target.value, content, writingMode)
+    }, 1000)
+  }
 
-    setSaveTimeout(newTimeout)
+  // Handle mode change with immediate save
+  const handleModeChange = (newMode: string) => {
+    setWritingMode(newMode)
+    setSaveStatus('Saving...')
+    saveToSupabase(title, content, newMode)
   }
 
   // Handle get suggestions button click
   const handleGetSuggestions = () => {
     setLoadingSuggestions(true)
-    // Simulate loading for 1.5 seconds
     setTimeout(() => {
       setLoadingSuggestions(false)
       setShowSuggestions(true)
@@ -111,6 +169,10 @@ export default function WriterEditor() {
 
   // Show get suggestions button when word count exceeds 50
   const showGetSuggestionsButton = wordCount > 50
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen text-white">Loading...</div>
+  }
 
   return (
     <div className="flex h-screen bg-[#0a0a0f]">
@@ -130,12 +192,12 @@ export default function WriterEditor() {
           <div className="mb-6">
             <select
               value={writingMode}
-              onChange={(e) => setWritingMode(e.target.value)}
+              onChange={(e) => handleModeChange(e.target.value)}
               className="w-full md:w-48 bg-[#0f0f17] border border-[#1e1e2e] text-white rounded px-3 py-2 text-sm focus:outline-none focus:border-[#1e1e2e]"
             >
               {WRITING_MODES.map((mode) => (
                 <option key={mode} value={mode}>
-                  {mode}
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
                 </option>
               ))}
             </select>
