@@ -3,7 +3,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import React, { useEffect, useState, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import { useAuth } from '@clerk/nextjs'
 import Link from 'next/link'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
@@ -14,7 +13,6 @@ import { variants, containerVariants, containerVariantsSmall, easing } from '@/l
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const { isSignedIn } = useAuth()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -97,7 +95,7 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing, delay: 0.35 }}
             >
               <Link
-                href={isSignedIn ? '/dashboard' : '/signup'}
+                href="/signup"
                 className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer"
               >
                 <span>Start writing free</span>
@@ -388,7 +386,7 @@ export default function Page() {
                 </div>
               </div>
               <Link
-                href={isSignedIn ? '/dashboard' : '/signup'}
+                href="/signup"
                 className="w-full px-4 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 hover:bg-slate-800/50 transition-all cursor-pointer duration-150 block text-center"
               >
                 Get started
@@ -441,7 +439,7 @@ export default function Page() {
                 </div>
               </div>
               <Link
-                href={isSignedIn ? '/dashboard' : '/signup'}
+                href="/signup"
                 className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:brightness-110 transition-all cursor-pointer duration-150 font-medium block text-center"
               >
                 Start free trial
