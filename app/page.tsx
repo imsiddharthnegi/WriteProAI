@@ -403,6 +403,93 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* Social Proof Section - Part 1: Stats */}
+      <section className="bg-slate-950 py-20 px-6 md:px-0 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0">
+            {/* Stat 1 */}
+            <div className="flex flex-col items-center md:items-start md:border-r md:border-slate-800 md:pr-12">
+              <div className="font-serif text-6xl md:text-7xl font-light text-white mb-2">
+                12,400
+              </div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">
+                Writers
+              </div>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="flex flex-col items-center md:border-r md:border-slate-800 md:px-12">
+              <div className="font-serif text-6xl md:text-7xl font-light text-white mb-2">
+                2.1M
+              </div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">
+                Words Improved
+              </div>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="flex flex-col items-center md:items-end md:pl-12">
+              <div className="font-serif text-6xl md:text-7xl font-light text-white mb-2">
+                4.9
+              </div>
+              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">
+                Rating / 5
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Section - Part 2: Testimonials Ticker */}
+      <section className="bg-slate-100 py-16 px-6 md:px-0 overflow-hidden">
+        <div className="relative w-full">
+          <style>{`
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-50%);
+              }
+            }
+            .testimonial-ticker {
+              display: flex;
+              animation: scroll 40s linear infinite;
+              will-change: transform;
+            }
+            .testimonial-ticker:hover {
+              animation-play-state: paused;
+            }
+            .testimonial-item {
+              min-width: max-content;
+              padding: 0 2rem;
+              display: flex;
+              align-items: center;
+            }
+          `}</style>
+          <div className="testimonial-ticker">
+            {[
+              '"Finally an AI that doesn\'t rewrite my voice." — Alex Chen, Technical Writer',
+              '"Saves me hours on editing every week." — Maya Rodriguez, Content Manager',
+              '"The tone adjustment actually gets what I\'m trying to say." — James Park, Copywriter',
+              '"Best writing tool I\'ve used in years." — Sarah Williams, Journalist',
+              '"Helps me write more confidently in my second language." — Maria Kowalski, Marketer',
+              '"Game changer for our team\'s communication." — David Thompson, Product Manager',
+              '"Finally an AI that doesn\'t rewrite my voice." — Alex Chen, Technical Writer',
+              '"Saves me hours on editing every week." — Maya Rodriguez, Content Manager',
+              '"The tone adjustment actually gets what I\'m trying to say." — James Park, Copywriter',
+              '"Best writing tool I\'ve used in years." — Sarah Williams, Journalist',
+            ].map((quote, idx) => (
+              <div key={idx} className="testimonial-item">
+                <p className="text-slate-700 italic text-lg whitespace-nowrap">
+                  {quote}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
