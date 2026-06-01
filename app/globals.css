@@ -136,7 +136,23 @@ body::before {
   z-index: 1;
 }
 
-/* Marquee animation */
+/* Scroll progress bar - 2px fixed at top */
+[data-scroll-progress] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #c8f03d;
+  z-index: 9999;
+  transition: width 100ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-progress] {
+    transition: none;
+  }
+}
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -150,11 +166,11 @@ body::before {
   animation: marquee 30s linear infinite;
 }
 
-/* Scroll reveal animation */
-@keyframes reveal {
+/* Scroll reveal animation with spring ease-out */
+@keyframes scroll-reveal {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -162,9 +178,18 @@ body::before {
   }
 }
 
-.scroll-reveal {
-  animation: reveal 0.8s ease-out forwards;
+.animate-scroll-reveal {
+  animation: scroll-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-reveal {
+    animation-duration: 0.01ms;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Pulse animation for badge */
@@ -181,7 +206,23 @@ body::before {
   animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Radial glow */
+/* Nav active indicator - 6px lime dot */
+[data-nav-indicator] {
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  background: #c8f03d;
+  border-radius: 3px;
+  transition: left 300ms cubic-bezier(0.16, 1, 0.3, 1), width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  left: var(--nav-indicator-left, 0px);
+  width: var(--nav-indicator-width, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-indicator] {
+    transition: none;
+  }
+}
 .radial-glow {
   position: relative;
 }
@@ -403,5 +444,41 @@ body::before {
 @media (prefers-reduced-motion: no-preference) {
   [data-section-divider].animate-divider-draw {
     animation: divider-draw 1s ease-out forwards;
+  }
+}
+
+/* Scroll progress bar - 2px fixed at top */
+[data-scroll-progress] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #c8f03d;
+  z-index: 9999;
+  transition: width 100ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-progress] {
+    transition: none;
+  }
+}
+
+/* Nav active indicator - 6px lime dot */
+[data-nav-indicator] {
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  background: #c8f03d;
+  border-radius: 3px;
+  transition: left 300ms cubic-bezier(0.16, 1, 0.3, 1), width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  left: var(--nav-indicator-left, 0px);
+  width: var(--nav-indicator-width, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-indicator] {
+    transition: none;
   }
 }
