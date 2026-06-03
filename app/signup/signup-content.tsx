@@ -77,6 +77,9 @@ export default function SignupContent() {
       <div className="w-full lg:w-1/2 bg-white flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md">
           <SignUp
+            afterSignUpUrl="/onboarding"
+            afterSignInUrl="/dashboard"
+            redirectUrl="/onboarding"
             appearance={{
               variables: {
                 colorPrimary: '#2dd4bf',
@@ -102,7 +105,6 @@ export default function SignupContent() {
                 headerSubtitle: 'text-slate-600 text-sm',
               },
             }}
-            redirectUrl="/onboarding"
           />
         </div>
       </div>

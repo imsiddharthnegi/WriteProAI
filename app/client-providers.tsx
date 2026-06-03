@@ -11,5 +11,15 @@ export default function ClientProviders({ children }: { children: React.ReactNod
     return <>{children}</>
   }
 
-  return <ClerkProvider publishableKey={publishableKey}>{children}</ClerkProvider>
+  return (
+    <ClerkProvider
+      publishableKey={publishableKey}
+      afterSignInUrl="/dashboard"
+      afterSignUpUrl="/onboarding"
+      signInUrl="/login"
+      signUpUrl="/signup"
+    >
+      {children}
+    </ClerkProvider>
+  )
 }
