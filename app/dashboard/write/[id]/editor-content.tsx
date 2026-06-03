@@ -1,6 +1,7 @@
 'use client'
 
-import { useParams, Suspense } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import { Suspense } from 'react'
 import DashboardSidebar from '@/components/dashboard-sidebar'
 import DemoBanner from '@/components/demo-banner'
 import WriterEditor from '@/components/writer-editor'

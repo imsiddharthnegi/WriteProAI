@@ -43,7 +43,7 @@ const faqs = [
 ]
 
 export default function FAQ() {
-  const [openId, setOpenId] = React.useState(1)
+  const [openId, setOpenId] = React.useState<number | null>(1)
 
   return (
     <div className="bg-[#fafaf9] py-[120px] px-6 md:px-0">
