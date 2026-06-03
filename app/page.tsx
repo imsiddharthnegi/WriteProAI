@@ -1,4 +1,5 @@
 import { AnimatedDiff } from '@/components/animated-diff'
+import { NotificationStrip } from '@/components/notification-strip'
 
 'use client'
 
@@ -170,6 +171,9 @@ export default function Page() {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Notification Strip */}
+      <NotificationStrip />
 
       {/* Features Section */}
       <motion.section 
