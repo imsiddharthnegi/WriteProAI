@@ -14,7 +14,7 @@ WriteProAI is a full-stack AI writing SaaS built with Next.js 14 App Router. It 
 
 ## Features
 
-- 🖊️ **AI Writing Editor** — Smart suggestions panel powered by Claude/OpenAI
+- 🖊️ **AI Writing Editor** — Smart suggestions panel powered by Claude/Gemini
 - 📁 **Project Management** — Create, organize, and filter writing projects
 - 👤 **Auth System** — Secure signup/login with credentials (NextAuth.js + bcrypt)
 - 💳 **Subscription Billing** — Free and Pro plans via Stripe
