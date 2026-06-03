@@ -594,23 +594,12 @@ export default function Page() {
       {/* FAQ Section */}
       <motion.section 
         ref={faqRef}
-        className="border-t border-slate-800 py-24 px-6 md:px-0"
+        className="px-6 md:px-0"
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={faqInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="mb-12"
-            initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            animate={faqInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{ duration: 0.4, ease: easing }}
-          >
-            <h2 className="text-4xl font-light">Frequently asked questions</h2>
-          </motion.div>
-          
-          <FAQ />
-        </div>
+        <FAQ />
       </motion.section>
 
       {/* Footer */}
