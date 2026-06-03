@@ -1,3 +1,6 @@
+import { AnimatedDiff } from '@/components/animated-diff'
+import { NotificationStrip } from '@/components/notification-strip'
+
 'use client'
 
 import { ArrowUpRight } from 'lucide-react'
@@ -84,7 +87,7 @@ export default function Page() {
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.2 }}
             >
-              AI-powered writing that adapts to your voice. Get real-time suggestions, tone adjustments, and clarity improvements as you write.
+              Real-time AI suggestions that adapt to your voice, tone, and writing style.
             </motion.p>
 
             {/* Buttons - Fade in together */}
@@ -101,9 +104,9 @@ export default function Page() {
                 <span>Start writing free</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
               </Link>
-              <button className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
+              <Link href="#features" className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
                 See how it works →
-              </button>
+              </Link>
             </motion.div>
           </div>
 
@@ -114,30 +117,8 @@ export default function Page() {
             animate={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: easing, delay: 0.3 }}
           >
-            {/* Before/After Labels */}
-            <div className="flex gap-32">
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Original</div>
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Enhanced</div>
-            </div>
-
-            {/* Diff Container */}
-            <div className="grid grid-cols-2 gap-12 font-mono text-sm leading-relaxed">
-              {/* Before Column */}
-              <div className="text-slate-400 space-y-4">
-                <p>We&apos;re really excited about</p>
-                <p>the new product launch</p>
-                <p>and think it&apos;s gonna be</p>
-                <p>pretty good.</p>
-              </div>
-
-              {/* After Column */}
-              <div className="text-slate-300 space-y-4">
-                <p>We&apos;re <span className="bg-green-500/20 text-green-300 px-1">thrilled</span> about</p>
-                <p>the <span className="bg-green-500/20 text-green-300 px-1">upcoming</span> product launch</p>
-                <p>and <span className="bg-green-500/20 text-green-300 px-1">confident</span> it will drive</p>
-                <p><span className="bg-green-500/20 text-green-300 px-1">meaningful results.</span></p>
-              </div>
-            </div>
+            {/* Animated Diff Component */}
+            <AnimatedDiff />
 
             {/* Divider */}
             <div className="h-px bg-slate-800 my-8" />
@@ -191,58 +172,62 @@ export default function Page() {
         </div>
       </motion.section>
 
+      {/* Notification Strip */}
+      <NotificationStrip />
+
       {/* Features Section */}
       <motion.section 
+        id="features"
         ref={featureRef}
-        className="border-t border-slate-800 bg-white text-slate-950 py-24 px-6 md:px-0"
+        className="bg-white text-slate-950 px-6 md:px-0"
         initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
         animate={featureInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1200px] mx-auto py-24">
           {/* Section Heading */}
           <motion.div 
-            className="mb-20"
+            className="mb-10"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             animate={featureInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <p className="text-sm font-medium text-teal-600 uppercase tracking-widest mb-2">Features</p>
-            <h2 className="text-5xl font-light">Your words, elevated</h2>
+            <h2 className="text-[48px] font-semibold text-slate-950">Your words, elevated</h2>
           </motion.div>
 
           {/* Features Grid */}
-          <div className="max-w-[1100px] mx-auto space-y-0">
+          <div className="space-y-0">
             {/* Feature 1: Text Left, UI Right - AI Suggestions */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">AI Suggestions</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">AI Suggestions</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7] max-w-[380px]">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
                   </p>
                 </div>
-                {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
-                  <div className="space-y-4">
-                    <p className="text-sm text-slate-900">
+                {/* UI Snippet - Editor Mockup */}
+                <div className="space-y-6">
+                  {/* Original */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Original</p>
+                    <p className="text-[15px] text-slate-900">The results were amazing</p>
+                  </div>
+                  {/* Divider */}
+                  <div className="h-px bg-teal-400"></div>
+                  {/* Improved */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Improved</p>
+                    <p className="text-[15px] text-slate-900">
                       The results were{' '}
-                      <span className="border border-slate-300 rounded px-1.5 py-0.5 bg-slate-50 font-medium">amazing</span>
+                      <span className="bg-teal-100 text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>
                     </p>
-                    <div className="space-y-2 pt-2">
-                      <div className="text-xs text-slate-600">
-                        ✓ <span className="font-medium text-slate-900">impressive</span> · <span className="font-medium text-slate-900">groundbreaking</span> · <span className="font-medium text-slate-900">remarkable</span>
-                      </div>
-                      <div className="text-xs text-slate-600">
-                        ✓ <span className="font-medium text-slate-900">transformative</span> · <span className="font-medium text-slate-900">exceptional</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -250,29 +235,37 @@ export default function Page() {
 
             {/* Feature 2: UI Left, Text Right - Writing Modes */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.08 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-                {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
-                  <div className="space-y-4">
-                    <div className="flex gap-6 border-b border-slate-200 pb-3">
-                      <button className="text-sm font-medium text-slate-900 pb-2 border-b-2 border-teal-400">Blog</button>
-                      <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Email</button>
-                      <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Technical</button>
-                    </div>
-                    <p className="text-xs text-slate-600">
-                      Automatically adapt your tone and style to match the format.
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
+                {/* UI Snippet - Tab Switcher */}
+                <div className="space-y-6">
+                  {/* Tabs */}
+                  <div className="flex gap-8 border-b border-[#e5e7eb] pb-4">
+                    <button className="text-[16px] font-semibold text-teal-600 pb-2 border-b-2 border-teal-400">Blog</button>
+                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Email</button>
+                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Technical</button>
+                  </div>
+                  {/* Content Preview */}
+                  <div className="space-y-3">
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      The key to effective communication is understanding your audience and tailoring...
+                    </p>
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      Whether you&apos;re writing for experts or beginners, the tone should reflect...
+                    </p>
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      By adapting your writing style, you ensure maximum impact and engagement...
                     </p>
                   </div>
                 </div>
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Writing Modes</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Writing Modes</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
                   </p>
                 </div>
@@ -281,32 +274,32 @@ export default function Page() {
 
             {/* Feature 3: Text Left, UI Right - Tone Adjustment */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.16 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Tone Adjustment</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Tone Adjustment</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
                   </p>
                 </div>
-                {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Formal</p>
-                      <p className="text-sm text-slate-900">We look forward to collaborating on this initiative.</p>
-                    </div>
-                    <div className="border-l-3 border-teal-400 pl-3">
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Casual</p>
-                      <p className="text-sm text-slate-900">
-                        <span className="bg-teal-100 text-teal-900 px-1">Let&apos;s team up</span> on this project!
-                      </p>
-                    </div>
+                {/* UI Snippet - Formal/Casual */}
+                <div className="space-y-8">
+                  {/* Formal */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Formal</p>
+                    <p className="text-[16px] text-slate-900">We look forward to collaborating on this initiative.</p>
+                  </div>
+                  {/* Casual */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Casual</p>
+                    <p className="text-[16px] text-slate-900">
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this project!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -314,35 +307,132 @@ export default function Page() {
 
             {/* Feature 4: UI Left, Text Right - Usage Dashboard */}
             <motion.div 
-              className="py-16"
+              className="py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.24 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-                {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-baseline">
-                      <p className="text-xs font-medium text-slate-600 uppercase tracking-wide">Monthly usage</p>
-                      <p className="text-sm font-semibold text-slate-900">47 / 100</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
+                {/* UI Snippet - Usage Stats */}
+                <div className="space-y-8">
+                  {/* Heading */}
+                  <div>
+                    <p className="text-[14px] font-bold text-slate-950 mb-3">Words Used This Month</p>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-[32px] font-bold text-slate-950">4,700</span>
+                      <span className="text-[16px] text-[#52525b]">/ 10,000 words</span>
                     </div>
-                    <div className="bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                  </div>
+                  {/* Progress Bar */}
+                  <div className="w-full">
+                    <div className="bg-[#f4f4f4] rounded-full h-2 overflow-hidden">
                       <div className="bg-teal-400 h-full rounded-full" style={{ width: '47%' }}></div>
                     </div>
-                    <p className="text-xs text-slate-600">Resets in 18 days</p>
-                    <button className="text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors">
-                      Upgrade for unlimited →
-                    </button>
                   </div>
+                  {/* Reset Info */}
+                  <p className="text-[13px] text-[#52525b]">📅 Resets in 18 days</p>
+                  {/* Upgrade Link */}
+                  <button className="text-[14px] font-semibold text-teal-600 hover:text-teal-700 transition-colors">
+                    Upgrade for unlimited →
+                  </button>
                 </div>
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Usage Dashboard</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Usage Dashboard</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
                   </p>
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* How It Works Section */}
+      <motion.section 
+        className="bg-[#0c0c0e] px-6 md:px-0 py-[120px]"
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
+        transition={{ duration: 0.4, ease: easing }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <div className="max-w-[1100px] mx-auto">
+          {/* Section Heading */}
+          <motion.div 
+            className="mb-20 text-center"
+            initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            whileInView={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easing }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            <h2 className="text-[48px] font-semibold text-white leading-tight">
+              Up and running in 3 steps.
+            </h2>
+          </motion.div>
+
+          {/* Steps Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {/* Step 1 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.05 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">01</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Sign up</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Create your free account in under 60 seconds. No credit card needed.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.1 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">02</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Paste your writing</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Drop in any text — emails, blogs, docs. WritePro works with anything.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 3 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.15 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">03</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Get suggestions</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Receive real-time AI-powered improvements tailored to your writing mode.
+                </p>
               </div>
             </motion.div>
           </div>
@@ -372,7 +462,7 @@ export default function Page() {
             animate={pricingInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.4, ease: easing, delay: 0.1 }}
           >
-            <div className="flex gap-1 p-1 bg-slate-900 rounded-full">
+            <div className="flex gap-1 p-1 bg-slate-900 rounded-full relative">
               <button
                 onClick={() => setBillingPeriod('monthly')}
                 className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
@@ -383,16 +473,22 @@ export default function Page() {
               >
                 Monthly
               </button>
-              <button
-                onClick={() => setBillingPeriod('yearly')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
-                  billingPeriod === 'yearly'
-                    ? 'bg-slate-800 text-white'
-                    : 'text-slate-400 hover:text-slate-300'
-                }`}
-              >
-                Yearly
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setBillingPeriod('yearly')}
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
+                    billingPeriod === 'yearly'
+                      ? 'bg-slate-800 text-white'
+                      : 'text-slate-400 hover:text-slate-300'
+                  }`}
+                >
+                  Yearly
+                </button>
+                {/* Save 20% Badge */}
+                <span className="absolute -top-2 -right-3 bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                  Save 20%
+                </span>
+              </div>
             </div>
           </motion.div>
 
@@ -468,15 +564,24 @@ export default function Page() {
               }}
               transition={{ duration: 0.5, ease: easing }}
             >
+              {/* Save Badge */}
+              {billingPeriod === 'yearly' && (
+                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                  Save 20%
+                </div>
+              )}
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '86.40' : '9'}
+                    ${billingPeriod === 'yearly' ? '7' : '12'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
+                {billingPeriod === 'yearly' && (
+                  <p className="text-xs text-slate-500 mt-2">Billed $84/year</p>
+                )}
               </div>
               <p className="text-slate-400 text-sm mb-8 flex-grow">
                 Everything in Free, plus advanced AI features and priority support.
@@ -525,10 +630,13 @@ export default function Page() {
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '470' : '49'}
+                    ${billingPeriod === 'yearly' ? '39' : '49'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
+                {billingPeriod === 'yearly' && (
+                  <p className="text-xs text-slate-500 mt-2">Billed $468/year</p>
+                )}
               </div>
               <p className="text-slate-400 text-sm mb-8 flex-grow">
                 For teams that need advanced security, analytics, and dedicated support.
@@ -600,6 +708,40 @@ export default function Page() {
         transition={{ duration: 0.4 }}
       >
         <FAQ />
+      </motion.section>
+
+      {/* CTA Section */}
+      <motion.section 
+        className="bg-[#0c0c0e] px-6 md:px-0 py-[120px]"
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
+        transition={{ duration: 0.4, ease: easing }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <div className="max-w-[800px] mx-auto text-center space-y-8 flex flex-col items-center">
+          {/* Heading */}
+          <h2 className="text-[56px] font-semibold text-white leading-tight">
+            Start writing better today.
+          </h2>
+          
+          {/* Subtext */}
+          <p className="text-[18px] text-slate-400">
+            Join 12,400+ writers who&apos;ve already made the switch.
+          </p>
+          
+          {/* CTA Button */}
+          <Link 
+            href="/signup"
+            className="mt-4 px-8 py-4 bg-teal-400 text-slate-950 font-semibold rounded-lg text-[18px] hover:bg-teal-300 transition-colors duration-150 inline-flex items-center gap-2"
+          >
+            Get started free <span>→</span>
+          </Link>
+          
+          {/* Disclaimer Text */}
+          <p className="text-[12px] text-slate-500 mt-4">
+            No credit card required · Cancel anytime
+          </p>
+        </div>
       </motion.section>
 
       {/* Footer */}

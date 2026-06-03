@@ -267,10 +267,15 @@ export default function WriterEditor({ projectId }: WriterEditorProps) {
           <div className="text-[#71717a] text-sm">
             {saveStatus}
           </div>
-          <button className="px-4 py-2 border border-[#6366f1] text-[#6366f1] text-sm rounded hover:bg-[#6366f1]/10 transition-colors flex items-center gap-2">
-            <Download size={16} />
-            Export
-          </button>
+          <div className="flex items-center gap-4">
+            <div className="text-[#71717a] text-[11px]">
+              ⌘K for suggestions · ⌘S to save · ⌘E to export
+            </div>
+            <button className="px-4 py-2 border border-[#6366f1] text-[#6366f1] text-sm rounded hover:bg-[#6366f1]/10 transition-colors flex items-center gap-2">
+              <Download size={16} />
+              Export
+            </button>
+          </div>
         </div>
       </div>
 
