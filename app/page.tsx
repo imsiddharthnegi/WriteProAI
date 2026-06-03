@@ -101,9 +101,9 @@ export default function Page() {
                 <span>Start writing free</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
               </Link>
-              <button className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
+              <Link href="#features" className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
                 See how it works →
-              </button>
+              </Link>
             </motion.div>
           </div>
 
@@ -193,6 +193,7 @@ export default function Page() {
 
       {/* Features Section */}
       <motion.section 
+        id="features"
         ref={featureRef}
         className="bg-white text-slate-950 px-6 md:px-0"
         initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
