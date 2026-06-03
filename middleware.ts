@@ -5,30 +5,39 @@ const isPublicRoute = createRouteMatcher([
   '/',
   '/login(.*)',
   '/signup(.*)',
-  '/pricing',
   '/features',
-  '/favicon.ico',
+  '/pricing',
+  '/api/suggestions(.*)',
   '/_next(.*)',
-  '/api/suggestions',
+  '/favicon.ico',
 ])
 
-export default clerkMiddleware((auth, request) => {
-  const { userId } = auth()
+export default clerkMiddleware(async (auth, request) => {
+  const { userId } = await auth()
   const { pathname } = request.nextUrl
 
-  // If logged in and trying to access signup or login
-  // redirect to dashboard
-  if (userId && (pathname === '/signup' || pathname === '/login')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+  // Logged in user visiting login or signup
+  // send them to dashboard
+  if (userId && 
+    (pathname === '/login' || pathname === '/signup')) {
+    return NextResponse.redirect(
+      new URL('/dashboard', request.url)
+    )
   }
 
-  // If not logged in and trying to access protected route
-  // redirect to login
-  if (!isPublicRoute(request) && !userId) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  // Not logged in visiting protected route
+  // send them to login
+  if (!userId && !isPublicRoute(request)) {
+    return NextResponse.redirect(
+      new URL('/login', request.url)
+    )
   }
 })
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: [
+    '/((?!.*\\..*|_next).*)', 
+    '/', 
+    '/(api|trpc)(.*)'
+  ],
 }
