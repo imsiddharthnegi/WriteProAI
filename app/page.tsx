@@ -687,27 +687,27 @@ export default function Page() {
         transition={{ duration: 0.4, ease: easing }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="max-w-[800px] mx-auto text-center space-y-8 flex flex-col items-center">
+        <div className="max-w-[640px] mx-auto text-center space-y-0 flex flex-col items-center">
           {/* Heading */}
-          <h2 className="text-[56px] font-semibold text-white leading-tight">
+          <h2 className="text-[48px] font-semibold text-white leading-tight mb-4">
             Start writing better today.
           </h2>
           
           {/* Subtext */}
-          <p className="text-[18px] text-slate-400">
+          <p className="text-[18px] text-[#71717a] mb-8">
             Join 12,400+ writers who&apos;ve already made the switch.
           </p>
           
           {/* CTA Button */}
           <Link 
             href="/signup"
-            className="mt-4 px-8 py-4 bg-teal-400 text-slate-950 font-semibold rounded-lg text-[18px] hover:bg-teal-300 transition-colors duration-150 inline-flex items-center gap-2"
+            className="h-12 px-8 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-base hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2"
           >
             Get started free <span>→</span>
           </Link>
           
           {/* Disclaimer Text */}
-          <p className="text-[12px] text-slate-500 mt-4">
+          <p className="text-[13px] text-[#52525b] mt-4">
             No credit card required · Cancel anytime
           </p>
         </div>
