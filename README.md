@@ -35,7 +35,7 @@ WriteProAI is a full-stack AI writing SaaS built with Next.js 14 App Router. It 
 | ORM | Prisma |
 | Auth | NextAuth.js + bcryptjs |
 | Payments | Stripe *(coming soon)* |
-| AI | Claude API / OpenAI *(coming soon)* |
+| AI | Claude API / Gemini API |
 | Hosting | Vercel |
 
 ---
