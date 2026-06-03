@@ -668,34 +668,6 @@ export default function Page() {
         </div>
       </motion.section>
 
-      {/* Social Proof Section */}
-      <motion.section 
-        ref={socialProofRef}
-        className="border-t border-slate-800 py-16 px-6 md:px-0"
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div 
-            className="grid grid-cols-3 gap-8"
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={socialProofInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div>
-              <div className="text-4xl font-light text-white">12,400+</div>
-              <div className="text-sm text-slate-500 mt-2">writers</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-white">2.1M</div>
-              <div className="text-sm text-slate-500 mt-2">words improved</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-white">4.9★</div>
-              <div className="text-sm text-slate-500 mt-2">rating</div>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
       {/* FAQ Section */}
       <motion.section 
         ref={faqRef}
