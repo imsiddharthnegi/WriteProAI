@@ -84,7 +84,7 @@ export default function Page() {
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.2 }}
             >
-              AI-powered writing that adapts to your voice. Get real-time suggestions, tone adjustments, and clarity improvements as you write.
+              Real-time AI suggestions that adapt to your voice, tone, and writing style.
             </motion.p>
 
             {/* Buttons - Fade in together */}
