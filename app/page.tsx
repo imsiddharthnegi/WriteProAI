@@ -580,12 +580,18 @@ export default function Page() {
               }}
               transition={{ duration: 0.5, ease: easing }}
             >
+              {/* Save Badge */}
+              {billingPeriod === 'yearly' && (
+                <div className="absolute -top-3 -right-3 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                  Save 20%
+                </div>
+              )}
               <div className="mb-8">
                 <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '7' : '7'}
+                    ${billingPeriod === 'yearly' ? '7' : '12'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
@@ -640,7 +646,7 @@ export default function Page() {
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '39' : '39'}
+                    ${billingPeriod === 'yearly' ? '39' : '49'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
