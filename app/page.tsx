@@ -364,6 +364,96 @@ export default function Page() {
         </div>
       </motion.section>
 
+      {/* How It Works Section */}
+      <motion.section 
+        className="bg-[#0c0c0e] px-6 md:px-0 py-[120px]"
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
+        transition={{ duration: 0.4, ease: easing }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <div className="max-w-[1100px] mx-auto">
+          {/* Section Heading */}
+          <motion.div 
+            className="mb-20 text-center"
+            initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            whileInView={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easing }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            <h2 className="text-[48px] font-semibold text-white leading-tight">
+              Up and running in 3 steps.
+            </h2>
+          </motion.div>
+
+          {/* Steps Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {/* Step 1 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.05 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">01</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Sign up</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Create your free account in under 60 seconds. No credit card needed.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.1 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">02</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Paste your writing</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Drop in any text — emails, blogs, docs. WritePro works with anything.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 3 */}
+            <motion.div 
+              className="relative text-center"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: easing, delay: 0.15 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              {/* Large number background */}
+              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
+                <span className="text-[80px] font-bold text-teal-400 opacity-20">03</span>
+              </div>
+              {/* Content */}
+              <div className="relative pt-8 space-y-4">
+                <h3 className="text-[20px] font-semibold text-white">Get suggestions</h3>
+                <p className="text-[15px] text-slate-400 leading-[1.6]">
+                  Receive real-time AI-powered improvements tailored to your writing mode.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
       {/* Pricing Section */}
       <motion.section 
         ref={pricingRef}
