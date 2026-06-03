@@ -1,8 +1,7 @@
-import { AnimatedDiff } from '@/components/animated-diff'
-import { NotificationStrip } from '@/components/notification-strip'
-
 'use client'
 
+import { AnimatedDiff } from '@/components/animated-diff'
+import { NotificationStrip } from '@/components/notification-strip'
 import { ArrowUpRight } from 'lucide-react'
 import React, { useEffect, useState, Suspense } from 'react'
 import { motion } from 'framer-motion'
