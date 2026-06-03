@@ -215,7 +215,7 @@ export default function Page() {
           <div className="max-w-[1100px] mx-auto space-y-0">
             {/* Feature 1: Text Left, UI Right - AI Suggestions */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#e5e7eb] py-16"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing }}
@@ -223,17 +223,17 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                 {/* Text */}
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">AI Suggestions</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                  <h3 className="text-[22px] font-semibold text-slate-950">AI Suggestions</h3>
+                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
                   </p>
                 </div>
                 {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
+                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
                   <div className="space-y-4">
                     <p className="text-sm text-slate-900">
                       The results were{' '}
-                      <span className="border border-slate-300 rounded px-1.5 py-0.5 bg-slate-50 font-medium">amazing</span>
+                      <span className="border border-[#e5e7eb] rounded px-1.5 py-0.5 bg-slate-50 font-medium">amazing</span>
                     </p>
                     <div className="space-y-2 pt-2">
                       <div className="text-xs text-slate-600">
@@ -250,16 +250,16 @@ export default function Page() {
 
             {/* Feature 2: UI Left, Text Right - Writing Modes */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#e5e7eb] py-16"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.08 }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                 {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
+                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
                   <div className="space-y-4">
-                    <div className="flex gap-6 border-b border-slate-200 pb-3">
+                    <div className="flex gap-6 border-b border-[#e5e7eb] pb-3">
                       <button className="text-sm font-medium text-slate-900 pb-2 border-b-2 border-teal-400">Blog</button>
                       <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Email</button>
                       <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Technical</button>
@@ -271,8 +271,8 @@ export default function Page() {
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Writing Modes</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                  <h3 className="text-[22px] font-semibold text-slate-950">Writing Modes</h3>
+                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
                   </p>
                 </div>
@@ -281,7 +281,7 @@ export default function Page() {
 
             {/* Feature 3: Text Left, UI Right - Tone Adjustment */}
             <motion.div 
-              className="border-b border-slate-200 py-16"
+              className="border-b border-[#e5e7eb] py-16"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.16 }}
@@ -289,20 +289,20 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                 {/* Text */}
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Tone Adjustment</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                  <h3 className="text-[22px] font-semibold text-slate-950">Tone Adjustment</h3>
+                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
                   </p>
                 </div>
                 {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
+                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
                   <div className="space-y-4">
                     <div>
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Formal</p>
+                      <p className="text-xs font-semibold text-[#52525b] uppercase tracking-wide mb-1">Formal</p>
                       <p className="text-sm text-slate-900">We look forward to collaborating on this initiative.</p>
                     </div>
                     <div className="border-l-3 border-teal-400 pl-3">
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Casual</p>
+                      <p className="text-xs font-semibold text-[#52525b] uppercase tracking-wide mb-1">Casual</p>
                       <p className="text-sm text-slate-900">
                         <span className="bg-teal-100 text-teal-900 px-1">Let&apos;s team up</span> on this project!
                       </p>
@@ -321,16 +321,16 @@ export default function Page() {
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                 {/* UI Snippet */}
-                <div className="bg-white border border-slate-300 rounded-lg p-5">
+                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
                   <div className="space-y-3">
                     <div className="flex justify-between items-baseline">
-                      <p className="text-xs font-medium text-slate-600 uppercase tracking-wide">Monthly usage</p>
+                      <p className="text-xs font-medium text-[#52525b] uppercase tracking-wide">Monthly usage</p>
                       <p className="text-sm font-semibold text-slate-900">47 / 100</p>
                     </div>
                     <div className="bg-slate-200 rounded-full h-1.5 overflow-hidden">
                       <div className="bg-teal-400 h-full rounded-full" style={{ width: '47%' }}></div>
                     </div>
-                    <p className="text-xs text-slate-600">Resets in 18 days</p>
+                    <p className="text-xs text-[#52525b]">Resets in 18 days</p>
                     <button className="text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors">
                       Upgrade for unlimited →
                     </button>
@@ -338,8 +338,8 @@ export default function Page() {
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold">Usage Dashboard</h3>
-                  <p className="text-slate-600 text-[15px] leading-[1.6]">
+                  <h3 className="text-[22px] font-semibold text-slate-950">Usage Dashboard</h3>
+                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
                   </p>
                 </div>
