@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import ClientProviders from './client-providers'
 import './globals.css'
 
 const _instrumentSerif = Instrument_Serif({ weight: ["400"], subsets: ["latin"], variable: "--font-instrument-serif" });
@@ -35,11 +36,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark bg-background">
-      <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
-    </html>
+    <ClientProviders>
+      <html lang="en" className="dark bg-background">
+        <body className="font-sans antialiased">
+          {children}
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </body>
+      </html>
+    </ClientProviders>
   )
 }
