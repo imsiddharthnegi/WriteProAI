@@ -1,3 +1,5 @@
+import { AnimatedDiff } from '@/components/animated-diff'
+
 'use client'
 
 import { ArrowUpRight } from 'lucide-react'
@@ -114,30 +116,8 @@ export default function Page() {
             animate={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: easing, delay: 0.3 }}
           >
-            {/* Before/After Labels */}
-            <div className="flex gap-32">
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Original</div>
-              <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">Enhanced</div>
-            </div>
-
-            {/* Diff Container */}
-            <div className="grid grid-cols-2 gap-12 font-mono text-sm leading-relaxed">
-              {/* Before Column */}
-              <div className="text-slate-400 space-y-4">
-                <p>We&apos;re really excited about</p>
-                <p>the new product launch</p>
-                <p>and think it&apos;s gonna be</p>
-                <p>pretty good.</p>
-              </div>
-
-              {/* After Column */}
-              <div className="text-slate-300 space-y-4">
-                <p>We&apos;re <span className="bg-green-500/20 text-green-300 px-1">thrilled</span> about</p>
-                <p>the <span className="bg-green-500/20 text-green-300 px-1">upcoming</span> product launch</p>
-                <p>and <span className="bg-green-500/20 text-green-300 px-1">confident</span> it will drive</p>
-                <p><span className="bg-green-500/20 text-green-300 px-1">meaningful results.</span></p>
-              </div>
-            </div>
+            {/* Animated Diff Component */}
+            <AnimatedDiff />
 
             {/* Divider */}
             <div className="h-px bg-slate-800 my-8" />
