@@ -518,7 +518,6 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing }}
             >
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">$0</span>
@@ -571,7 +570,6 @@ export default function Page() {
                 </div>
               )}
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
@@ -626,7 +624,6 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing }}
             >
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
