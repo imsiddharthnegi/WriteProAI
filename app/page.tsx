@@ -216,17 +216,18 @@ export default function Page() {
                 <div className="space-y-6">
                   {/* Original */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Original</p>
-                    <p className="text-[15px] text-slate-900">The results were amazing</p>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.12em] mb-3">Original</p>
+                    <p className="text-[15px] text-slate-900">The results were amazing and pretty good.</p>
                   </div>
                   {/* Divider */}
                   <div className="h-px bg-teal-400"></div>
                   {/* Improved */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Improved</p>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.12em] mb-3">Improved</p>
                     <p className="text-[15px] text-slate-900">
                       The results were{' '}
-                      <span className="bg-teal-100 text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>{' '}
+                      and exceeded all expectations.
                     </p>
                   </div>
                 </div>
@@ -291,14 +292,14 @@ export default function Page() {
                 <div className="space-y-8">
                   {/* Formal */}
                   <div>
-                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Formal</p>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.15em] mb-3">Formal</p>
                     <p className="text-[16px] text-slate-900">We look forward to collaborating on this initiative.</p>
                   </div>
                   {/* Casual */}
-                  <div>
+                  <div className="border-l-2 border-teal-400 pl-4">
                     <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Casual</p>
                     <p className="text-[16px] text-slate-900">
-                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this project!
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this — it&apos;s going to be great!
                     </p>
                   </div>
                 </div>
@@ -319,7 +320,7 @@ export default function Page() {
                   <div>
                     <p className="text-[14px] font-bold text-slate-950 mb-3">Words Used This Month</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-[32px] font-bold text-slate-950">4,700</span>
+                      <span className="text-[36px] font-bold text-slate-950">4,700</span>
                       <span className="text-[16px] text-[#52525b]">/ 10,000 words</span>
                     </div>
                   </div>
