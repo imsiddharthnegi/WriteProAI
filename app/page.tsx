@@ -573,7 +573,7 @@ export default function Page() {
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '7' : '12'}
+                    ${billingPeriod === 'yearly' ? '7' : '9'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
