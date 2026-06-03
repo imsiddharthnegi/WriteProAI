@@ -46,16 +46,16 @@ export default function FAQ() {
   const [openId, setOpenId] = React.useState(1)
 
   return (
-    <div className="bg-[#fafaf9] py-[100px] px-6 md:px-0">
+    <div className="bg-[#fafaf9] py-[120px] px-6 md:px-0">
       <div className="max-w-[1100px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-16">
-          {/* Left Column - Sticky Header */}
-          <div className="sticky top-[120px] h-fit">
-            <div className="text-[11px] font-medium text-teal-600 uppercase tracking-[0.15em] mb-3">
+        <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-16 md:items-center min-h-[400px]">
+          {/* Left Column - Header */}
+          <div className="md:sticky md:top-[120px] md:h-fit">
+            <div className="text-[11px] font-medium text-teal-600 uppercase tracking-[0.15em] mb-6">
               FAQ
             </div>
-            <h2 className="text-[42px] font-medium text-slate-950 leading-tight">
-              Questions we get a lot.
+            <h2 className="text-[48px] font-semibold text-[#0c0c0e] leading-tight">
+              Questions we get<br />a lot.
             </h2>
           </div>
 
@@ -68,15 +68,17 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                  className="w-full py-5 flex items-center justify-between cursor-pointer group"
+                  className="w-full py-6 flex items-center justify-between cursor-pointer group"
                 >
-                  <h3 className="text-left text-[16px] font-medium text-slate-950">
+                  <h3 className={`text-left text-[17px] font-medium transition-colors duration-200 ${
+                    openId === faq.id ? 'text-teal-400' : 'text-slate-950'
+                  }`}>
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 ml-4">
                     <div
-                      className={`text-teal-400 transition-transform duration-200 ${
-                        openId === faq.id ? 'rotate-45' : ''
+                      className={`transition-transform duration-200 ${
+                        openId === faq.id ? 'rotate-45 text-teal-400' : 'text-teal-400'
                       }`}
                       style={{
                         display: 'flex',
@@ -110,13 +112,15 @@ export default function FAQ() {
 
                 {/* Answer - Expandable */}
                 <div
-                  className="overflow-hidden transition-all duration-200"
+                  className={`overflow-hidden transition-all duration-200 ${
+                    openId === faq.id ? 'border-l-2 border-teal-400 pl-4' : ''
+                  }`}
                   style={{
                     maxHeight: openId === faq.id ? '500px' : '0px',
                     opacity: openId === faq.id ? 1 : 0,
                   }}
                 >
-                  <p className="text-[15px] text-slate-600 leading-[1.7] pb-5">
+                  <p className="text-[15px] text-slate-600 leading-[1.8] pb-6">
                     {faq.answer}
                   </p>
                 </div>
