@@ -2,7 +2,7 @@
 
 > AI-powered writing assistant SaaS — write smarter, faster, better.
 
-**Live Demo:** https://writepro-ai.vercel.app/
+**Live Demo:** https://trywritepro.vercel.app/
 
 ---
 
