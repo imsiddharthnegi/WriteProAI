@@ -478,7 +478,7 @@ export default function Page() {
             animate={pricingInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.4, ease: easing, delay: 0.1 }}
           >
-            <div className="flex gap-1 p-1 bg-slate-900 rounded-full">
+            <div className="flex gap-1 p-1 bg-slate-900 rounded-full relative">
               <button
                 onClick={() => setBillingPeriod('monthly')}
                 className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
@@ -489,16 +489,22 @@ export default function Page() {
               >
                 Monthly
               </button>
-              <button
-                onClick={() => setBillingPeriod('yearly')}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
-                  billingPeriod === 'yearly'
-                    ? 'bg-slate-800 text-white'
-                    : 'text-slate-400 hover:text-slate-300'
-                }`}
-              >
-                Yearly
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setBillingPeriod('yearly')}
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-colors cursor-pointer duration-150 ${
+                    billingPeriod === 'yearly'
+                      ? 'bg-slate-800 text-white'
+                      : 'text-slate-400 hover:text-slate-300'
+                  }`}
+                >
+                  Yearly
+                </button>
+                {/* Save 20% Badge */}
+                <span className="absolute -top-2 -right-3 bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                  Save 20%
+                </span>
+              </div>
             </div>
           </motion.div>
 
@@ -579,10 +585,13 @@ export default function Page() {
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '86.40' : '9'}
+                    ${billingPeriod === 'yearly' ? '7' : '7'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
+                {billingPeriod === 'yearly' && (
+                  <p className="text-xs text-slate-500 mt-2">Billed $84/year</p>
+                )}
               </div>
               <p className="text-slate-400 text-sm mb-8 flex-grow">
                 Everything in Free, plus advanced AI features and priority support.
@@ -631,10 +640,13 @@ export default function Page() {
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '470' : '49'}
+                    ${billingPeriod === 'yearly' ? '39' : '39'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
+                {billingPeriod === 'yearly' && (
+                  <p className="text-xs text-slate-500 mt-2">Billed $468/year</p>
+                )}
               </div>
               <p className="text-slate-400 text-sm mb-8 flex-grow">
                 For teams that need advanced security, analytics, and dedicated support.
