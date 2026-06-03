@@ -1,4 +1,6 @@
-export const easing = [0.25, 0.1, 0.25, 1];
+import { Easing } from 'framer-motion'
+
+export const easing: Easing = [0.25, 0.1, 0.25, 1];
 
 export const variants = {
   // Fade in

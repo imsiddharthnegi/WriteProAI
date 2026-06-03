@@ -77,7 +77,6 @@ export default function LoginContent() {
       <div className="w-full lg:w-1/2 bg-white flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md">
           <SignIn
-            afterSignInUrl="/dashboard"
             redirectUrl="/dashboard"
             appearance={{
               variables: {

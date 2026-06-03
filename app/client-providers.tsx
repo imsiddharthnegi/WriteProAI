@@ -12,13 +12,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   }
 
   return (
-    <ClerkProvider
-      publishableKey={publishableKey}
-      afterSignInUrl="/dashboard"
-      afterSignUpUrl="/onboarding"
-      signInUrl="/login"
-      signUpUrl="/signup"
-    >
+    <ClerkProvider publishableKey={publishableKey}>
       {children}
     </ClerkProvider>
   )

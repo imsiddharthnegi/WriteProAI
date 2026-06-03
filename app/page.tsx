@@ -1,10 +1,9 @@
-import { AnimatedDiff } from '@/components/animated-diff'
-import { NotificationStrip } from '@/components/notification-strip'
-
 'use client'
 
+import { AnimatedDiff } from '@/components/animated-diff'
+import { NotificationStrip } from '@/components/notification-strip'
 import { ArrowUpRight } from 'lucide-react'
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '@/components/navbar'
@@ -216,17 +215,18 @@ export default function Page() {
                 <div className="space-y-6">
                   {/* Original */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Original</p>
-                    <p className="text-[15px] text-slate-900">The results were amazing</p>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.12em] mb-3">Original</p>
+                    <p className="text-[15px] text-slate-900">The results were amazing and pretty good.</p>
                   </div>
                   {/* Divider */}
                   <div className="h-px bg-teal-400"></div>
                   {/* Improved */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Improved</p>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.12em] mb-3">Improved</p>
                     <p className="text-[15px] text-slate-900">
                       The results were{' '}
-                      <span className="bg-teal-100 text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>{' '}
+                      and exceeded all expectations.
                     </p>
                   </div>
                 </div>
@@ -291,14 +291,14 @@ export default function Page() {
                 <div className="space-y-8">
                   {/* Formal */}
                   <div>
-                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Formal</p>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.15em] mb-3">Formal</p>
                     <p className="text-[16px] text-slate-900">We look forward to collaborating on this initiative.</p>
                   </div>
                   {/* Casual */}
-                  <div>
+                  <div className="border-l-2 border-teal-400 pl-4">
                     <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Casual</p>
                     <p className="text-[16px] text-slate-900">
-                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this project!
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this — it&apos;s going to be great!
                     </p>
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export default function Page() {
                   <div>
                     <p className="text-[14px] font-bold text-slate-950 mb-3">Words Used This Month</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-[32px] font-bold text-slate-950">4,700</span>
+                      <span className="text-[36px] font-bold text-slate-950">4,700</span>
                       <span className="text-[16px] text-[#52525b]">/ 10,000 words</span>
                     </div>
                   </div>
@@ -360,22 +360,27 @@ export default function Page() {
         <div className="max-w-[1100px] mx-auto">
           {/* Section Heading */}
           <motion.div 
-            className="mb-20 text-center"
+            className="text-center mb-20"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easing }}
             viewport={{ once: true, amount: 0.5 }}
           >
-            <h2 className="text-[48px] font-semibold text-white leading-tight">
+            {/* Eyebrow */}
+            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-4">
+              Process
+            </div>
+            {/* H2 */}
+            <h2 className="text-[42px] font-semibold text-white leading-tight">
               Up and running in 3 steps.
             </h2>
           </motion.div>
 
           {/* Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Step 1 */}
             <motion.div 
-              className="relative text-center"
+              className="relative text-center md:text-center"
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
               whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: easing, delay: 0.05 }}
@@ -383,20 +388,22 @@ export default function Page() {
             >
               {/* Large number background */}
               <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-teal-400 opacity-20">01</span>
+                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">01</span>
               </div>
               {/* Content */}
-              <div className="relative pt-8 space-y-4">
-                <h3 className="text-[20px] font-semibold text-white">Sign up</h3>
-                <p className="text-[15px] text-slate-400 leading-[1.6]">
-                  Create your free account in under 60 seconds. No credit card needed.
+              <div className="relative pt-8 space-y-3">
+                <h3 className="text-[20px] font-semibold text-white">Sign up free</h3>
+                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                  Create your account in under 60 seconds. No credit card needed — just your email and you're in.
                 </p>
               </div>
+              {/* Divider */}
+              <div className="hidden md:block absolute -right-6 top-0 bottom-0 w-px bg-[#1f1f23]" />
             </motion.div>
 
             {/* Step 2 */}
             <motion.div 
-              className="relative text-center"
+              className="relative text-center md:text-center"
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
               whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: easing, delay: 0.1 }}
@@ -404,20 +411,22 @@ export default function Page() {
             >
               {/* Large number background */}
               <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-teal-400 opacity-20">02</span>
+                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">02</span>
               </div>
               {/* Content */}
-              <div className="relative pt-8 space-y-4">
+              <div className="relative pt-8 space-y-3">
                 <h3 className="text-[20px] font-semibold text-white">Paste your writing</h3>
-                <p className="text-[15px] text-slate-400 leading-[1.6]">
-                  Drop in any text — emails, blogs, docs. WritePro works with anything.
+                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                  Drop in any text — emails, blog posts, technical docs. WritePro works with whatever you're working on.
                 </p>
               </div>
+              {/* Divider */}
+              <div className="hidden md:block absolute -right-6 top-0 bottom-0 w-px bg-[#1f1f23]" />
             </motion.div>
 
             {/* Step 3 */}
             <motion.div 
-              className="relative text-center"
+              className="relative text-center md:text-center"
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
               whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: easing, delay: 0.15 }}
@@ -425,13 +434,13 @@ export default function Page() {
             >
               {/* Large number background */}
               <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-teal-400 opacity-20">03</span>
+                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">03</span>
               </div>
               {/* Content */}
-              <div className="relative pt-8 space-y-4">
-                <h3 className="text-[20px] font-semibold text-white">Get suggestions</h3>
-                <p className="text-[15px] text-slate-400 leading-[1.6]">
-                  Receive real-time AI-powered improvements tailored to your writing mode.
+              <div className="relative pt-8 space-y-3">
+                <h3 className="text-[20px] font-semibold text-white">Get suggestions instantly</h3>
+                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                  Real-time AI improvements tailored to your writing mode. Apply them in one click and keep your flow.
                 </p>
               </div>
             </motion.div>
@@ -518,7 +527,6 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing }}
             >
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">$0</span>
@@ -571,11 +579,10 @@ export default function Page() {
                 </div>
               )}
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '7' : '12'}
+                    ${billingPeriod === 'yearly' ? '7' : '9'}
                   </span>
                   <span className="text-slate-400 text-sm">/month</span>
                 </div>
@@ -626,7 +633,6 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing }}
             >
               <div className="mb-8">
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-widest mb-2">Plan name</div>
                 <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-light">
@@ -671,34 +677,6 @@ export default function Page() {
         </div>
       </motion.section>
 
-      {/* Social Proof Section */}
-      <motion.section 
-        ref={socialProofRef}
-        className="border-t border-slate-800 py-16 px-6 md:px-0"
-      >
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div 
-            className="grid grid-cols-3 gap-8"
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={socialProofInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div>
-              <div className="text-4xl font-light text-white">12,400+</div>
-              <div className="text-sm text-slate-500 mt-2">writers</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-white">2.1M</div>
-              <div className="text-sm text-slate-500 mt-2">words improved</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-white">4.9★</div>
-              <div className="text-sm text-slate-500 mt-2">rating</div>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
       {/* FAQ Section */}
       <motion.section 
         ref={faqRef}
@@ -718,27 +696,27 @@ export default function Page() {
         transition={{ duration: 0.4, ease: easing }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="max-w-[800px] mx-auto text-center space-y-8 flex flex-col items-center">
+        <div className="max-w-[640px] mx-auto text-center space-y-0 flex flex-col items-center">
           {/* Heading */}
-          <h2 className="text-[56px] font-semibold text-white leading-tight">
+          <h2 className="text-[48px] font-semibold text-white leading-tight mb-4">
             Start writing better today.
           </h2>
           
           {/* Subtext */}
-          <p className="text-[18px] text-slate-400">
+          <p className="text-[18px] text-[#71717a] mb-8">
             Join 12,400+ writers who&apos;ve already made the switch.
           </p>
           
           {/* CTA Button */}
           <Link 
             href="/signup"
-            className="mt-4 px-8 py-4 bg-teal-400 text-slate-950 font-semibold rounded-lg text-[18px] hover:bg-teal-300 transition-colors duration-150 inline-flex items-center gap-2"
+            className="h-12 px-8 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-base hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2"
           >
             Get started free <span>→</span>
           </Link>
           
           {/* Disclaimer Text */}
-          <p className="text-[12px] text-slate-500 mt-4">
+          <p className="text-[13px] text-[#52525b] mt-4">
             No credit card required · Cancel anytime
           </p>
         </div>
