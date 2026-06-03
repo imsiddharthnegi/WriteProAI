@@ -194,55 +194,55 @@ export default function Page() {
       {/* Features Section */}
       <motion.section 
         ref={featureRef}
-        className="border-t border-slate-800 bg-white text-slate-950 py-24 px-6 md:px-0"
+        className="bg-white text-slate-950 px-6 md:px-0"
         initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
         animate={featureInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1200px] mx-auto py-24">
           {/* Section Heading */}
           <motion.div 
-            className="mb-20"
+            className="mb-10"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             animate={featureInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <p className="text-sm font-medium text-teal-600 uppercase tracking-widest mb-2">Features</p>
-            <h2 className="text-5xl font-light">Your words, elevated</h2>
+            <h2 className="text-[48px] font-semibold text-slate-950">Your words, elevated</h2>
           </motion.div>
 
           {/* Features Grid */}
-          <div className="max-w-[1100px] mx-auto space-y-0">
+          <div className="space-y-0">
             {/* Feature 1: Text Left, UI Right - AI Suggestions */}
             <motion.div 
-              className="border-b border-[#e5e7eb] py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold text-slate-950">AI Suggestions</h3>
-                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">AI Suggestions</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7] max-w-[380px]">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
                   </p>
                 </div>
-                {/* UI Snippet */}
-                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
-                  <div className="space-y-4">
-                    <p className="text-sm text-slate-900">
+                {/* UI Snippet - Editor Mockup */}
+                <div className="space-y-6">
+                  {/* Original */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Original</p>
+                    <p className="text-[15px] text-slate-900">The results were amazing</p>
+                  </div>
+                  {/* Divider */}
+                  <div className="h-px bg-teal-400"></div>
+                  {/* Improved */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-widest mb-2">Improved</p>
+                    <p className="text-[15px] text-slate-900">
                       The results were{' '}
-                      <span className="border border-[#e5e7eb] rounded px-1.5 py-0.5 bg-slate-50 font-medium">amazing</span>
+                      <span className="bg-teal-100 text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>
                     </p>
-                    <div className="space-y-2 pt-2">
-                      <div className="text-xs text-slate-600">
-                        ✓ <span className="font-medium text-slate-900">impressive</span> · <span className="font-medium text-slate-900">groundbreaking</span> · <span className="font-medium text-slate-900">remarkable</span>
-                      </div>
-                      <div className="text-xs text-slate-600">
-                        ✓ <span className="font-medium text-slate-900">transformative</span> · <span className="font-medium text-slate-900">exceptional</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -250,29 +250,37 @@ export default function Page() {
 
             {/* Feature 2: UI Left, Text Right - Writing Modes */}
             <motion.div 
-              className="border-b border-[#e5e7eb] py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.08 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-                {/* UI Snippet */}
-                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
-                  <div className="space-y-4">
-                    <div className="flex gap-6 border-b border-[#e5e7eb] pb-3">
-                      <button className="text-sm font-medium text-slate-900 pb-2 border-b-2 border-teal-400">Blog</button>
-                      <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Email</button>
-                      <button className="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">Technical</button>
-                    </div>
-                    <p className="text-xs text-slate-600">
-                      Automatically adapt your tone and style to match the format.
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
+                {/* UI Snippet - Tab Switcher */}
+                <div className="space-y-6">
+                  {/* Tabs */}
+                  <div className="flex gap-8 border-b border-[#e5e7eb] pb-4">
+                    <button className="text-[16px] font-semibold text-teal-600 pb-2 border-b-2 border-teal-400">Blog</button>
+                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Email</button>
+                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Technical</button>
+                  </div>
+                  {/* Content Preview */}
+                  <div className="space-y-3">
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      The key to effective communication is understanding your audience and tailoring...
+                    </p>
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      Whether you&apos;re writing for experts or beginners, the tone should reflect...
+                    </p>
+                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                      By adapting your writing style, you ensure maximum impact and engagement...
                     </p>
                   </div>
                 </div>
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold text-slate-950">Writing Modes</h3>
-                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Writing Modes</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
                   </p>
                 </div>
@@ -281,32 +289,32 @@ export default function Page() {
 
             {/* Feature 3: Text Left, UI Right - Tone Adjustment */}
             <motion.div 
-              className="border-b border-[#e5e7eb] py-16"
+              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.16 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold text-slate-950">Tone Adjustment</h3>
-                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Tone Adjustment</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
                   </p>
                 </div>
-                {/* UI Snippet */}
-                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-semibold text-[#52525b] uppercase tracking-wide mb-1">Formal</p>
-                      <p className="text-sm text-slate-900">We look forward to collaborating on this initiative.</p>
-                    </div>
-                    <div className="border-l-3 border-teal-400 pl-3">
-                      <p className="text-xs font-semibold text-[#52525b] uppercase tracking-wide mb-1">Casual</p>
-                      <p className="text-sm text-slate-900">
-                        <span className="bg-teal-100 text-teal-900 px-1">Let&apos;s team up</span> on this project!
-                      </p>
-                    </div>
+                {/* UI Snippet - Formal/Casual */}
+                <div className="space-y-8">
+                  {/* Formal */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Formal</p>
+                    <p className="text-[16px] text-slate-900">We look forward to collaborating on this initiative.</p>
+                  </div>
+                  {/* Casual */}
+                  <div>
+                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Casual</p>
+                    <p className="text-[16px] text-slate-900">
+                      <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this project!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -314,32 +322,39 @@ export default function Page() {
 
             {/* Feature 4: UI Left, Text Right - Usage Dashboard */}
             <motion.div 
-              className="py-16"
+              className="py-20 min-h-[200px] flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.24 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-                {/* UI Snippet */}
-                <div className="bg-white border border-[#e5e7eb] rounded-lg p-5">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-baseline">
-                      <p className="text-xs font-medium text-[#52525b] uppercase tracking-wide">Monthly usage</p>
-                      <p className="text-sm font-semibold text-slate-900">47 / 100</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
+                {/* UI Snippet - Usage Stats */}
+                <div className="space-y-8">
+                  {/* Heading */}
+                  <div>
+                    <p className="text-[14px] font-bold text-slate-950 mb-3">Words Used This Month</p>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-[32px] font-bold text-slate-950">4,700</span>
+                      <span className="text-[16px] text-[#52525b]">/ 10,000 words</span>
                     </div>
-                    <div className="bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                  </div>
+                  {/* Progress Bar */}
+                  <div className="w-full">
+                    <div className="bg-[#f4f4f4] rounded-full h-2 overflow-hidden">
                       <div className="bg-teal-400 h-full rounded-full" style={{ width: '47%' }}></div>
                     </div>
-                    <p className="text-xs text-[#52525b]">Resets in 18 days</p>
-                    <button className="text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors">
-                      Upgrade for unlimited →
-                    </button>
                   </div>
+                  {/* Reset Info */}
+                  <p className="text-[13px] text-[#52525b]">📅 Resets in 18 days</p>
+                  {/* Upgrade Link */}
+                  <button className="text-[14px] font-semibold text-teal-600 hover:text-teal-700 transition-colors">
+                    Upgrade for unlimited →
+                  </button>
                 </div>
                 {/* Text */}
-                <div className="flex flex-col justify-start space-y-4">
-                  <h3 className="text-[22px] font-semibold text-slate-950">Usage Dashboard</h3>
-                  <p className="text-[#52525b] text-[15px] leading-[1.6]">
+                <div className="flex flex-col justify-center space-y-4">
+                  <h3 className="text-[24px] font-bold text-slate-950">Usage Dashboard</h3>
+                  <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
                   </p>
                 </div>
