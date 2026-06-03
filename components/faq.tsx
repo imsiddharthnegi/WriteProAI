@@ -48,10 +48,10 @@ export default function FAQ() {
   return (
     <div className="bg-[#fafaf9] py-[120px] px-6 md:px-0">
       <div className="max-w-[1100px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-16 md:items-center min-h-[400px]">
-          {/* Left Column - Header */}
-          <div className="md:sticky md:top-[120px] md:h-fit">
-            <div className="text-[11px] font-medium text-teal-600 uppercase tracking-[0.15em] mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-16">
+          {/* Left Column - Header (sticky) */}
+          <div className="md:sticky md:top-[120px] md:h-fit flex flex-col justify-start">
+            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-6">
               FAQ
             </div>
             <h2 className="text-[48px] font-semibold text-[#0c0c0e] leading-tight">
@@ -68,24 +68,23 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                  className="w-full py-6 flex items-center justify-between cursor-pointer group"
+                  className="w-full py-6 flex items-center justify-between cursor-pointer"
                 >
-                  <h3 className={`text-left text-[17px] font-medium transition-colors duration-200 ${
-                    openId === faq.id ? 'text-teal-400' : 'text-slate-950'
+                  <h3 className={`text-left text-[17px] font-medium transition-colors duration-150 ${
+                    openId === faq.id ? 'text-[#2dd4bf]' : 'text-[#0c0c0e]'
                   }`}>
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 ml-4">
                     <div
-                      className={`transition-transform duration-200 ${
-                        openId === faq.id ? 'rotate-45 text-teal-400' : 'text-teal-400'
-                      }`}
+                      className={`text-[#2dd4bf] transition-transform duration-200`}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         width: '18px',
                         height: '18px',
+                        transform: openId === faq.id ? 'rotate(45deg)' : 'rotate(0deg)',
                       }}
                     >
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -113,14 +112,14 @@ export default function FAQ() {
                 {/* Answer - Expandable */}
                 <div
                   className={`overflow-hidden transition-all duration-200 ${
-                    openId === faq.id ? 'border-l-2 border-teal-400 pl-4' : ''
+                    openId === faq.id ? 'border-l-2 border-[#2dd4bf] pl-4' : ''
                   }`}
                   style={{
                     maxHeight: openId === faq.id ? '500px' : '0px',
                     opacity: openId === faq.id ? 1 : 0,
                   }}
                 >
-                  <p className="text-[15px] text-slate-600 leading-[1.8] pb-6">
+                  <p className="text-[15px] text-[#52525b] leading-[1.8] pb-6">
                     {faq.answer}
                   </p>
                 </div>
