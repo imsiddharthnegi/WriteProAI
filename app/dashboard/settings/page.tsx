@@ -1,171 +1,301 @@
 'use client'
 
 import { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
 import DashboardSidebar from '@/components/dashboard-sidebar'
-import DemoBanner from '@/components/demo-banner'
 
 export default function SettingsPage() {
+  const { user } = useUser()
   const [autoSave, setAutoSave] = useState(true)
   const [aiSuggestions, setAiSuggestions] = useState(true)
   const [defaultMode, setDefaultMode] = useState('Blog Post')
+  const [fullName, setFullName] = useState(user?.fullName || '')
+  const [saving, setSaving] = useState(false)
+
+  const writingModes = ['Blog Post', 'Email', 'Social Media', 'Product Description', 'Ad Copy']
+  const email = user?.emailAddresses?.[0]?.emailAddress || ''
+
+  const handleSaveChanges = async () => {
+    setSaving(true)
+    // TODO: Implement actual save logic
+    setTimeout(() => setSaving(false), 1000)
+  }
+
+  const handleUpdatePassword = async () => {
+    // TODO: Implement password update logic
+  }
 
   const handleDeleteAccount = () => {
     if (confirm('Are you sure you want to permanently delete your account and all data? This cannot be undone.')) {
-      // Handle account deletion
-      alert('Account deleted')
+      // TODO: Implement account deletion logic
     }
   }
 
-  const writingModes = ['Blog Post', 'Email', 'Social Media', 'Product Description', 'Ad Copy']
+  const containerStyle = {
+    display: 'flex',
+    minHeight: '100vh',
+    background: '#fafaf9'
+  }
+
+  const mainStyle = {
+    flex: 1,
+    padding: '48px',
+    paddingLeft: '280px'
+  }
+
+  const titleStyle = {
+    fontSize: '32px',
+    fontWeight: 300,
+    letterSpacing: '-0.02em',
+    color: '#0c0c0e',
+    marginBottom: '32px'
+  }
+
+  const sectionHeadingStyle = {
+    fontSize: '16px',
+    fontWeight: 600,
+    color: '#0c0c0e',
+    paddingBottom: '12px',
+    borderBottom: '1px solid #f0f0f0',
+    marginBottom: '24px'
+  }
+
+  const labelStyle = {
+    fontSize: '13px',
+    color: '#52525b',
+    fontWeight: 500,
+    marginBottom: '6px',
+    display: 'block'
+  }
+
+  const inputStyle = {
+    width: '100%',
+    background: 'white',
+    border: '1px solid #e5e7eb',
+    borderRadius: '6px',
+    height: '44px',
+    fontSize: '14px',
+    padding: '0 12px',
+    color: '#0c0c0e',
+    boxSizing: 'border-box',
+    fontFamily: 'inherit',
+    transition: 'border-color 0.2s'
+  }
+
+  const selectStyle = {
+    ...inputStyle,
+    appearance: 'none',
+    paddingRight: '32px',
+    backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%220c0c0e%22 stroke-width=%222%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e")',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 10px center',
+    backgroundSize: '20px',
+  }
+
+  const primaryButtonStyle = {
+    background: '#2dd4bf',
+    color: '#0c0c0e',
+    fontWeight: 600,
+    padding: '0 16px',
+    height: '44px',
+    fontSize: '14px',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s',
+    opacity: saving ? 0.7 : 1,
+    pointerEvents: saving ? 'none' : 'auto'
+  }
+
+  const dangerButtonStyle = {
+    background: 'white',
+    color: '#ef4444',
+    border: '1px solid #ef4444',
+    fontWeight: 600,
+    padding: '0 16px',
+    height: '44px',
+    fontSize: '14px',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    transition: 'all 0.2s'
+  }
+
+  const verifiedBadgeStyle = {
+    background: '#ccfbf1',
+    color: '#0d9488',
+    fontSize: '12px',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    whiteSpace: 'nowrap',
+    fontWeight: 500
+  }
+
+  const toggleStyle = (isActive) => ({
+    width: '44px',
+    height: '24px',
+    borderRadius: '12px',
+    background: isActive ? '#2dd4bf' : '#e5e7eb',
+    border: 'none',
+    cursor: 'pointer',
+    position: 'relative',
+    transition: 'background-color 0.2s'
+  })
+
+  const toggleDotStyle = (isActive) => ({
+    position: 'absolute',
+    width: '20px',
+    height: '20px',
+    background: 'white',
+    borderRadius: '50%',
+    top: '2px',
+    left: isActive ? '22px' : '2px',
+    transition: 'left 0.2s'
+  })
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0a0a0f]">
-      <DemoBanner />
-      <div className="flex flex-1 md:pl-60">
-        <DashboardSidebar />
-        
-        {/* Main Content Area */}
-        <main className="flex-1 p-5 md:p-10 md:pb-20 pb-28">
-        <div className="mb-8">
-          <h1 className="text-white text-2xl md:text-[28px] font-bold">Settings</h1>
-        </div>
+    <div style={containerStyle}>
+      <DashboardSidebar />
+      <main style={mainStyle}>
+        <h1 style={titleStyle}>Settings</h1>
 
         {/* Profile Section */}
-        <div>
-          <h2 className="text-white text-lg font-bold pb-3 border-b border-[#1e1e2e] mb-6">Profile</h2>
+        <div style={{ marginBottom: '48px' }}>
+          <h2 style={sectionHeadingStyle}>Profile</h2>
           
-          <div className="space-y-4 mb-6">
-            <div>
-              <label className="text-[#71717a] text-sm mb-2 block">Full Name</label>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={labelStyle}>Full Name</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              style={inputStyle}
+              onFocus={(e) => e.target.style.borderColor = '#2dd4bf'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+
+          <div style={{ marginBottom: '32px' }}>
+            <label style={labelStyle}>Email</label>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
               <input
-                type="text"
-                defaultValue="John Doe"
-                className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-[#6366f1]"
+                type="email"
+                value={email}
+                disabled
+                style={{ ...inputStyle, flex: 1, background: '#f5f5f4', cursor: 'not-allowed' }}
               />
-            </div>
-            <div>
-              <label className="text-[#71717a] text-sm mb-2 block">Email</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="email"
-                  defaultValue="john@example.com"
-                  disabled
-                  className="flex-1 bg-[#0a0a0f] border border-[#1e1e2e] rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-[#6366f1]"
-                />
-                <span className="bg-[#052e16] text-[#4ade80] text-xs px-2 py-1 rounded whitespace-nowrap">Verified</span>
-              </div>
+              <span style={verifiedBadgeStyle}>Verified</span>
             </div>
           </div>
 
-          <button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-6 py-2.5 rounded font-medium transition-colors ml-auto block">
-            Save Changes
+          <button
+            onClick={handleSaveChanges}
+            style={primaryButtonStyle}
+          >
+            {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
 
         {/* Password Section */}
-        <div className="mt-8">
-          <h2 className="text-white text-lg font-bold pb-3 border-b border-[#1e1e2e] mb-6">Password</h2>
+        <div style={{ marginBottom: '48px' }}>
+          <h2 style={sectionHeadingStyle}>Password</h2>
           
-          <div className="space-y-4 mb-6">
-            <div>
-              <label className="text-[#71717a] text-sm mb-2 block">Current Password</label>
-              <input
-                type="password"
-                className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-[#6366f1]"
-              />
-            </div>
-            <div>
-              <label className="text-[#71717a] text-sm mb-2 block">New Password</label>
-              <input
-                type="password"
-                className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-[#6366f1]"
-              />
-            </div>
-            <div>
-              <label className="text-[#71717a] text-sm mb-2 block">Confirm New Password</label>
-              <input
-                type="password"
-                className="w-full bg-[#0a0a0f] border border-[#1e1e2e] rounded px-3 py-3 text-white text-sm focus:outline-none focus:border-[#6366f1]"
-              />
-            </div>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={labelStyle}>Current Password</label>
+            <input
+              type="password"
+              style={inputStyle}
+              onFocus={(e) => e.target.style.borderColor = '#2dd4bf'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
           </div>
 
-          <button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-6 py-2.5 rounded font-medium transition-colors ml-auto block">
+          <div style={{ marginBottom: '24px' }}>
+            <label style={labelStyle}>New Password</label>
+            <input
+              type="password"
+              style={inputStyle}
+              onFocus={(e) => e.target.style.borderColor = '#2dd4bf'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+
+          <div style={{ marginBottom: '32px' }}>
+            <label style={labelStyle}>Confirm New Password</label>
+            <input
+              type="password"
+              style={inputStyle}
+              onFocus={(e) => e.target.style.borderColor = '#2dd4bf'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+
+          <button
+            onClick={handleUpdatePassword}
+            style={primaryButtonStyle}
+          >
             Update Password
           </button>
         </div>
 
         {/* Writing Preferences Section */}
-        <div className="mt-8">
-          <h2 className="text-white text-lg font-bold pb-3 border-b border-[#1e1e2e] mb-6">Writing Preferences</h2>
+        <div style={{ marginBottom: '48px' }}>
+          <h2 style={sectionHeadingStyle}>Writing Preferences</h2>
           
-          <div className="space-y-4">
-            {/* Default Writing Mode */}
-            <div className="flex items-center justify-between py-3 border-b border-[#1e1e2e]">
-              <label className="text-white text-sm">Default Writing Mode</label>
-              <select
-                value={defaultMode}
-                onChange={(e) => setDefaultMode(e.target.value)}
-                className="bg-[#0f0f17] border border-[#1e1e2e] text-white text-sm rounded px-3 py-2 focus:outline-none focus:border-[#6366f1]"
-              >
-                {writingModes.map((mode) => (
-                  <option key={mode} value={mode}>
-                    {mode}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Default Writing Mode */}
+          <div style={{ marginBottom: '24px' }}>
+            <label style={labelStyle}>Default Writing Mode</label>
+            <select
+              value={defaultMode}
+              onChange={(e) => setDefaultMode(e.target.value)}
+              style={selectStyle}
+              onFocus={(e) => e.target.style.borderColor = '#2dd4bf'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            >
+              {writingModes.map((mode) => (
+                <option key={mode} value={mode}>
+                  {mode}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* Auto-save Toggle */}
-            <div className="flex items-center justify-between py-3 border-b border-[#1e1e2e]">
-              <label className="text-white text-sm">Auto-save</label>
-              <button
-                onClick={() => setAutoSave(!autoSave)}
-                className={`relative w-12 h-6 rounded-full transition-colors ${
-                  autoSave ? 'bg-[#6366f1]' : 'bg-[#1e1e2e]'
-                }`}
-              >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                    autoSave ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                ></div>
-              </button>
-            </div>
+          {/* Auto-save Toggle */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <label style={{ ...labelStyle, marginBottom: 0 }}>Auto-save</label>
+            <button
+              onClick={() => setAutoSave(!autoSave)}
+              style={toggleStyle(autoSave)}
+            >
+              <div style={toggleDotStyle(autoSave)} />
+            </button>
+          </div>
 
-            {/* AI Suggestions Toggle */}
-            <div className="flex items-center justify-between py-3">
-              <label className="text-white text-sm">AI Suggestions</label>
-              <button
-                onClick={() => setAiSuggestions(!aiSuggestions)}
-                className={`relative w-12 h-6 rounded-full transition-colors ${
-                  aiSuggestions ? 'bg-[#6366f1]' : 'bg-[#1e1e2e]'
-                }`}
-              >
-                <div
-                  className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                    aiSuggestions ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                ></div>
-              </button>
-            </div>
+          {/* AI Suggestions Toggle */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <label style={{ ...labelStyle, marginBottom: 0 }}>AI Suggestions</label>
+            <button
+              onClick={() => setAiSuggestions(!aiSuggestions)}
+              style={toggleStyle(aiSuggestions)}
+            >
+              <div style={toggleDotStyle(aiSuggestions)} />
+            </button>
           </div>
         </div>
 
         {/* Danger Zone */}
-        <div className="mt-8">
-          <h2 className="text-white text-lg font-bold pb-3 border-b border-[#ef4444] mb-4">Danger Zone</h2>
-          <p className="text-[#71717a] text-sm mb-4">Permanently delete your account and all data</p>
-          
+        <div>
+          <h2 style={{ ...sectionHeadingStyle, borderBottomColor: '#ef4444' }}>Danger Zone</h2>
+          <p style={{ fontSize: '14px', color: '#71717a', marginBottom: '16px' }}>
+            Permanently delete your account and all data
+          </p>
           <button
             onClick={handleDeleteAccount}
-            className="border border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444] hover:text-white px-6 py-2.5 rounded font-medium transition-colors"
+            style={dangerButtonStyle}
           >
             Delete Account
           </button>
         </div>
       </main>
-      </div>
     </div>
   )
 }
