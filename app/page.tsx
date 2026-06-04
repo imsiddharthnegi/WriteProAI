@@ -2,7 +2,7 @@
 
 import { AnimatedDiff } from '@/components/animated-diff'
 import { ArrowUpRight } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '@/components/navbar'
@@ -14,6 +14,9 @@ import { variants, containerVariants, containerVariantsSmall, easing } from '@/l
 export default function Page() {
   const [billingPeriod, setBillingPeriod] = React.useState<'monthly' | 'yearly'>('monthly')
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [count1, setCount1] = useState(0)
+  const [count2, setCount2] = useState(0)
+  const [count3, setCount3] = useState(0)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -22,6 +25,28 @@ export default function Page() {
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
     mediaQuery.addEventListener('change', handler)
     return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  // Count-up animation for stats
+  useEffect(() => {
+    const duration = 1500
+    const frames = 60
+    const interval = duration / frames
+
+    let frame = 0
+    const timer = setInterval(() => {
+      frame++
+      const progress = Math.min(frame / frames, 1)
+      const easeOut = 1 - Math.pow(1 - progress, 3)
+      
+      setCount1(Math.floor(10400 * easeOut))
+      setCount2(parseFloat((2.1 * easeOut).toFixed(1)))
+      setCount3(parseFloat((4.5 * easeOut).toFixed(1)))
+
+      if (progress === 1) clearInterval(timer)
+    }, interval)
+
+    return () => clearInterval(timer)
   }, [])
 
   // Scroll animation refs
@@ -685,7 +710,7 @@ export default function Page() {
               className="flex-1 text-center px-8"
               variants={prefersReducedMotion ? {} : variants.fadeIn}
             >
-              <div className="text-[28px] font-bold leading-[1.1] text-white">10,400+</div>
+              <div className="text-[28px] font-bold leading-[1.1] text-white animate-count-up">{count1.toLocaleString()}+</div>
               <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">writers trust WritePro</div>
             </motion.div>
 
@@ -697,7 +722,7 @@ export default function Page() {
               className="flex-1 text-center px-8"
               variants={prefersReducedMotion ? {} : variants.fadeIn}
             >
-              <div className="text-[28px] font-bold leading-[1.1] text-white">2M+</div>
+              <div className="text-[28px] font-bold leading-[1.1] text-white animate-count-up">{count2}M+</div>
               <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">words improved</div>
             </motion.div>
 
@@ -709,7 +734,7 @@ export default function Page() {
               className="flex-1 text-center px-8"
               variants={prefersReducedMotion ? {} : variants.fadeIn}
             >
-              <div className="text-[28px] font-bold leading-[1.1] text-white">4.5★</div>
+              <div className="text-[28px] font-bold leading-[1.1] text-white animate-count-up">{count3}★</div>
               <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">average rating</div>
             </motion.div>
           </motion.div>

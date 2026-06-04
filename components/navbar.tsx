@@ -10,7 +10,7 @@ const NavbarAuthSection = dynamic(() => import('./navbar-auth-section').then(mod
   loading: () => (
     <>
       <Link href="/login" className="text-sm text-slate-400">Log in</Link>
-      <Link href="/signup" className="text-sm font-medium text-white bg-teal-400 px-4 py-2" style={{ borderRadius: '6px' }}>Get Started</Link>
+      <Link href="/signup" className="text-sm font-medium text-white bg-teal-400 px-4 py-2 relative group" style={{ borderRadius: '6px' }}>Get Started<span className="navbar-button-hover group-hover:block hidden" /></Link>
     </>
   ),
   ssr: false // Disable SSR for this component

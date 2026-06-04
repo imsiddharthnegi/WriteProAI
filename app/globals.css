@@ -779,7 +779,129 @@ body::before {
   animation: glow-pulse 1000ms ease-out forwards;
 }
 
-/* Section divider draw */
+/* Navbar button border trace animation */
+@keyframes border-trace {
+  0% {
+    background: linear-gradient(90deg, #2dd4bf 0%, #2dd4bf 0%, transparent 0%, transparent 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+  }
+  100% {
+    background: linear-gradient(90deg, transparent 0%, #2dd4bf 0%, #2dd4bf 100%, transparent 100%);
+    background-size: 200% 100%;
+    background-position: 0 0;
+  }
+}
+
+.navbar-button-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  padding: 1px;
+  background: linear-gradient(90deg, #2dd4bf, transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-trace 400ms ease-in-out;
+  pointer-events: none;
+}
+
+/* Shimmer animation for pricing button */
+@keyframes shimmer-sweep-button {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.shimmer-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.shimmer-button.animate-shimmer::after {
+  animation: shimmer-sweep-button 600ms ease-in-out forwards;
+}
+
+/* UI snippet entrance animation */
+@keyframes snippet-entrance {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-snippet-entrance {
+  animation: snippet-entrance 400ms ease-out forwards;
+}
+
+/* Count-up for stats */
+@keyframes count-up {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-count-up {
+  animation: count-up 1500ms ease-out forwards;
+}
+
+/* Word-by-word fade in */
+@keyframes word-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.word-fade-in {
+  animation: word-fade-in 0.3s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-button-hover::after,
+  .shimmer-button.animate-shimmer::after,
+  .animate-snippet-entrance,
+  .animate-count-up,
+  .word-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Cursor styles */
+button, [role="button"], a[href], input[type="submit"], input[type="button"], .cursor-pointer {
+  cursor: pointer;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="search"], textarea, [contenteditable] {
+  cursor: text;
+}
+
+html {
+  cursor: auto;
+}
+
 @keyframes divider-draw {
   from {
     width: 0%;

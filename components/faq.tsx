@@ -120,7 +120,11 @@ export default function FAQ() {
                   }}
                 >
                   <p className="text-[15px] text-[#52525b] leading-[1.8] pb-6">
-                    {faq.answer}
+                    {openId === faq.id ? faq.answer.split(' ').map((word, idx) => (
+                      <span key={idx} className="word-fade-in" style={{ animationDelay: `${idx * 20}ms` }}>
+                        {word}{' '}
+                      </span>
+                    )) : faq.answer}
                   </p>
                 </div>
               </div>
