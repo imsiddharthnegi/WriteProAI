@@ -1,7 +1,6 @@
 'use client'
 
 import { AnimatedDiff } from '@/components/animated-diff'
-import { NotificationStrip } from '@/components/notification-strip'
 import { ArrowUpRight } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
@@ -91,7 +90,7 @@ export default function Page() {
 
             {/* Buttons - Fade in together */}
             <motion.div 
-              className="flex gap-4 pt-4"
+              className="flex gap-4 pt-4 items-center"
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.35 }}
@@ -103,8 +102,12 @@ export default function Page() {
                 <span>Start writing free</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
               </Link>
-              <Link href="#features" className="px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150">
-                See how it works →
+              <Link 
+                href="#features" 
+                className="group px-6 py-3 font-medium text-slate-300 hover:text-white transition-colors cursor-pointer duration-150 inline-flex items-center gap-1"
+              >
+                See how it works
+                <span className="inline-block group-hover:translate-x-0.5 transition-transform duration-150">→</span>
               </Link>
             </motion.div>
           </div>
@@ -170,9 +173,6 @@ export default function Page() {
           </motion.div>
         </div>
       </motion.section>
-
-      {/* Notification Strip */}
-      <NotificationStrip />
 
       {/* Features Section */}
       <motion.section 
@@ -645,13 +645,53 @@ export default function Page() {
 
       {/* FAQ Section */}
       <motion.section 
-        ref={faqRef}
-        className="px-6 md:px-0"
+        className="border-t border-[#1f1f23] bg-[#0c0c0e] px-6 md:px-0 py-6"
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-        animate={faqInView || prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+        whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
         transition={{ duration: 0.4 }}
+        viewport={{ once: true, amount: 0.3 }}
       >
-        <FAQ />
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            className="flex justify-center items-center gap-0"
+            variants={prefersReducedMotion ? {} : containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Stat 1 */}
+            <motion.div 
+              className="flex-1 text-center px-8"
+              variants={prefersReducedMotion ? {} : variants.fadeIn}
+            >
+              <div className="text-[28px] font-bold leading-[1.1] text-white">10,400+</div>
+              <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">writers trust WritePro</div>
+            </motion.div>
+
+            {/* Divider 1 */}
+            <div className="w-px h-12 bg-[#2a2a2e]"></div>
+
+            {/* Stat 2 */}
+            <motion.div 
+              className="flex-1 text-center px-8"
+              variants={prefersReducedMotion ? {} : variants.fadeIn}
+            >
+              <div className="text-[28px] font-bold leading-[1.1] text-white">2M+</div>
+              <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">words improved</div>
+            </motion.div>
+
+            {/* Divider 2 */}
+            <div className="w-px h-12 bg-[#2a2a2e]"></div>
+
+            {/* Stat 3 */}
+            <motion.div 
+              className="flex-1 text-center px-8"
+              variants={prefersReducedMotion ? {} : variants.fadeIn}
+            >
+              <div className="text-[28px] font-bold leading-[1.1] text-white">4.5★</div>
+              <div className="text-[13px] font-normal leading-[1.6] text-[#71717a] mt-2">average rating</div>
+            </motion.div>
+          </motion.div>
+        </div>
       </motion.section>
 
       {/* CTA Section */}
