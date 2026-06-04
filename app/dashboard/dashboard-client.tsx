@@ -12,6 +12,7 @@ export default function DashboardContent() {
   const [userData, setUserData] = useState(null)
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [creating, setCreating] = useState(false)
 
   useEffect(() => {
     if (authLoaded && !userId) {
@@ -49,21 +50,53 @@ export default function DashboardContent() {
   }, [userId])
 
   const handleNewProject = async () => {
+    console.log('New project clicked, userId:', userId)
+    setCreating(true)
     const supabase = createClient()
-    if (!supabase || !userId) return
-    const { data, error } = await supabase
-      .from('projects')
-      .insert({
-        user_id: userId,
-        name: 'Untitled',
-        content: '',
-        word_count: 0,
-        mode: 'blog'
-      })
-      .select()
-      .single()
-    if (!error && data) {
-      router.push(`/dashboard/write/${data.id}`)
+    if (!supabase) {
+      console.error('Supabase client is null')
+      setCreating(false)
+      return
+    }
+    if (!userId) {
+      console.error('No userId')
+      setCreating(false)
+      router.push('/login')
+      return
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .insert({
+          user_id: userId,
+          name: 'Untitled',
+          content: '',
+          word_count: 0,
+          mode: 'blog'
+        })
+        .select()
+        .single()
+
+      console.log('Insert result:', data, error)
+
+      if (error) {
+        console.error('Supabase error:', error)
+        // If Supabase fails, still navigate to editor
+        // with a temporary ID so user isn't blocked
+        router.push('/dashboard/write/new')
+        setCreating(false)
+        return
+      }
+
+      if (data) {
+        router.push(`/dashboard/write/${data.id}`)
+      }
+      setCreating(false)
+    } catch (err) {
+      console.error('Unexpected error:', err)
+      router.push('/dashboard/write/new')
+      setCreating(false)
     }
   }
 
@@ -164,7 +197,7 @@ export default function DashboardContent() {
         <nav style={{ padding: '16px 0', flex: 1 }}>
           {[
             { label: 'Dashboard', href: '/dashboard', active: true },
-            { label: 'New Project', href: '#', onClick: handleNewProject },
+            { label: 'New Project', href: '#', onClick: () => handleNewProject() },
             { label: 'Settings', href: '/dashboard/settings' },
           ].map((item) => (
             <div
@@ -399,6 +432,7 @@ export default function DashboardContent() {
             </h2>
             <button
               onClick={handleNewProject}
+              disabled={creating}
               style={{
                 padding: '8px 16px',
                 background: 'transparent',
@@ -406,11 +440,12 @@ export default function DashboardContent() {
                 borderRadius: '6px',
                 fontSize: '13px',
                 color: '#0c0c0e',
-                cursor: 'pointer',
-                fontFamily: 'inherit'
+                cursor: creating ? 'not-allowed' : 'pointer',
+                fontFamily: 'inherit',
+                opacity: creating ? 0.6 : 1
               }}
             >
-              + New Project
+              {creating ? 'Creating...' : '+ New Project'}
             </button>
           </div>
 
@@ -449,7 +484,8 @@ export default function DashboardContent() {
                 onClick={handleNewProject}
                 style={{
                   color: '#2dd4bf',
-                  cursor: 'pointer'
+                  cursor: creating ? 'not-allowed' : 'pointer',
+                  opacity: creating ? 0.6 : 1
                 }}
               >
                 Create your first project →
