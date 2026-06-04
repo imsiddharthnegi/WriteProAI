@@ -63,14 +63,14 @@ export default function Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 px-6 md:px-0 overflow-hidden">
+      <section className="relative py-20 px-6 md:px-0 overflow-hidden">
         {/* Radial gradient backdrop */}
         <div className="absolute inset-0 pointer-events-none"
           style={{
             background: 'radial-gradient(ellipse 800px 600px at 60% 40%, rgba(45, 212, 191, 0.04) 0%, transparent 70%)'
           }}
         ></div>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)] relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           
           {/* Left Column: Copy */}
           <div className="flex flex-col justify-start space-y-8">
@@ -93,7 +93,7 @@ export default function Page() {
               {['Write with', 'intention.'].map((word, i) => (
                 <motion.span
                   key={i}
-                  className={i === 1 ? 'text-white relative inline-block' : undefined}
+                  className={i === 1 ? 'text-[#2dd4bf] inline-block' : 'text-white'}
                   variants={prefersReducedMotion ? { hidden: {}, animate: {} } : {
                     hidden: { opacity: 0, y: 12 },
                     visible: { opacity: 1, y: 0 },
@@ -101,9 +101,6 @@ export default function Page() {
                   transition={{ duration: 0.6, ease: easing }}
                 >
                   {word}
-                  {i === 1 && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-400"></span>
-                  )}
                   {i === 0 && <br />}
                 </motion.span>
               ))}
@@ -128,10 +125,9 @@ export default function Page() {
             >
               <Link
                 href="/signup"
-                className="group px-6 py-3 bg-white text-slate-950 font-medium inline-flex items-center gap-2 border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer"
+                className="px-5 h-11 bg-white text-slate-950 font-medium inline-flex items-center border-l-2 border-l-teal-400 hover:brightness-110 transition-all duration-150 cursor-pointer text-sm"
               >
-                <span>Start writing free</span>
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-150" />
+                Start writing free
               </Link>
               <Link 
                 href="#features" 
@@ -175,36 +171,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <motion.section 
-        className="border-t border-slate-800 py-8 px-6 md:px-0"
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-        animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
-        transition={{ duration: 0.5, ease: easing, delay: 0.5 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            className="grid grid-cols-3 gap-8 text-center"
-            variants={prefersReducedMotion ? {} : containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-[22px] font-normal leading-[1.3]">12,400+</div>
-              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">writers</div>
-            </motion.div>
-            <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-[22px] font-normal leading-[1.3]">2.1M</div>
-              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">words improved</div>
-            </motion.div>
-            <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-[22px] font-normal leading-[1.3]">4.9★</div>
-              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">rating</div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
-
       {/* Features Section */}
       <motion.section 
         id="features"
@@ -214,22 +180,23 @@ export default function Page() {
         animate={featureInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-[1200px] mx-auto py-24 pt-32">
+        <div className="max-w-[1200px] mx-auto py-20">
           {/* Section Heading */}
           <motion.div 
-            className="mb-10"
+            className="mb-16"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             animate={featureInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-slate-950">Your words, elevated</h2>
+            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-3">Features</div>
+            <h2 className="text-[42px] font-semibold leading-[1.2] tracking-[-0.02em] text-slate-950 text-left">Your words, elevated</h2>
           </motion.div>
 
           {/* Features Grid */}
           <div className="space-y-0">
             {/* Feature 1: Text Left, UI Right - AI Suggestions */}
             <motion.div 
-              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
+              className="border-b border-[#f0f0f0] py-14 flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing }}
@@ -243,7 +210,7 @@ export default function Page() {
                   </p>
                 </div>
                 {/* UI Snippet - Editor Mockup */}
-                <div className="space-y-6">
+                <div className="space-y-6 bg-[#fafaf9] border border-[#f0f0f0] rounded-lg p-6">
                   {/* Original */}
                   <div>
                     <p className="text-[11px] font-medium text-[#52525b] uppercase tracking-[0.1em] mb-3">Original</p>
@@ -266,14 +233,14 @@ export default function Page() {
 
             {/* Feature 2: UI Left, Text Right - Writing Modes */}
             <motion.div 
-              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
+              className="border-b border-[#f0f0f0] py-14 flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.08 }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* UI Snippet - Tab Switcher */}
-                <div className="space-y-6">
+                <div className="space-y-6 bg-[#fafaf9] border border-[#f0f0f0] rounded-lg p-6">
                   {/* Tabs */}
                   <div className="flex gap-8 border-b border-[#e5e7eb] pb-4">
                     <button className="text-[15px] font-normal leading-[1.6] text-teal-600 pb-2 border-b-2 border-teal-400">Blog</button>
@@ -305,7 +272,7 @@ export default function Page() {
 
             {/* Feature 3: Text Left, UI Right - Tone Adjustment */}
             <motion.div 
-              className="border-b border-[#f0f0f0] py-20 min-h-[200px] flex items-center"
+              className="border-b border-[#f0f0f0] py-14 flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.16 }}
@@ -319,7 +286,7 @@ export default function Page() {
                   </p>
                 </div>
                 {/* UI Snippet - Formal/Casual */}
-                <div className="space-y-8">
+                <div className="space-y-8 bg-[#fafaf9] border border-[#f0f0f0] rounded-lg p-6">
                   {/* Formal */}
                   <div>
                     <p className="text-[11px] font-medium text-[#52525b] uppercase tracking-[0.1em] mb-3">Formal</p>
@@ -338,14 +305,14 @@ export default function Page() {
 
             {/* Feature 4: UI Left, Text Right - Usage Dashboard */}
             <motion.div 
-              className="py-20 min-h-[200px] flex items-center"
+              className="py-14 flex items-center"
               initial={prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               animate={featureInView || prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.24 }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* UI Snippet - Usage Stats */}
-                <div className="space-y-8">
+                <div className="space-y-8 bg-[#fafaf9] border border-[#f0f0f0] rounded-lg p-6">
                   {/* Heading */}
                   <div>
                     <p className="text-[14px] font-medium text-slate-950 mb-3">Words Used This Month</p>
@@ -500,15 +467,16 @@ export default function Page() {
         animate={pricingInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1100px] mx-auto">
           {/* Section Heading */}
           <motion.div 
-            className="mb-16 text-center"
+            className="mb-16"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             animate={pricingInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white">Simple, transparent pricing</h2>
+            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-3">Pricing</div>
+            <h2 className="text-[42px] font-semibold leading-[1.2] tracking-[-0.02em] text-white text-left">Simple, transparent pricing</h2>
           </motion.div>
 
           {/* Billing Toggle */}
@@ -550,7 +518,7 @@ export default function Page() {
 
           {/* Pricing Cards Container */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
             variants={prefersReducedMotion ? {} : {
               hidden: { opacity: 0 },
               visible: {
@@ -566,7 +534,7 @@ export default function Page() {
           >
             {/* Free Tier */}
             <motion.div 
-              className="flex flex-col bg-[#13131a] border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200"
+              className="flex flex-col bg-[#13131a] border border-[#1f1f23] border-l-transparent p-6 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200"
               variants={prefersReducedMotion ? {} : {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
@@ -611,7 +579,7 @@ export default function Page() {
 
             {/* Pro Tier - Highlighted */}
             <motion.div 
-              className="flex flex-col bg-[#0f0f1a] border border-slate-800 border-l-4 border-l-teal-400 p-8 min-h-[520px] relative hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200"
+              className="flex flex-col bg-[#0d1f1e] border border-[#2dd4bf] border-opacity-25 border-l-4 border-l-teal-400 p-6 min-h-[520px] relative hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-200"
               style={{ boxShadow: '0 0 40px rgba(45, 212, 191, 0.06)' }}
               variants={prefersReducedMotion ? {} : {
                 hidden: { opacity: 0, y: 20 },
@@ -661,6 +629,35 @@ export default function Page() {
                   <span className="text-slate-500">–</span>
                   <span>Priority support</span>
                 </div>
+              </div>
+              <Link
+                href="/signup"
+                className="w-full px-4 py-2.5 text-sm font-medium bg-teal-400 text-slate-950 hover:bg-teal-300 transition-all cursor-pointer block text-center rounded"
+              >
+                Get started
+              </Link>
+            </motion.div>
+
+            {/* Enterprise Tier */}
+            <motion.div 
+              className="flex flex-col bg-[#13131a] border border-[#1f1f23] border-l-transparent p-6 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200"
+              variants={prefersReducedMotion ? {} : {
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.6, ease: easing }}
+            >
+              <div className="mb-8">
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] tracking-tight mb-4">Enterprise</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[36px] font-semibold leading-[1.1]">Custom</span>
+                  <span className="text-[15px] font-normal leading-[1.6] text-slate-400">pricing</span>
+                </div>
+              </div>
+              <p className="text-[15px] font-normal leading-[1.6] text-slate-400 mb-8 flex-grow">
+                Advanced features, dedicated support, and custom integrations for large teams.
+              </p>
+              <div className="space-y-3 mb-8">
                 <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Everything in Pro</span>
@@ -743,7 +740,7 @@ export default function Page() {
 
       {/* CTA Section */}
       <motion.section 
-        className="bg-[#0c0c0e] border-t border-[#1f1f23] px-6 md:px-0 py-20"
+        className="bg-[#0c0c0e] border-t border-[#1f1f23] px-6 md:px-0 py-12"
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
         transition={{ duration: 0.4, ease: easing }}
@@ -758,9 +755,9 @@ export default function Page() {
           {/* Right: Button */}
           <Link 
             href="/signup"
-            className="h-12 px-5 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded-md text-[14px] hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2 whitespace-nowrap"
+            className="h-11 px-5 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-[14px] hover:brightness-110 transition-all duration-150 inline-flex items-center whitespace-nowrap"
           >
-            Get started free →
+            Get started free
           </Link>
         </div>
       </motion.section>

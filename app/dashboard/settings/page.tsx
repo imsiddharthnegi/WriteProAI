@@ -1,19 +1,19 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
-import { useUser } from '@clerk/nextjs'
 import DashboardSidebar from '@/components/dashboard-sidebar'
 
 export default function SettingsPage() {
-  const { user } = useUser()
   const [autoSave, setAutoSave] = useState(true)
   const [aiSuggestions, setAiSuggestions] = useState(true)
   const [defaultMode, setDefaultMode] = useState('Blog Post')
-  const [fullName, setFullName] = useState(user?.fullName || '')
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
   const [saving, setSaving] = useState(false)
 
   const writingModes = ['Blog Post', 'Email', 'Social Media', 'Product Description', 'Ad Copy']
-  const email = user?.emailAddresses?.[0]?.emailAddress || ''
 
   const handleSaveChanges = async () => {
     setSaving(true)
