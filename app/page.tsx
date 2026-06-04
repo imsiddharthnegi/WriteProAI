@@ -45,8 +45,8 @@ export default function Page() {
           {/* Left Column: Copy */}
           <div className="flex flex-col justify-start space-y-8">
             {/* Headline - Staggered word animation */}
-            <motion.h1 
-              className="text-7xl md:text-8xl font-light leading-none tracking-tight"
+              <motion.h1
+                className="text-[72px] font-semibold leading-[1.1] tracking-[-0.03em]"
               initial="hidden"
               animate={prefersReducedMotion ? { opacity: 1 } : "visible"}
               variants={{
@@ -81,7 +81,7 @@ export default function Page() {
 
             {/* Subtext - Fades in after headline */}
             <motion.p 
-              className="text-lg text-slate-400 max-w-sm leading-relaxed"
+              className="text-[18px] font-normal leading-[1.7] text-slate-400 max-w-sm"
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
               animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={{ duration: 0.4, ease: easing, delay: 0.2 }}
@@ -123,7 +123,7 @@ export default function Page() {
             <div className="h-px bg-slate-800 my-8" />
 
             {/* Example Features */}
-            <div className="space-y-3 text-sm text-slate-400">
+            <div className="space-y-3 text-[15px] font-normal leading-[1.6] text-slate-400">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-1 rounded-full bg-teal-400" />
                 <span>Real-time AI suggestions</span>
@@ -156,16 +156,16 @@ export default function Page() {
             animate="visible"
           >
             <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-3xl font-light">12,400+</div>
-              <div className="text-sm text-slate-500 mt-1">writers</div>
+              <div className="text-[22px] font-normal leading-[1.3]">12,400+</div>
+              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">writers</div>
             </motion.div>
             <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-3xl font-light">2.1M</div>
-              <div className="text-sm text-slate-500 mt-1">words improved</div>
+              <div className="text-[22px] font-normal leading-[1.3]">2.1M</div>
+              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">words improved</div>
             </motion.div>
             <motion.div variants={prefersReducedMotion ? {} : variants.fadeIn}>
-              <div className="text-3xl font-light">4.9★</div>
-              <div className="text-sm text-slate-500 mt-1">rating</div>
+              <div className="text-[22px] font-normal leading-[1.3]">4.9★</div>
+              <div className="text-[15px] font-normal leading-[1.6] text-slate-500 mt-1">rating</div>
             </motion.div>
           </motion.div>
         </div>
@@ -191,7 +191,7 @@ export default function Page() {
             animate={featureInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <h2 className="text-[48px] font-semibold text-slate-950">Your words, elevated</h2>
+            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-slate-950">Your words, elevated</h2>
           </motion.div>
 
           {/* Features Grid */}
@@ -206,7 +206,7 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
-                  <h3 className="text-[24px] font-bold text-slate-950">AI Suggestions</h3>
+                  <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">AI Suggestions</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7] max-w-[380px]">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
                   </p>
@@ -215,15 +215,15 @@ export default function Page() {
                 <div className="space-y-6">
                   {/* Original */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.12em] mb-3">Original</p>
-                    <p className="text-[15px] text-slate-900">The results were amazing and pretty good.</p>
+                    <p className="text-[11px] font-medium text-[#52525b] uppercase tracking-[0.1em] mb-3">Original</p>
+                    <p className="text-[15px] font-normal leading-[1.6] text-slate-900">The results were amazing and pretty good.</p>
                   </div>
                   {/* Divider */}
                   <div className="h-px bg-teal-400"></div>
                   {/* Improved */}
                   <div>
-                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.12em] mb-3">Improved</p>
-                    <p className="text-[15px] text-slate-900">
+                    <p className="text-[11px] font-medium text-teal-600 uppercase tracking-[0.1em] mb-3">Improved</p>
+                    <p className="text-[15px] font-normal leading-[1.6] text-slate-900">
                       The results were{' '}
                       <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">truly impressive</span>{' '}
                       and exceeded all expectations.
@@ -245,26 +245,26 @@ export default function Page() {
                 <div className="space-y-6">
                   {/* Tabs */}
                   <div className="flex gap-8 border-b border-[#e5e7eb] pb-4">
-                    <button className="text-[16px] font-semibold text-teal-600 pb-2 border-b-2 border-teal-400">Blog</button>
-                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Email</button>
-                    <button className="text-[16px] font-semibold text-[#52525b] hover:text-slate-900 transition-colors">Technical</button>
+                    <button className="text-[15px] font-normal leading-[1.6] text-teal-600 pb-2 border-b-2 border-teal-400">Blog</button>
+                    <button className="text-[15px] font-normal leading-[1.6] text-[#52525b] hover:text-slate-900 transition-colors">Email</button>
+                    <button className="text-[15px] font-normal leading-[1.6] text-[#52525b] hover:text-slate-900 transition-colors">Technical</button>
                   </div>
                   {/* Content Preview */}
                   <div className="space-y-3">
-                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                    <p className="text-[15px] font-normal leading-[1.6] text-[#52525b]">
                       The key to effective communication is understanding your audience and tailoring...
                     </p>
-                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                    <p className="text-[15px] font-normal leading-[1.6] text-[#52525b]">
                       Whether you&apos;re writing for experts or beginners, the tone should reflect...
                     </p>
-                    <p className="text-[15px] text-[#52525b] leading-[1.6]">
+                    <p className="text-[15px] font-normal leading-[1.6] text-[#52525b]">
                       By adapting your writing style, you ensure maximum impact and engagement...
                     </p>
                   </div>
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
-                  <h3 className="text-[24px] font-bold text-slate-950">Writing Modes</h3>
+                  <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Writing Modes</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
                   </p>
@@ -282,7 +282,7 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
-                  <h3 className="text-[24px] font-bold text-slate-950">Tone Adjustment</h3>
+                  <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Tone Adjustment</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
                   </p>
@@ -291,13 +291,13 @@ export default function Page() {
                 <div className="space-y-8">
                   {/* Formal */}
                   <div>
-                    <p className="text-[11px] font-semibold text-[#52525b] uppercase tracking-[0.15em] mb-3">Formal</p>
-                    <p className="text-[16px] text-slate-900">We look forward to collaborating on this initiative.</p>
+                    <p className="text-[11px] font-medium text-[#52525b] uppercase tracking-[0.1em] mb-3">Formal</p>
+                    <p className="text-[15px] font-normal leading-[1.6] text-slate-900">We look forward to collaborating on this initiative.</p>
                   </div>
                   {/* Casual */}
                   <div className="border-l-2 border-teal-400 pl-4">
-                    <p className="text-[11px] font-semibold text-teal-600 uppercase tracking-[0.15em] mb-3">Casual</p>
-                    <p className="text-[16px] text-slate-900">
+                    <p className="text-[11px] font-medium text-teal-600 uppercase tracking-[0.1em] mb-3">Casual</p>
+                    <p className="text-[15px] font-normal leading-[1.6] text-slate-900">
                       <span className="bg-[#ccfbf1] text-teal-700 rounded px-1.5 py-0.5 font-semibold">Let&apos;s team up</span> on this — it&apos;s going to be great!
                     </p>
                   </div>
@@ -317,10 +317,10 @@ export default function Page() {
                 <div className="space-y-8">
                   {/* Heading */}
                   <div>
-                    <p className="text-[14px] font-bold text-slate-950 mb-3">Words Used This Month</p>
+                    <p className="text-[14px] font-medium text-slate-950 mb-3">Words Used This Month</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-[36px] font-bold text-slate-950">4,700</span>
-                      <span className="text-[16px] text-[#52525b]">/ 10,000 words</span>
+                      <span className="text-[36px] font-semibold leading-[1.1] text-slate-950">4,700</span>
+                      <span className="text-[15px] font-normal leading-[1.6] text-[#52525b]">/ 10,000 words</span>
                     </div>
                   </div>
                   {/* Progress Bar */}
@@ -330,15 +330,15 @@ export default function Page() {
                     </div>
                   </div>
                   {/* Reset Info */}
-                  <p className="text-[13px] text-[#52525b]">📅 Resets in 18 days</p>
+                  <p className="text-[13px] font-normal leading-[1.6] text-[#52525b]">📅 Resets in 18 days</p>
                   {/* Upgrade Link */}
-                  <button className="text-[14px] font-semibold text-teal-600 hover:text-teal-700 transition-colors">
+                  <button className="text-[15px] font-normal leading-[1.6] text-teal-600 hover:text-teal-700 transition-colors">
                     Upgrade for unlimited →
                   </button>
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
-                  <h3 className="text-[24px] font-bold text-slate-950">Usage Dashboard</h3>
+                  <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Usage Dashboard</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
                   </p>
@@ -367,11 +367,11 @@ export default function Page() {
             viewport={{ once: true, amount: 0.5 }}
           >
             {/* Eyebrow */}
-            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-4">
+            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.1em] mb-4">
               Process
             </div>
             {/* H2 */}
-            <h2 className="text-[42px] font-semibold text-white leading-tight">
+            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
               Up and running in 3 steps.
             </h2>
           </motion.div>
@@ -392,8 +392,8 @@ export default function Page() {
               </div>
               {/* Content */}
               <div className="relative pt-8 space-y-3">
-                <h3 className="text-[20px] font-semibold text-white">Sign up free</h3>
-                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Sign up free</h3>
+                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
                   Create your account in under 60 seconds. No credit card needed — just your email and you're in.
                 </p>
               </div>
@@ -415,8 +415,8 @@ export default function Page() {
               </div>
               {/* Content */}
               <div className="relative pt-8 space-y-3">
-                <h3 className="text-[20px] font-semibold text-white">Paste your writing</h3>
-                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Paste your writing</h3>
+                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
                   Drop in any text — emails, blog posts, technical docs. WritePro works with whatever you're working on.
                 </p>
               </div>
@@ -438,8 +438,8 @@ export default function Page() {
               </div>
               {/* Content */}
               <div className="relative pt-8 space-y-3">
-                <h3 className="text-[20px] font-semibold text-white">Get suggestions instantly</h3>
-                <p className="text-[15px] text-[#71717a] leading-[1.7]">
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Get suggestions instantly</h3>
+                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
                   Real-time AI improvements tailored to your writing mode. Apply them in one click and keep your flow.
                 </p>
               </div>
@@ -461,7 +461,7 @@ export default function Page() {
             animate={pricingInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: easing }}
           >
-            <h2 className="text-5xl font-light">Simple, transparent pricing</h2>
+            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white">Simple, transparent pricing</h2>
           </motion.div>
 
           {/* Billing Toggle */}
@@ -527,25 +527,25 @@ export default function Page() {
               transition={{ duration: 0.4, ease: easing }}
             >
               <div className="mb-8">
-                <h3 className="text-3xl font-light tracking-tight mb-4">Free</h3>
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] tracking-tight mb-4">Free</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-light">$0</span>
-                  <span className="text-slate-400 text-sm">/month</span>
+                  <span className="text-[36px] font-semibold leading-[1.1]">$0</span>
+                  <span className="text-[15px] font-normal leading-[1.6] text-slate-400">/month</span>
                 </div>
               </div>
-              <p className="text-slate-400 text-sm mb-8 flex-grow">
+              <p className="text-[15px] font-normal leading-[1.6] text-slate-400 mb-8 flex-grow">
                 Get started with the essentials. Perfect for individual writers exploring WritePro.
               </p>
               <div className="space-y-3 mb-8">
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>500 AI suggestions/month</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>3 writing modes</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Basic tone adjustment</span>
                 </div>
@@ -579,92 +579,58 @@ export default function Page() {
                 </div>
               )}
               <div className="mb-8">
-                <h3 className="text-3xl font-light tracking-tight mb-4">Pro</h3>
+                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] tracking-tight mb-4">Pro</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-light">
+                  <span className="text-[36px] font-semibold leading-[1.1]">
                     ${billingPeriod === 'yearly' ? '7' : '9'}
                   </span>
-                  <span className="text-slate-400 text-sm">/month</span>
+                  <span className="text-[15px] font-normal leading-[1.6] text-slate-400">/month</span>
                 </div>
                 {billingPeriod === 'yearly' && (
-                  <p className="text-xs text-slate-500 mt-2">Billed $84/year</p>
+                  <p className="text-[11px] font-medium text-slate-500 mt-2">Billed $84/year</p>
                 )}
               </div>
-              <p className="text-slate-400 text-sm mb-8 flex-grow">
+              <p className="text-[15px] font-normal leading-[1.6] text-slate-400 mb-8 flex-grow">
                 Everything in Free, plus advanced AI features and priority support.
               </p>
               <div className="space-y-3 mb-8">
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Unlimited AI suggestions</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>All writing modes</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
-                  <span>Advanced tone adjustment</span>
+                  <span>Tone adjustment</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Desktop & mobile apps</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
-                  <span>Priority email support</span>
+                  <span>Priority support</span>
                 </div>
-              </div>
-              <Link
-                href="/signup"
-                className="w-full px-4 py-2.5 text-sm font-medium bg-white text-slate-950 hover:brightness-110 transition-all cursor-pointer duration-150 font-medium block text-center"
-              >
-                Start free trial
-              </Link>
-            </motion.div>
-
-            {/* Enterprise Tier */}
-            <motion.div 
-              className="flex flex-col bg-[#13131a] border border-slate-800 border-l-transparent p-8 min-h-[520px] hover:border-l-4 hover:border-l-teal-400 hover:-translate-y-0.5 transition-all duration-200"
-              variants={prefersReducedMotion ? {} : {
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.4, ease: easing }}
-            >
-              <div className="mb-8">
-                <h3 className="text-3xl font-light tracking-tight mb-4">Enterprise</h3>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-light">
-                    ${billingPeriod === 'yearly' ? '39' : '49'}
-                  </span>
-                  <span className="text-slate-400 text-sm">/month</span>
-                </div>
-                {billingPeriod === 'yearly' && (
-                  <p className="text-xs text-slate-500 mt-2">Billed $468/year</p>
-                )}
-              </div>
-              <p className="text-slate-400 text-sm mb-8 flex-grow">
-                For teams that need advanced security, analytics, and dedicated support.
-              </p>
-              <div className="space-y-3 mb-8">
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Everything in Pro</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Advanced analytics & reporting</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>SAML/SSO for teams</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Dedicated account manager</span>
                 </div>
-                <div className="flex gap-3 text-sm text-slate-300">
+                <div className="flex gap-3 text-[15px] font-normal leading-[1.6] text-slate-300">
                   <span className="text-slate-500">–</span>
                   <span>Custom integrations</span>
                 </div>
@@ -698,12 +664,12 @@ export default function Page() {
       >
         <div className="max-w-[640px] mx-auto text-center space-y-0 flex flex-col items-center">
           {/* Heading */}
-          <h2 className="text-[48px] font-semibold text-white leading-tight mb-4">
+          <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white mb-4">
             Start writing better today.
           </h2>
           
           {/* Subtext */}
-          <p className="text-[18px] text-[#71717a] mb-8">
+          <p className="text-[18px] font-normal leading-[1.7] text-[#71717a] mb-8">
             Join 12,400+ writers who&apos;ve already made the switch.
           </p>
           
@@ -716,7 +682,7 @@ export default function Page() {
           </Link>
           
           {/* Disclaimer Text */}
-          <p className="text-[13px] text-[#52525b] mt-4">
+          <p className="text-[13px] font-normal leading-[1.6] text-[#52525b] mt-4">
             No credit card required · Cancel anytime
           </p>
         </div>
