@@ -191,7 +191,10 @@ export default function Page() {
             transition={{ duration: 0.6, ease: easing }}
           >
             <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-3">Features</div>
-            <h2 className="text-[42px] font-semibold leading-[1.2] tracking-[-0.02em] text-slate-950 text-left">Your words, elevated</h2>
+            <h2 className="text-[42px] font-semibold leading-[1.2] tracking-[-0.02em] text-slate-950 text-left">
+              <div>Everything you need.</div>
+              <div className="text-[#2dd4bf]">Nothing holding you back.</div>
+            </h2>
           </motion.div>
 
           {/* Features Grid */}
@@ -206,6 +209,7 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
+                  <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em]">01</div>
                   <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">AI Suggestions</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7] max-w-[380px]">
                     Real-time suggestions as you write. Get instant recommendations for better word choice, grammar, and clarity without breaking your flow.
@@ -264,6 +268,7 @@ export default function Page() {
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
+                  <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em]">02</div>
                   <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Writing Modes</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Switch between modes optimized for different writing styles. Blog posts, emails, technical docs — each with its own tailored suggestions.
@@ -282,6 +287,7 @@ export default function Page() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full">
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
+                  <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em]">03</div>
                   <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Tone Adjustment</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Fine-tune your writing tone. Adjust formality, confidence, and empathy levels with a single click to match your audience and context.
@@ -338,6 +344,7 @@ export default function Page() {
                 </div>
                 {/* Text */}
                 <div className="flex flex-col justify-center space-y-4">
+                  <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em]">04</div>
                   <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-slate-950">Usage Dashboard</h3>
                   <p className="text-[#52525b] text-[16px] leading-[1.7]">
                     Track your writing activity and usage in real-time. See insights on suggestions applied, tone shifts, and improvements made.
