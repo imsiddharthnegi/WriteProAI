@@ -46,8 +46,8 @@ export default function FAQ() {
   const [openId, setOpenId] = React.useState<number | null>(1)
 
   return (
-    <div className="bg-[#fafaf9] py-[120px] px-6 md:px-0">
-      <div className="max-w-[1100px] mx-auto">
+    <div className="bg-[#fafaf9] py-[120px]">
+      <div className="max-w-[1100px] mx-auto px-6 md:px-0">
         <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-16">
           {/* Left Column - Header (sticky) */}
           <div className="md:sticky md:top-[120px] md:h-fit flex flex-col justify-start">
@@ -120,7 +120,11 @@ export default function FAQ() {
                   }}
                 >
                   <p className="text-[15px] text-[#52525b] leading-[1.8] pb-6">
-                    {faq.answer}
+                    {openId === faq.id ? faq.answer.split(' ').map((word, idx) => (
+                      <span key={idx} className="word-fade-in" style={{ animationDelay: `${idx * 20}ms` }}>
+                        {word}{' '}
+                      </span>
+                    )) : faq.answer}
                   </p>
                 </div>
               </div>
