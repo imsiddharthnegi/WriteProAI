@@ -33,7 +33,7 @@ export const AnimatedDiff = () => {
   ]
 
   return (
-    <div>
+    <div className="bg-[#0f0f14] border border-[#1f1f23] rounded-lg p-6">
       {/* Before/After Labels */}
       <div className="flex gap-32 mb-6">
         <div className="text-xs font-medium text-slate-500 uppercase tracking-widest">
@@ -45,16 +45,16 @@ export const AnimatedDiff = () => {
       </div>
 
       {/* Diff Container */}
-      <div className="grid grid-cols-2 gap-12 font-mono text-sm leading-relaxed">
+      <div className="grid grid-cols-2 gap-12 text-sm leading-relaxed">
         {/* Before Column */}
-        <div className="text-slate-400 space-y-4">
+        <div className="text-slate-400 space-y-4 text-left">
           {originalLines.map((line, i) => (
-            <p key={i}>{line}</p>
+            <p key={i} className="text-[14px]">{line}</p>
           ))}
         </div>
 
         {/* After Column - Animated */}
-        <div className="text-slate-300 space-y-4">
+        <div className="text-slate-300 space-y-4 text-left">
           {enhancedLines.map((line, lineIndex) => (
             <AnimatedLine
               key={lineIndex}
@@ -87,7 +87,7 @@ const AnimatedLine: React.FC<AnimatedLineProps> = ({
   const startDelay = 1.5 + lineIndex * 0.8
 
   return (
-    <p>
+    <p className="text-[14px]">
       {line.split(' ').map((word, wordIndex) => {
         const isHighlighted = highlightWord?.includes(word)
 
