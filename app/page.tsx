@@ -743,39 +743,25 @@ export default function Page() {
 
       {/* CTA Section */}
       <motion.section 
-        className="bg-[#0c0c0e] px-6 md:px-0 py-[120px]"
+        className="bg-[#0c0c0e] border-t border-[#1f1f23] px-6 md:px-0 py-20"
         initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
         whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
         transition={{ duration: 0.4, ease: easing }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="max-w-[640px] mx-auto text-center space-y-0 flex flex-col items-center">
-          {/* Heading */}
-          <h2 className="text-[52px] font-semibold leading-[1.2] tracking-[-0.02em] text-white mb-4"
-            style={{
-              textShadow: '0 0 80px rgba(45, 212, 191, 0.15)'
-            }}
-          >
-            Start writing better today.
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Left: Heading */}
+          <h2 className="text-[24px] font-medium leading-[1.3] text-white">
+            Ready to write better?
           </h2>
           
-          {/* Subtext */}
-          <p className="text-[18px] font-normal leading-[1.7] text-[#71717a] mb-8">
-            Join 12,400+ writers who&apos;ve already made the switch.
-          </p>
-          
-          {/* CTA Button */}
+          {/* Right: Button */}
           <Link 
             href="/signup"
-            className="h-[52px] px-6 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-[16px] hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2"
+            className="h-12 px-5 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded-md text-[14px] hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2 whitespace-nowrap"
           >
-            Get started free <span>→</span>
+            Get started free →
           </Link>
-          
-          {/* Disclaimer Text */}
-          <p className="text-[13px] font-normal leading-[1.6] text-[#52525b] mt-4">
-            No credit card required · Cancel anytime
-          </p>
         </div>
       </motion.section>
 
