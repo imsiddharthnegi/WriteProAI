@@ -38,8 +38,14 @@ export default function Page() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 px-6 md:px-0">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)]">
+      <section className="relative pt-32 pb-24 px-6 md:px-0 overflow-hidden">
+        {/* Radial gradient backdrop */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 800px 600px at 60% 40%, rgba(45, 212, 191, 0.04) 0%, transparent 70%)'
+          }}
+        ></div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)] relative z-10">
           
           {/* Left Column: Copy */}
           <div className="flex flex-col justify-start space-y-8">
@@ -178,12 +184,12 @@ export default function Page() {
       <motion.section 
         id="features"
         ref={featureRef}
-        className="bg-white text-slate-950 px-6 md:px-0"
+        className="bg-white text-slate-950 px-6 md:px-0 border-t border-[#f0f0f0]"
         initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
         animate={featureInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
         transition={{ duration: 0.4 }}
       >
-        <div className="max-w-[1200px] mx-auto py-24">
+        <div className="max-w-[1200px] mx-auto py-24 pt-32">
           {/* Section Heading */}
           <motion.div 
             className="mb-10"
@@ -460,7 +466,14 @@ export default function Page() {
       {/* Pricing Section */}
       <motion.section 
         ref={pricingRef}
-        className="bg-slate-950 pt-32 pb-24 px-6 md:px-0"
+        className="bg-[#0c0c0e] px-6 md:px-0 py-[120px] relative"
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg width="4" height="4" viewBox="0 0 4 4" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 3L3 1M3 3L1 1" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" fill="none"/%3E%3C/svg%3E")',
+          backgroundRepeat: 'repeat'
+        }}
+        initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
+        animate={pricingInView || prefersReducedMotion ? { opacity: 1 } : "hidden"}
+        transition={{ duration: 0.4 }}
       >
         <div className="max-w-7xl mx-auto">
           {/* Section Heading */}
@@ -713,7 +726,11 @@ export default function Page() {
       >
         <div className="max-w-[640px] mx-auto text-center space-y-0 flex flex-col items-center">
           {/* Heading */}
-          <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white mb-4">
+          <h2 className="text-[52px] font-semibold leading-[1.2] tracking-[-0.02em] text-white mb-4"
+            style={{
+              textShadow: '0 0 80px rgba(45, 212, 191, 0.15)'
+            }}
+          >
             Start writing better today.
           </h2>
           
@@ -725,7 +742,7 @@ export default function Page() {
           {/* CTA Button */}
           <Link 
             href="/signup"
-            className="h-12 px-8 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-base hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2"
+            className="h-[52px] px-6 bg-[#2dd4bf] text-[#0c0c0e] font-semibold rounded text-[16px] hover:brightness-110 transition-all duration-150 inline-flex items-center gap-2"
           >
             Get started free <span>→</span>
           </Link>
