@@ -6,6 +6,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '@/components/navbar'
+import MetricsTicker from '@/components/metrics-ticker'
 import Footer from '@/components/footer'
 import FAQ from '@/components/faq'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
@@ -61,6 +62,7 @@ export default function Page() {
   return (
     <div className="bg-slate-950 min-h-screen text-white">
       <Navbar />
+      <MetricsTicker />
 
       {/* Hero Section */}
       <section className="relative py-20 px-6 md:px-0 overflow-hidden">
