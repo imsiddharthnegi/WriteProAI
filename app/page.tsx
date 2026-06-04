@@ -357,93 +357,102 @@ export default function Page() {
         transition={{ duration: 0.4, ease: easing }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1000px] mx-auto">
           {/* Section Heading */}
           <motion.div 
-            className="text-center mb-20"
+            className="text-center mb-24"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: easing }}
             viewport={{ once: true, amount: 0.5 }}
           >
-            {/* Eyebrow */}
-            <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.1em] mb-4">
-              Process
-            </div>
-            {/* H2 */}
-            <h2 className="text-[48px] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
-              Up and running in 3 steps.
+            <h2 className="text-[38px] font-medium leading-[1.2] text-white">
+              Up and running in minutes<span className="text-[#2dd4bf]">.</span>
             </h2>
           </motion.div>
 
-          {/* Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* Step 1 */}
-            <motion.div 
-              className="relative text-center md:text-center"
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: easing, delay: 0.05 }}
-              viewport={{ once: true, amount: 0.5 }}
-            >
-              {/* Large number background */}
-              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">01</span>
-              </div>
-              {/* Content */}
-              <div className="relative pt-8 space-y-3">
-                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Sign up free</h3>
-                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
-                  Create your account in under 60 seconds. No credit card needed — just your email and you're in.
-                </p>
-              </div>
-              {/* Divider */}
-              <div className="hidden md:block absolute -right-6 top-0 bottom-0 w-px bg-[#1f1f23]" />
-            </motion.div>
+          {/* Timeline */}
+          <div className="relative">
+            {/* Horizontal Timeline Line */}
+            <div className="absolute top-6 left-0 right-0 h-px bg-[#2a2a2e]"></div>
 
-            {/* Step 2 */}
-            <motion.div 
-              className="relative text-center md:text-center"
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: easing, delay: 0.1 }}
-              viewport={{ once: true, amount: 0.5 }}
-            >
-              {/* Large number background */}
-              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">02</span>
-              </div>
-              {/* Content */}
-              <div className="relative pt-8 space-y-3">
-                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Paste your writing</h3>
-                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
-                  Drop in any text — emails, blog posts, technical docs. WritePro works with whatever you're working on.
-                </p>
-              </div>
-              {/* Divider */}
-              <div className="hidden md:block absolute -right-6 top-0 bottom-0 w-px bg-[#1f1f23]" />
-            </motion.div>
+            {/* Steps Container */}
+            <div className="flex justify-between relative z-10">
+              {/* Step 1 */}
+              <motion.div 
+                className="flex flex-col items-center w-1/3"
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: easing, delay: 0.05 }}
+                viewport={{ once: true, amount: 0.5 }}
+              >
+                {/* Step Number */}
+                <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-2">
+                  01
+                </div>
+                {/* Circle on timeline */}
+                <div className="w-2.5 h-2.5 bg-[#2dd4bf] rounded-full mb-6"></div>
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-[20px] font-semibold leading-[1.3] text-white mb-3">
+                    Sign up free
+                  </h3>
+                  <p className="text-[14px] font-normal leading-[1.6] text-[#71717a] max-w-[200px]">
+                    Create your account in under 60 seconds. No credit card needed.
+                  </p>
+                </div>
+              </motion.div>
 
-            {/* Step 3 */}
-            <motion.div 
-              className="relative text-center md:text-center"
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-              whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: easing, delay: 0.15 }}
-              viewport={{ once: true, amount: 0.5 }}
-            >
-              {/* Large number background */}
-              <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <span className="text-[80px] font-bold text-[#2dd4bf] opacity-15">03</span>
-              </div>
-              {/* Content */}
-              <div className="relative pt-8 space-y-3">
-                <h3 className="text-[22px] font-semibold leading-[1.3] tracking-[-0.01em] text-white">Get suggestions instantly</h3>
-                <p className="text-[15px] font-normal leading-[1.6] text-[#71717a]">
-                  Real-time AI improvements tailored to your writing mode. Apply them in one click and keep your flow.
-                </p>
-              </div>
-            </motion.div>
+              {/* Step 2 */}
+              <motion.div 
+                className="flex flex-col items-center w-1/3"
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: easing, delay: 0.1 }}
+                viewport={{ once: true, amount: 0.5 }}
+              >
+                {/* Step Number */}
+                <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-2">
+                  02
+                </div>
+                {/* Circle on timeline */}
+                <div className="w-2.5 h-2.5 bg-[#2dd4bf] rounded-full mb-6"></div>
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-[20px] font-semibold leading-[1.3] text-white mb-3">
+                    Paste your writing
+                  </h3>
+                  <p className="text-[14px] font-normal leading-[1.6] text-[#71717a] max-w-[200px]">
+                    Drop in any text — emails, blogs, or docs. WritePro works with anything.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Step 3 */}
+              <motion.div 
+                className="flex flex-col items-center w-1/3"
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: easing, delay: 0.15 }}
+                viewport={{ once: true, amount: 0.5 }}
+              >
+                {/* Step Number */}
+                <div className="text-[11px] font-medium text-[#2dd4bf] uppercase tracking-[0.15em] mb-2">
+                  03
+                </div>
+                {/* Circle on timeline */}
+                <div className="w-2.5 h-2.5 bg-[#2dd4bf] rounded-full mb-6"></div>
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-[20px] font-semibold leading-[1.3] text-white mb-3">
+                    Get suggestions instantly
+                  </h3>
+                  <p className="text-[14px] font-normal leading-[1.6] text-[#71717a] max-w-[200px]">
+                    Real-time AI improvements. Apply them in one click and keep your flow.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.section>
